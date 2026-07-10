@@ -2,17 +2,17 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Suspense, lazy} from 'react';
 import './App.css';
 
-import PublicLayout from './layouts/PublicLayout';
-import Home from './pages/public/Home';
-import Events from './pages/public/Events';
-import Gallery from './pages/public/Gallery';
-import Teams from './pages/public/Teams';
-import Projects from './pages/public/Projects';
-import Learning from './pages/public/Learning';
-import Contact from './pages/public/Contact';
+import PublicLayout from '@/layouts/PublicLayout';
+import Home from '@/pages/public/Home';
+import Events from '@/pages/public/Events';
+import Gallery from '@/pages/public/Gallery';
+import Teams from '@/pages/public/Teams';
+import Projects from '@/pages/public/Projects';
+import Learning from '@/pages/public/Learning';
+import Contact from '@/pages/public/Contact';
 
-const AdminLayout = lazy(() => import('./layouts/AdminLayout'));
-const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
+const AdminLayout = lazy(() => import('@/layouts/AdminLayout'));
+const Dashboard = lazy(() => import('@/pages/admin/Dashboard'));
 // Lazy load admin panels here
 
 function App() {
