@@ -39,7 +39,7 @@ const AppRouter = () => {
 
         {/* Login Route */}
         <Route path="/admin/login" element={
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div>Loading Login Page...</div>}>
               <AdminLogin />
             </Suspense>
           } 
@@ -62,7 +62,7 @@ const AppRouter = () => {
         </Route>
 
         {/* Fallback */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<div>404 - Page Not Found</div>} />
       </Routes>
     </BrowserRouter>
   );
