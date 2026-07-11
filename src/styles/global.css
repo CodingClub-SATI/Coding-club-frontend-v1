@@ -1,0 +1,230 @@
+:root {
+  color-scheme: dark;
+
+  /* =========================================
+      RGB Color Palette
+    ========================================= */
+  --bg-primary-rgb: 11, 15, 25;
+  --bg-secondary-rgb: 17, 24, 39;
+  --bg-muted-rgb: 31, 41, 55;
+  --bg-hover-rgb: 26, 34, 53;
+
+  --text-primary-rgb: 229, 231, 235;
+  --text-muted-rgb: 156, 163, 175;
+
+  --brand-primary-rgb: 0, 255, 136;
+  --brand-secondary-rgb: 139, 92, 246;
+  --brand-accent-rgb: 0, 245, 255;
+  --brand-destructive-rgb: 239, 68, 68;
+
+  --rank-gold-rgb: 255, 215, 0;
+  --rank-silver-rgb: 192, 192, 192;
+  --rank-bronze-rgb: 205, 127, 50;
+
+  /* =========================================
+      Constructed Colors
+    ========================================= */
+  --bg-primary: rgb(var(--bg-primary-rgb));
+  --bg-secondary: rgb(var(--bg-secondary-rgb));
+  --bg-muted: rgb(var(--bg-muted-rgb));
+  --bg-hover: rgb(var(--bg-hover-rgb));
+
+  --text-primary: rgb(var(--text-primary-rgb));
+  --text-muted: rgb(var(--text-muted-rgb));
+
+  --brand-primary: rgb(var(--brand-primary-rgb));
+  --brand-secondary: rgb(var(--brand-secondary-rgb));
+  --brand-accent: rgb(var(--brand-accent-rgb));
+  --brand-destructive: rgb(var(--brand-destructive-rgb));
+
+  --rank-gold: rgb(var(--rank-gold-rgb));
+  --rank-silver: rgb(var(--rank-silver-rgb));
+  --rank-bronze: rgb(var(--rank-bronze-rgb));
+
+  /* =========================================
+      Spacing System
+    ========================================= */
+  --space-letter: 0.05em;
+  --space-xs:  0.25rem;      /* 4px - Micro gaps */
+  --space-sm:  0.5rem;       /* 8px - Tight padding */
+  --space-md: 0.75rem;      /* 12px - Inputs, buttons */
+  --space-base: 1rem;         /* 16px - Default margins */
+  --space-lg: 1.5rem;       /* 24px - Card padding */
+  --space-xl: 2rem;         /* 32px - Container padding */
+  --space-2xl: 3rem;         /* 48px - Section breaks */
+  --space-3xl: 4rem;         /* 64px - Large padding */
+  --space-hero: 6rem;         /* 96px - Hero padding */
+
+  /* =========================================
+      UI Elements & Borders
+    ========================================= */
+  --container-main: 75rem;  /* 1200px */
+  --container-sm: 37.5rem;  /* 600px */
+  --header-height: 80px;
+
+  --border-default: var(--bg-muted);
+  --border-dim: rgba(var(--brand-primary-rgb), 0.15);
+  --border-glow: rgba(var(--brand-primary-rgb), 0.5);
+  --ring: var(--brand-accent);
+
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-full: 999px;
+  
+  --blur-sm: blur(4px);
+  --blur-md: blur(12px);
+
+  /* =========================================
+      Typography Scale
+    ========================================= */
+  --font-display: 'Orbitron', 'Exo 2', sans-serif;
+  --font-body: 'Inter', 'Poppins', sans-serif;
+
+  --text-xs:   0.75rem;     /* 12px - Tags, badges */
+  --text-sm:   0.875rem;    /* 14px - Secondary text */
+  --text-base: 1rem;        /* 16px - Main body copy */
+  --text-lg:   1.125rem;    /* 18px - Small headers */
+  --text-xl:   1.25rem;     /* 20px - Card titles */
+  --text-2xl:  1.5rem;      /* 24px - Section headers */
+  --text-3xl:  1.875rem;    /* 30px - Large headers */
+  --text-4xl:  2.25rem;     /* 36px - Page titles */
+  --text-5xl:  3rem;        /* 48px - Hero text */
+
+  /* =========================================
+      Z-Index Scale
+    ========================================= */
+  --z-canvas: 0;
+  --z-base: 1;
+  --z-sticky: 100;
+  --z-modal: 1000;
+  --z-toast: 9999;
+
+  /* =========================================
+      Animation & Timing
+    ========================================= */
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --duration-slow: 600ms;
+
+  /* =========================================
+      Effects & Shadows
+    ========================================= */
+  --transition-base: 
+    all var(--duration-base) cubic-bezier(0.4, 0, 0.2, 1);
+
+  --shadow-glow-primary: 
+    0 0 20px rgba(var(--brand-primary-rgb), 0.4),
+    0 0 40px rgba(var(--brand-primary-rgb), 0.2);
+  --shadow-glow-primary-dim:
+    0 0 8px rgba(var(--brand-primary-rgb), 0.3);
+
+  --shadow-glow-secondary:
+    0 0 20px rgba(var(--brand-secondary-rgb), 0.4),
+    0 0 40px rgba(var(--brand-secondary-rgb), 0.2);
+  --shadow-glow-accent:
+    0 0 20px rgba(var(--brand-accent-rgb), 0.4),
+    0 0 40px rgba(var(--brand-accent-rgb), 0.2);
+
+  --text-glow-primary: 
+    0 0 10px rgba(var(--brand-primary-rgb), 0.7);
+  --text-glow-secondary:
+    0 0 10px rgba(var(--brand-secondary-rgb), 0.7);
+  --text-glow-accent: 
+    0 0 10px rgba(var(--brand-accent-rgb), 0.7);
+}
+
+/* =========================================
+    Global Reset and Base Style
+  ========================================= */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scroll-padding-top: var(--header-height);
+  scrollbar-color: var(--brand-primary) var(--bg-secondary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html::-webkit-scrollbar { width: 6px; }
+html::-webkit-scrollbar-track { background: var(--bg-secondary); }
+html::-webkit-scrollbar-thumb { 
+  background: var(--brand-primary);
+  border-radius: 3px; 
+}
+
+body {
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 4px;
+}
+
+/* =========================================
+    Typography
+  ========================================= */
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  line-height: 1.2;
+}
+
+/* =========================================
+    Animation
+  ========================================= */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: var(--shadow-glow-primary-dim); }
+  50% { box-shadow: var(--shadow-glow-primary); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+/* =========================================
+    Motion sensitivity as per OS settings
+  ========================================= */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
