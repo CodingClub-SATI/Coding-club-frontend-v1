@@ -36,11 +36,13 @@ const router = createBrowserRouter([
   {
     path:'/admin/login',
     lazy: lazyLoad(() => import('@/features/auth/admin')),
+    hydrateFallbackElement: <div>Loading Login...</div>
   },
   {
     path: '/admin',
     lazy: lazyLoad(() => import('@/layouts/AdminLayout')),
     errorElement: <div>Error - Something went wrong</div>,
+    hydrateFallbackElement: <div>Loading Admin Dashboard...</div>,
     children: [
       { index: true, lazy: lazyLoad(() => import('@/features/dashboard/admin')) },
       { path: 'events', lazy: lazyLoad(() => import('@/features/events/admin')) },
