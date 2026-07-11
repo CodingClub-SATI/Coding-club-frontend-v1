@@ -1,0 +1,88 @@
+/* =========================================
+    Layout and Spacing
+  ========================================== */
+.app-wrapper { position: relative; z-index: var(--z-base); }
+.section { padding: var(--space-hero) 0; }
+.container { 
+  max-width: var(--container-main);
+  padding: 0 var(--space-xl);
+  margin: 0 auto;
+}
+
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-xl); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-xl); }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-xl); }
+
+@media (max-width: 900px) {
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .section { padding: var(--space-2xl) 0; }
+}
+
+/* =========================================
+    Typography Utilities
+  ========================================== */
+.section-title {
+  font-size: clamp(var(--text-2xl), calc(1rem + 3vw), var(--text-4xl));
+  text-align: center;
+  margin-bottom: var(--space-md);
+  color: var(--text-primary);
+}
+.section-subtitle {
+  text-align: center;
+  color: var(--text-muted);
+  margin-bottom: var(--space-2xl);
+  font-size: var(--text-base);
+}
+
+.text-primary-glow {
+    color: var(--brand-primary); 
+    text-shadow: var(--text-glow-primary); 
+}
+.text-secondary-glow {
+    color: var(--brand-secondary);
+    text-shadow: var(--text-glow-secondary);
+}
+
+.neon-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--brand-primary), var(--brand-secondary), transparent);
+  margin: 0;
+  opacity: 0.4;
+}
+
+/* =========================================
+    Animation Utility Classes
+  ========================================== */
+.fade-up { animation: fadeInUp var(--duration-slow) ease forwards; }
+.fade-in { animation: fadeIn var(--duration-slow) ease forwards; }
+
+@keyframes scanline {
+  0% { top: -10px; }
+  100% { top: 100%; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ===================================================
+    Utility classes to apply the animations in React
+  ==================================================== */
+.animate-scanline {
+  position: absolute; /* Add absolute positioning */
+  left: 0;
+  width: 100%;
+  height: 2px; /* Or whatever thickness you want */
+  background: var(--brand-primary);
+  animation: scanline 8s linear infinite;
+  pointer-events: none; 
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
