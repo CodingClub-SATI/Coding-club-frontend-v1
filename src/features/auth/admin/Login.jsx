@@ -2,10 +2,10 @@
 
 import React from'react';
 
-function Gallery(){
+function Login(){
     return (
         <h1>Login Page</h1>
     );
 }
 
-export default Gallery;
+export default Login;

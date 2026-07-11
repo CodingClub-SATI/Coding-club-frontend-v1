@@ -2,10 +2,10 @@
 
 import React from'react';
 
-function Gallery(){
+function Inbox(){
     return (
         <h1>Admin Inbox</h1>
     );
 }
 
-export default Gallery;
+export default Inbox;
