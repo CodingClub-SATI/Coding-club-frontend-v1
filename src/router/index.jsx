@@ -1,7 +1,6 @@
-import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 
-// Public Layout & Components (Eager loaded)
+// Public Layout & Components
 import PublicLayout from '@/layouts/PublicLayout';
 import Home from '@/features/home';
 import Events from '@/features/events';
@@ -11,61 +10,49 @@ import Teams from '@/features/teams';
 import Learning from '@/features/learning';
 import Projects from '@/features/projects';
 
-// Admin Layout & Components (Lazy loaded)
-const AdminLayout = lazy(() => import('@/layouts/AdminLayout'));
-const AdminLogin = lazy(() => import('@/features/auth/admin'));
-const AdminDashboard = lazy(() => import('@/features/dashboard/admin'));
-const AdminEvents = lazy(() => import('@/features/events/Admin'));
-const AdminGallery = lazy(() => import('@/features/gallery/admin'));
-const AdminProjects = lazy(() => import('@/features/projects/admin'));
-const AdminSettings = lazy(() => import('@/features/setting/admin'));
-const AdminTeams = lazy(() => import('@/features/teams/admin'));
-const AdminInbox = lazy(() => import('@/features/contact/admin'));
-
-const AppRouter = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<PublicLayout />}>
-          <Route index element={<Home />} />
-          <Route path="events" element={<Events />} />
-          <Route path="gallery" element={<Gallery />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="teams" element={<Teams />} />
-          <Route path="learning" element={<Learning />} />
-          <Route path="projects" element={<Projects />} />
-        </Route>
-
-        {/* Login Route */}
-        <Route path="/admin/login" element={
-            <Suspense fallback={<div>Loading Login Page...</div>}>
-              <AdminLogin />
-            </Suspense>
-          } 
-        />
-
-        {/* Admin Routes */}
-        <Route path="/admin" element={
-            <Suspense fallback={<div>Loading Admin Environment...</div>}>
-              <AdminLayout />
-            </Suspense>
-          }
-        >
-          <Route index element={<AdminDashboard />} />
-          <Route path="events" element={<AdminEvents />} />
-          <Route path="gallery" element={<AdminGallery />} />
-          <Route path="projects" element={<AdminProjects />} />
-          <Route path="settings" element={<AdminSettings />} />
-          <Route path="teams" element={<AdminTeams />} />
-          <Route path="inbox" element={<AdminInbox />} />
-        </Route>
-
-        {/* Fallback */}
-        <Route path="*" element={<div>404 - Page Not Found</div>} />
-      </Routes>
-    </BrowserRouter>
-  );
+// lazyLoad wrapper
+const lazyLoad = (importFn) => {
+  return async () => {
+    const module = await importFn();
+    return { Component: module.default };
+  };
 };
 
-export default AppRouter;
+const router = createBrowserRouter([
+  {
+    path:'/',
+    element: <PublicLayout />,
+    errorElement: <div>404 - Page Not Found</div>,
+    children: [
+      { index: true, element: <Home /> },
+      { path: 'events', element: <Events /> },
+      { path: 'gallery', element: <Gallery /> },
+      { path: 'teams', element: <Teams /> },
+      { path: 'projects', element: <Projects /> },
+      { path: 'learning', element: <Learning /> },
+      { path: 'contact', element: <Contact /> },
+    ],
+  },
+  {
+    path:'/admin/login',
+    lazy: lazyLoad(() => import('@/features/auth/admin')),
+    hydrateFallbackElement: <div>Loading Login...</div>
+  },
+  {
+    path: '/admin',
+    lazy: lazyLoad(() => import('@/layouts/AdminLayout')),
+    errorElement: <div>Error - Something went wrong</div>,
+    hydrateFallbackElement: <div>Loading Admin Dashboard...</div>,
+    children: [
+      { index: true, lazy: lazyLoad(() => import('@/features/dashboard/admin')) },
+      { path: 'events', lazy: lazyLoad(() => import('@/features/events/admin')) },
+      { path: 'gallery', lazy: lazyLoad(() => import('@/features/gallery/admin')) },
+      { path: 'team', lazy: lazyLoad(() => import('@/features/teams/admin')) },
+      { path: 'projects', lazy: lazyLoad(() => import('@/features/projects/admin')) },
+      { path: 'inbox', lazy: lazyLoad(() => import('@/features/contact/admin')) },
+      { path: 'settings', lazy: lazyLoad(() => import('@/features/setting/admin')) },
+    ],
+  },
+]);
+
+export default router;
