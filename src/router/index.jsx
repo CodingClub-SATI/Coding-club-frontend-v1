@@ -15,7 +15,7 @@ import Projects from '@/features/projects';
 const AdminLayout = lazy(() => import('@/layouts/AdminLayout'));
 const AdminLogin = lazy(() => import('@/features/auth/admin'));
 const AdminDashboard = lazy(() => import('@/features/dashboard/admin'));
-const AdminEvents = lazy(() => import('@/features/events/Admin'));
+const AdminEvents = lazy(() => import('@/features/events/admin'));
 const AdminGallery = lazy(() => import('@/features/gallery/admin'));
 const AdminProjects = lazy(() => import('@/features/projects/admin'));
 const AdminSettings = lazy(() => import('@/features/setting/admin'));
