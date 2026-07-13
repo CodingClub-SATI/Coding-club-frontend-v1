@@ -26,12 +26,10 @@ export default function ParticleBackground() {
     const LINE_OPACITY = 0.2;
     const LINE_OPACITY_STEPS = 5;
 
-    /*
     // Accessibility //
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return;
     }
-    */
 
     const canvas = canvasRef.current;
     if (!canvas) return;
