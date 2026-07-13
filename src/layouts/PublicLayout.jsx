@@ -9,9 +9,7 @@ export default function PublicLayout() {
             <ParticleBackground />
             <ScrollRestoration />
             <Header />
-            <main style={{ paddingTop: 'var(--header-height, 80px)' }}>
-                <Outlet />
-            </main>
+            <main><Outlet /></main>
             <Footer />
         </div>
     );
