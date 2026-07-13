@@ -1,9 +1,9 @@
 // DEMO CODE
 
-function Project(){
+function Projects(){
     return (
         <h1>Admin Project</h1>
     );
 }
 
-export default Project;
+export default Projects;
