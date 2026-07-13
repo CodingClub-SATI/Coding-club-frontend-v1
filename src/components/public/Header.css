@@ -1,0 +1,191 @@
+.header {
+  --header-gap: 0.75rem;
+  --btn-padding: 0.5rem 1rem;
+  --link-font-size: 0.875rem;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-sticky);
+  background: rgba(var(--bg-secondary-rgb), 0.2);
+  box-shadow: 0 4px 20px rgba(var(--brand-accent-rgb), 0.2);
+  transition: var(--transition-base);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1rem;
+  max-width: 93rem;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* ====================================
+  Logo
+  ===================================== */
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--header-gap);
+  text-decoration: none;
+}
+.logo-img {
+  width: 3rem;
+  height: 3rem;
+}
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+  color: var(--text-primary);
+}
+.logo-name {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  letter-spacing: 0.1em;
+}
+.logo-sub {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  letter-spacing: 0.13em;
+}
+
+/* ====================================
+  Navigation Menu
+  ===================================== */
+
+.desktop-nav { 
+  display: flex;
+  align-items: center;
+  gap: 4px; 
+}
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 1rem 1rem;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-default);
+  animation: fadeInUp 0.2s ease;
+}
+
+/* ====================================
+  Navigation Links
+  ===================================== */
+
+.navlink {
+  color: var(--text-muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: var(--link-font-size);
+  font-family: var(--font-display);
+  transition: var(--transition-base);
+}
+
+.navlink.active,
+.navlink:hover {
+  color: var(--brand-primary);
+  text-shadow: var(--text-glow-primary);
+}
+.navlink:hover {
+  background: rgba(var(--brand-accent-rgb), 0.03);
+}
+
+/* Desktop Navlinks */
+.navlink.desktop {
+  position: relative;
+  padding: var(--btn-padding);
+}
+.navlink.desktop.active::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 2px;
+  background: var(--brand-primary);
+  box-shadow: 0 0 8px rgba(var(--brand-accent-rgb), 0.6);
+}
+
+/* Mobile Navlinks */
+.navlink.mobile {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-default);
+}
+.navlink.mobile:hover,
+.navlink.mobile.active {
+  padding-left: 1.5rem;
+}
+
+/* ====================================
+  Header Actions
+  ===================================== */
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--header-gap);
+}
+
+.header-cta {
+  font-size: var(--link-font-size);
+  padding: var(--btn-padding);
+}
+
+/* ====================================
+  Hamburger
+  ===================================== */
+.hamburger {
+  display: none;
+  position:relative;
+  width: 2.25rem;
+  height: 2.25rem;
+  background: transparent;
+  border: 1px solid var(--border-dim);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+}
+.hamburger span {
+  display: block;
+  height: 2px;
+  background: var(--text-muted);
+  transition: var(--transition-base);
+}
+
+.hamburger.open {
+  border-color: var(--brand-accent);
+  box-shadow: 0 0 8px rgba(var(--brand-accent-rgb), 0.6);
+}
+.hamburger.open span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+  background: var(--brand-accent);
+}
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-4px);
+}
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+  background: var(--brand-accent);
+}
+
+/* ====================================
+  Responsive Breakpoints
+  ===================================== */
+
+@media (max-width: 1100px) {
+  .desktop-nav { display: none; }
+  .hamburger { display: flex; }
+}
+@media (min-width: 1101px) {
+  .mobile-nav { display: none; }
+}

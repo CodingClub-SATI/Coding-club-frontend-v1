@@ -12,9 +12,9 @@
   --text-primary-rgb: 229, 231, 235;
   --text-muted-rgb: 156, 163, 175;
 
-  --brand-primary-rgb: 0, 255, 136;
-  --brand-secondary-rgb: 139, 92, 246;
-  --brand-accent-rgb: 0, 245, 255;
+  --brand-primary-rgb: 22, 232, 191;
+  --brand-secondary-rgb: 128, 97, 255;
+  --brand-accent-rgb: 65, 198, 255;
   --brand-destructive-rgb: 239, 68, 68;
 
   --rank-gold-rgb: 255, 215, 0;
@@ -60,10 +60,10 @@
     ========================================= */
   --container-main: 75rem;  /* 1200px */
   --container-sm: 37.5rem;  /* 600px */
-  --header-height: 80px;
+  --header-height: 5rem;
 
-  --border-default: var(--bg-muted);
-  --border-dim: rgba(var(--brand-primary-rgb), 0.15);
+  --border-default: rgba(var(--bg-muted-rgb), 0.5);
+  --border-dim: rgba(var(--brand-primary-rgb), 0.25);
   --border-glow: rgba(var(--brand-primary-rgb), 0.5);
   --ring: var(--brand-accent);
 
