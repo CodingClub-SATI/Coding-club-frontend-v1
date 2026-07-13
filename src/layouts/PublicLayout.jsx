@@ -5,14 +5,14 @@ import ParticleBackground from '@/components/public/ParticleBackground';
 
 export default function PublicLayout() {
     return (
-        <>
-        <ParticleBackground />
-        <Header />
-        <main style={{ paddingTop: 'var(--header-height, 80px)' }}>
-            <Outlet />
+        <div className="app-wrapper" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <ParticleBackground />
             <ScrollRestoration />
-        </main>
-        <Footer />
-        </>
+            <Header />
+            <main style={{ paddingTop: 'var(--header-height, 80px)' }}>
+                <Outlet />
+            </main>
+            <Footer />
+        </div>
     );
 }

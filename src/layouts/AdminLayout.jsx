@@ -5,12 +5,10 @@ import Sidebar from '@/components/admin/AdminSidebar';
 export default function AdminLayout() {
     return (
         <div className="admin-shell">
+            <ScrollRestoration />
             <Header />
             <Sidebar />
-            <main>
-                <Outlet />
-                <ScrollRestoration />
-            </main>
+            <main><Outlet /></main>
         </div>
     );
 }
