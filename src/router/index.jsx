@@ -3,12 +3,8 @@ import { createBrowserRouter } from 'react-router-dom';
 // Public Layout & Components
 import PublicLayout from '@/layouts/PublicLayout';
 import Home from '@/features/home/public/Home';
-import Events from '@/features/events/public/Events';
-import Gallery from '@/features/gallery/public/Gallery';
-import Contact from '@/features/contact/public/Contact';
-import Teams from '@/features/teams/public/Teams';
-import Learning from '@/features/learning/public/Learning';
-import Projects from '@/features/projects/public/Projects';
+// import ErrorScreen from '@/components/error/ErrorScreen';
+// import NotFound from '@/components/error/NotFound'
 
 // lazyLoad wrapper
 const lazyLoad = (importFn) => {
@@ -22,26 +18,27 @@ const router = createBrowserRouter([
   {
     path:'/',
     element: <PublicLayout />,
-    errorElement: <div>404 - Page Not Found</div>,
+    errorElement: <div>System Crash - Return to Base</div>,
+    hydrateFallbackElement: <div>Loading...</div>,
     children: [
       { index: true, element: <Home /> },
-      { path: 'events', element: <Events /> },
-      { path: 'gallery', element: <Gallery /> },
-      { path: 'teams', element: <Teams /> },
-      { path: 'projects', element: <Projects /> },
-      { path: 'learning', element: <Learning /> },
-      { path: 'contact', element: <Contact /> },
+      { path: 'events', lazy: lazyLoad(() => import('@/features/events/public/Events')) },
+      { path: 'gallery', lazy: lazyLoad(() => import('@/features/gallery/public/Gallery')) },
+      { path: 'teams', lazy: lazyLoad(() => import('@/features/teams/public/Teams')) },
+      { path: 'projects', lazy: lazyLoad(() => import('@/features/projects/public/Projects')) },
+      { path: 'learning', lazy: lazyLoad(() => import('@/features/learning/public/Learning')) },
+      { path: 'contact', lazy: lazyLoad(() => import('@/features/contact/public/Contact')) },
+      { path: '*', element: <div>404 - Not Found</div>},
     ],
   },
   {
-    path:'/admin/login',
-    lazy: lazyLoad(() => import('@/features/auth/admin')),
+    path:'/admin/login', lazy: lazyLoad(() => import('@/features/auth/admin/Login')),
     hydrateFallbackElement: <div>Loading Login...</div>
   },
   {
     path: '/admin',
     lazy: lazyLoad(() => import('@/layouts/AdminLayout')),
-    errorElement: <div>Error - Something went wrong</div>,
+    errorElement: <div>Admin System Offline</div>,
     hydrateFallbackElement: <div>Loading Admin Dashboard...</div>,
     children: [
       { index: true, lazy: lazyLoad(() => import('@/features/dashboard/admin/Dashboard')) },
@@ -51,6 +48,7 @@ const router = createBrowserRouter([
       { path: 'projects', lazy: lazyLoad(() => import('@/features/projects/admin/Projects')) },
       { path: 'inbox', lazy: lazyLoad(() => import('@/features/contact/admin/Inbox')) },
       { path: 'settings', lazy: lazyLoad(() => import('@/features/setting/admin/Settings')) },
+      { path: '*', element: <div>404 - Page Not Found</div>}
     ],
   },
 ]);
