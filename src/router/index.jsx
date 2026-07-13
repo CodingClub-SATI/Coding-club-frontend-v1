@@ -2,13 +2,13 @@ import { createBrowserRouter } from 'react-router-dom';
 
 // Public Layout & Components
 import PublicLayout from '@/layouts/PublicLayout';
-import Home from '@/features/home';
-import Events from '@/features/events';
-import Gallery from '@/features/gallery';
-import Contact from '@/features/contact';
-import Teams from '@/features/teams';
-import Learning from '@/features/learning';
-import Projects from '@/features/projects';
+import Home from '@/features/home/public/Home';
+import Events from '@/features/events/public/Events';
+import Gallery from '@/features/gallery/public/Gallery';
+import Contact from '@/features/contactpublic/Contact';
+import Teams from '@/features/teamspublic/Teams';
+import Learning from '@/features/learningpublic/Learning';
+import Projects from '@/features/projectspublic/Projects';
 
 // lazyLoad wrapper
 const lazyLoad = (importFn) => {
@@ -44,13 +44,13 @@ const router = createBrowserRouter([
     errorElement: <div>Error - Something went wrong</div>,
     hydrateFallbackElement: <div>Loading Admin Dashboard...</div>,
     children: [
-      { index: true, lazy: lazyLoad(() => import('@/features/dashboard/admin')) },
-      { path: 'events', lazy: lazyLoad(() => import('@/features/events/admin')) },
-      { path: 'gallery', lazy: lazyLoad(() => import('@/features/gallery/admin')) },
-      { path: 'team', lazy: lazyLoad(() => import('@/features/teams/admin')) },
-      { path: 'projects', lazy: lazyLoad(() => import('@/features/projects/admin')) },
-      { path: 'inbox', lazy: lazyLoad(() => import('@/features/contact/admin')) },
-      { path: 'settings', lazy: lazyLoad(() => import('@/features/setting/admin')) },
+      { index: true, lazy: lazyLoad(() => import('@/features/dashboard/admin/Dashboard')) },
+      { path: 'events', lazy: lazyLoad(() => import('@/features/events/admin/Events')) },
+      { path: 'gallery', lazy: lazyLoad(() => import('@/features/gallery/admin/Gallery')) },
+      { path: 'teams', lazy: lazyLoad(() => import('@/features/teams/admin/Teams')) },
+      { path: 'projects', lazy: lazyLoad(() => import('@/features/projects/admin/Projects')) },
+      { path: 'inbox', lazy: lazyLoad(() => import('@/features/contact/admin/Inbox')) },
+      { path: 'settings', lazy: lazyLoad(() => import('@/features/setting/admin/Settings')) },
     ],
   },
 ]);
