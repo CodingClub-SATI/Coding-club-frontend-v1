@@ -11,24 +11,27 @@ export default function ParticleBackground() {
     const TARGET_FPS = 30;
     const FRAME_TIME = 1000 / TARGET_FPS;
 
-    const CONNECTION_DISTANCE = 120;
+    const CONNECTION_DISTANCE = 130;
     const CONNECTION_DISTANCE_SQ = CONNECTION_DISTANCE * CONNECTION_DISTANCE;
     const INV_CONNECTION_DISTANCE_SQ = 1 / CONNECTION_DISTANCE_SQ;
     const INV_CELL_SIZE = 1 / CONNECTION_DISTANCE;
 
-    const MAX_PARTICLES = 120;
-    const PARTICLE_DENSITY = 25000;
+    const MAX_PARTICLES = 130;
+    const PARTICLE_DENSITY = 23000;
 
-    const PARTICLE_SPEED = 0.4;
-    const MAX_PARTICLE_SIZE = 2.5;
+    const PARTICLE_SPEED = 0.2;
+    const MAX_PARTICLE_SIZE = 2;
     const MIN_PARTICLE_SIZE = 1;
 
-    const LINE_OPACITY = 0.4;
-    const LINE_OPACITY_STEPS = 8;
+    const LINE_OPACITY = 0.2;
+    const LINE_OPACITY_STEPS = 5;
 
+    /*
+    // Accessibility //
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return;
     }
+    */
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -103,7 +106,7 @@ export default function ParticleBackground() {
       canvas.height = logicalHeight * dpr;
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.lineWidth = 0.5
+      ctx.lineWidth = 0.6;
       rebuildGrid();
       initParticles();
     }
