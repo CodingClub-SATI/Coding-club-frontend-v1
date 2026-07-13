@@ -5,10 +5,10 @@ import PublicLayout from '@/layouts/PublicLayout';
 import Home from '@/features/home/public/Home';
 import Events from '@/features/events/public/Events';
 import Gallery from '@/features/gallery/public/Gallery';
-import Contact from '@/features/contactpublic/Contact';
-import Teams from '@/features/teamspublic/Teams';
-import Learning from '@/features/learningpublic/Learning';
-import Projects from '@/features/projectspublic/Projects';
+import Contact from '@/features/contact/public/Contact';
+import Teams from '@/features/teams/public/Teams';
+import Learning from '@/features/learning/public/Learning';
+import Projects from '@/features/projects/public/Projects';
 
 // lazyLoad wrapper
 const lazyLoad = (importFn) => {
