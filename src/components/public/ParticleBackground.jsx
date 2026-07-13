@@ -19,11 +19,11 @@ export default function ParticleBackground() {
     const MAX_PARTICLES = 130;
     const PARTICLE_DENSITY = 23000;
 
-    const PARTICLE_SPEED = 0.2;
+    const PARTICLE_SPEED = 0.15;
     const MAX_PARTICLE_SIZE = 2;
     const MIN_PARTICLE_SIZE = 1;
 
-    const LINE_OPACITY = 0.2;
+    const LINE_OPACITY = 0.15;
     const LINE_OPACITY_STEPS = 5;
 
     // Accessibility //
