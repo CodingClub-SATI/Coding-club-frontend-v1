@@ -148,6 +148,7 @@
 html {
   scroll-behavior: smooth;
   scrollbar-width: thin;
+  scrollbar-gutter: stable;
   scroll-padding-top: var(--header-height);
   scrollbar-color: var(--brand-primary) var(--bg-secondary);
   -webkit-font-smoothing: antialiased;

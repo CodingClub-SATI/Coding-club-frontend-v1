@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import useScrollProgress from '@/hooks/useScrollProgress.js';
 import './Header.css';
 
 const NAV_LINKS = [
-  { label: 'Home', path: '/' },
+  { label: 'Home', path: '/', end: true },
   { label: 'Events', path: '/events' },
   { label: 'Gallery', path: '/gallery' },
   { label: 'Teams', path: '/teams' },
@@ -32,10 +33,11 @@ function NavItems({ variant, onLinkClick }) {
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const progress = useScrollProgress();
   const handleNavClick = () => { setMenuOpen(false); };
 
   return (
-    <header className={"header"}>
+    <header className={`header ${progress > 1 ? 'scrolled' : ''}`}>
       <div className="header-inner">
         {/* Logo */}
         <Link to="/" className="logo">
@@ -53,7 +55,7 @@ export default function Header() {
 
         {/* CTA */}
         <div className="header-actions">
-          <Link to="/events" className="btn-primary header-cta">
+          <Link to="/contact" className="btn-primary header-cta">
             Join Now
           </Link>
           <button
@@ -67,6 +69,9 @@ export default function Header() {
           </button>
         </div>
       </div>
+
+      {/* Progress Bar */}
+      <div className="progress-bar" style={{ width: `${progress}%` }} />
 
       {/* Mobile Nav */}
       {menuOpen && (

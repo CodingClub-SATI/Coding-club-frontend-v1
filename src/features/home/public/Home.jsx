@@ -2,7 +2,8 @@
 
 function Home(){
     return (
-        <h1>Home</h1>
+        // To test scroll
+        <h1 style={{paddingTop: "1000px"}}>Home</h1>
     );
 }
 

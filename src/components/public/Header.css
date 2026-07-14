@@ -13,6 +13,9 @@
   transition: var(--transition-base);
 }
 
+.header.scrolled {
+  background: rgba(var(--bg-secondary-rgb), 0.6);
+}
 .header-inner {
   display: flex;
   align-items: center;
@@ -176,6 +179,20 @@
 .hamburger.open span:nth-child(3) {
   transform: translateY(-6px) rotate(-45deg);
   background: var(--brand-accent);
+}
+
+/* ====================================
+  Progress Bar
+  ===================================== */
+
+.progress-bar {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--brand-primary), var(--brand-secondary));
+  box-shadow: 0 0 8px rgba(var(--brand-accent-rgb), 0.6);
+  z-index: var(--z-sticky);
 }
 
 /* ====================================
