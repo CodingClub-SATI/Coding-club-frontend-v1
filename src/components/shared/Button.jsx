@@ -35,3 +35,18 @@ const Button = ({
 
 Button.displayName = 'Button';
 export default Button;
+
+/*
+export default function ConfirmButton({ label, confirmLabel = 'Confirm?', onConfirm, danger }) {
+  const [confirming, setConfirming] = useState(false);
+  if (confirming) {
+    return (
+      <span className="admin-confirm-inline">
+        <button className={`btn-small ${danger ? 'btn-danger' : ''}`} onClick={() => { setConfirming(false); onConfirm(); }}>{confirmLabel}</button>
+        <button className="btn-small btn-ghost" onClick={() => setConfirming(false)}>Cancel</button>
+      </span>
+    );
+  }
+  return <button className={`btn-small ${danger ? 'btn-danger-outline' : 'btn-ghost'}`} onClick={() => setConfirming(true)}>{label}</button>;
+}
+  */
