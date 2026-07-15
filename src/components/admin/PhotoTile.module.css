@@ -1,0 +1,11 @@
+.admin-photo-tile { position: relative; }
+.admin-photo-tile .featured-star { position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.55); border-radius: 50%; padding: 4px; color: #ffd700; }
+.admin-photo-tile .photo-actions {
+  position: absolute; inset: 0; background: rgba(4,7,13,0.55); opacity: 0;
+  display: flex; align-items: center; justify-content: center; gap: 8px; transition: opacity 0.15s;
+}
+.admin-photo-tile:hover .photo-actions { opacity: 1; }
+
+@media (max-width: 720px) {
+  .admin-form-grid { grid-template-columns: 1fr; }
+}

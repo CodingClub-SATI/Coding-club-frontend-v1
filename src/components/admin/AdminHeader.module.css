@@ -1,0 +1,15 @@
+.admin-page-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.admin-page-head h1 { margin-bottom: 4px; }
+
+.admin-page-subtitle {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
