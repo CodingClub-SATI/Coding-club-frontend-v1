@@ -1,0 +1,14 @@
+.admin-select, .admin-input, .admin-textarea {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-dim);
+  color: var(--text-primary);
+  border-radius: 6px;
+  padding: 9px 12px;
+  font-size: 0.85rem;
+  font-family: var(--font-body);
+  outline: none;
+}
+.admin-select:focus, .admin-input:focus, .admin-textarea:focus { border-color: var(--neon-blue); }
+.admin-textarea { width: 100%; resize: vertical; min-height: 80px; }
+
+.admin-search-input { min-width: 220px; }
