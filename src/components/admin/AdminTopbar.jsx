@@ -1,6 +1,6 @@
-import styles from './AdminHeader.module.css';
+import styles from './AdminTopbar.module.css';
 
-export default function AdminHeader() {
+export default function AdminTopbar() {
   return (
     <header className={styles.topbar}>
       <div className={styles.user}>

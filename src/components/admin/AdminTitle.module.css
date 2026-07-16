@@ -1,4 +1,4 @@
-.admin-page-head {
+.title {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -7,9 +7,9 @@
   margin-bottom: 24px;
 }
 
-.admin-page-head h1 { margin-bottom: 4px; }
+.title h1 { margin-bottom: 4px; }
 
-.admin-page-subtitle {
+.subtitle {
   color: var(--text-muted);
   font-size: 0.9rem;
 }
