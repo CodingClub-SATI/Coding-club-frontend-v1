@@ -1,3 +1,5 @@
+import { useRef } from 'react';
+import { Upload } from 'lucide-react';
 import styles from './ImageDrop.module.css';
 
 /* (stores a local object URL — no backend yet) ---------- */
