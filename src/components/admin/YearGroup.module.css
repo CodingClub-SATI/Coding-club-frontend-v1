@@ -1,6 +1,19 @@
-.admin-year-group { margin-bottom: 28px; }
-.admin-year-heading {
-  display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
-  font-family: var(--font-display); font-size: 1rem; color: var(--text-primary);
+.yearGroup { 
+  margin-bottom: 28px; 
 }
-.admin-subgroup-label { font-size: 0.78rem; color: var(--text-muted); margin: 14px 0 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+.yearHeading {
+  display: flex; 
+  align-items: center; 
+  gap: 10px; 
+  margin-bottom: 14px;
+  font-family: var(--font-display); 
+  font-size: 1rem; 
+  color: var(--text-primary);
+}
+.subgroupLabel { 
+  font-size: var(--text-xs); 
+  color: var(--text-muted); 
+  margin: 14px 0 10px; 
+  text-transform: uppercase; 
+  letter-spacing: 0.05em; 
+}

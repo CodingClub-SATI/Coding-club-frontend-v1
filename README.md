@@ -45,7 +45,7 @@ Make sure you have the following installed:
 
 1. **Clone the repository:**
 ```bash
-    git clone [https://github.com/CodingClub-SATI/Coding-club-frontend.git](https://github.com/CodingClub-SATI/Coding-club-frontend.git)
+    git clone https://github.com/CodingClub-SATI/Coding-club-frontend-v1.git
     cd Coding-club-frontend
 ```
 
@@ -67,7 +67,7 @@ Open [http://localhost:5173](http://localhost:5173) (Vite's default port) in you
 
 We love contributions from the community! To keep our codebase clean and stable, we follow a strict branching strategy and code review process.
 
-Before you start writing code, please read our **[Contribution & Branching Guidelines]()**.
+Before you start writing code, please read our **[Contribution & Branching Guidelines](CONTRIBUTING.md)**.
 
 ### Quick Start:
 

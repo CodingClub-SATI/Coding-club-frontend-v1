@@ -1,0 +1,8 @@
+.typingText {
+  color: var(--brand-secondary);
+}
+
+.cursor {
+  color: var(--brand-accent);
+  animation: blink 1s step-end infinite;
+}

@@ -16,7 +16,11 @@ export function TagInput({ value = [], onChange, placeholder }) {
       {value.map((tag, i) => (
         <span key={tag} className={styles.tag}>
           {tag}
-          <button type="button" onClick={() => onChange(value.filter((_, idx) => idx !== i))}>
+          <button 
+            type="button"
+            aria-label={`Remove ${tag}`} 
+            onClick={() => onChange(value.filter((_, idx) => idx !== i))}
+          >
             <X size={12} />
           </button>
         </span>

@@ -1,0 +1,73 @@
+.eventCard {
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.cover {
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, rgba(var(--brand-accent-rgb), 0.05), rgba(var(--brand-secondary-rgb), 0.08));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.coverIcon {
+  color: var(--brand-accent);
+  opacity: 0.5;
+}
+
+.typeTag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.upcomingBadge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.body {
+  padding: var(--space-lg);
+}
+
+.title {
+  font-size: var(--text-lg);
+  margin-bottom: var(--space-sm);
+  color: var(--text-primary);
+}
+
+.meta {
+  display: flex;
+  gap: var(--space-md);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-bottom: var(--space-xs);
+  flex-wrap: wrap;
+}
+
+.desc {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 10px 0;
+}
+
+.tags {
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+}
+
+.cardTag {
+  font-size: var(--text-xs);
+}
+
+.viewBtn {
+  margin-top: var(--space-md);
+  width: 100%;
+  justify-content: center;
+}

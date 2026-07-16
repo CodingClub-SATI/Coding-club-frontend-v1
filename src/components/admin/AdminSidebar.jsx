@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router';
 import {
   LayoutDashboard, Calendar, Image as ImageIcon, Users,
   FolderGit2, BookOpen, Inbox, Settings, LogOut,
@@ -12,7 +12,7 @@ const ADMIN_NAV = [
   { label: 'Dashboard', path: '/admin', icon: LayoutDashboard },
   { label: 'Events', path: '/admin/events', icon: Calendar },
   { label: 'Gallery', path: '/admin/gallery', icon: ImageIcon },
-  { label: 'Team', path: '/admin/team', icon: Users },
+  { label: 'Team', path: '/admin/teams', icon: Users },
   { label: 'Projects', path: '/admin/projects', icon: FolderGit2 },
   { label: 'Learning', path: '/admin/learning', icon: BookOpen },
   { label: 'Inbox', path: '/admin/inbox', icon: Inbox },
@@ -32,9 +32,12 @@ export default function AdminSidebar() {
     <aside className={`${styles.sidebar} ${open ? '' : styles.closed}`}>
       <div className={styles.header}>
         <div className={styles.logoText}>
-          Club <span className="neon-blue">Admin</span>
+          Club <span className="text-primary-glow">Admin</span>
         </div>
-        <IconButton onClick={() => setOpen((o) => !o)} aria-label={open ? 'Collapse sidebar' : 'Expand sidebar'}>
+        <IconButton
+          onClick={() => setOpen((o) => !o)}
+          aria-label={open ? 'Collapse sidebar' : 'Expand sidebar'}
+        >
           {open ? <PanelLeftClose size={18} /> : <PanelLeftOpen size={18} />}
         </IconButton>
       </div>
@@ -58,15 +61,19 @@ export default function AdminSidebar() {
       </nav>
 
       <div className={styles.footer}>
-        <Link to="/admin/settings" title={open ? undefined : 'Settings'} className={styles.link}>
+        <Link 
+          to="/admin/settings" 
+          title={open ? undefined : 'Settings'} 
+          className={styles.link}
+        >
           <Settings size={18} />
           <span className={styles.linkText}>Settings</span>
         </Link>
         <button
-          className={`${styles.link} ${styles.textRed}`}
+          type="button"
+          className={`${styles.link} ${styles.textRed} ${styles.logoutBtn}`.trim()}
           onClick={handleLogout}
           title={open ? undefined : 'Logout'}
-          style={{ background: 'transparent', width: '100%', textAlign: 'left', border: 'none', cursor: 'pointer' }}
         >
           <LogOut size={18} />
           <span className={styles.linkText}>Logout</span>

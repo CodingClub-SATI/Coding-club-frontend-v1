@@ -1,8 +1,9 @@
 import styles from './Button.module.css';
+import Spinner from '@/components/shared/Spinner';
 
 /**
- * variant: 'filled' | 'outline' | 'ghost' |
- * tone: 'primary' | 'secondary' | danger |
+ * variant: 'filled' | 'outline' | 'ghost'
+ * tone: 'primary' | 'secondary' | 'danger'
  * size: 'sm' | 'md' | 'lg'
  */
 
@@ -19,13 +20,13 @@ const Button = ({
   ...props 
 }) => {
   
-  const baseClass = styles.btn;
-  const variantClass = styles[`btn-${variant}`];
-  const toneClass = styles[`btn-${tone}`];
-  const sizeClass = styles[`btn-${size}`];
-  const loadingClass = isLoading ? styles.loaderActive : ''; 
-
-  const combinedClasses = `${baseClass} ${variantClass} ${toneClass} ${sizeClass} ${loadingClass} ${className}`.trim();
+  const combinedClasses = `
+    ${styles.btn} 
+    ${styles[variant]} 
+    ${styles[tone]} 
+    ${styles[size]} 
+    ${className}
+  `.trim();
 
   return (
     <Component 
@@ -35,8 +36,8 @@ const Button = ({
       aria-busy={isLoading}
       {...props}
     >
-      {isLoading && <span className={styles.loader} aria-hidden="true"></span>}
-      <span className={styles.btnContent}>{children}</span>
+      {isLoading && <Spinner />}
+      {children}
     </Component>
   );
 };

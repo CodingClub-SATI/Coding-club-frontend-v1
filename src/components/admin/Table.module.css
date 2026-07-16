@@ -1,20 +1,40 @@
-.admin-table-wrap { overflow-x: auto; }
-.admin-table { width: 100%; border-collapse: collapse; text-align: left; }
-.admin-table thead th {
+.tableWrap { 
+  overflow-x: auto; 
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.th {
   font-weight: 500;
-  font-size: 0.78rem;
+  font-size: var(--text-xs);
   color: var(--text-muted);
-  padding: 10px 12px;
+  padding: var(--space-md) var(--space-lg);
   border-bottom: 1px solid var(--border-dim);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
-.admin-table tbody td {
-  padding: 14px 12px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  font-size: 0.88rem;
+
+.td {
+  padding: var(--space-lg) var(--space-md);
+  /* Mapped to text-primary-rgb for automatic dark/light mode scaling */
+  border-bottom: 1px solid rgba(var(--text-primary-rgb), 0.05);
+  font-size: var(--text-sm);
   vertical-align: middle;
 }
-.admin-table tbody tr { cursor: pointer; transition: background 0.15s; }
-.admin-table tbody tr:hover { background: rgba(0,245,255,0.04); }
-.admin-table tbody tr:last-child td { border-bottom: none; }
+
+.tr {
+  cursor: pointer;
+  transition: background var(--transition-base);
+}
+
+.tr:hover {
+  background: rgba(var(--brand-primary-rgb), 0.04);
+}
+
+.tr:last-child .td {
+  border-bottom: none;
+}

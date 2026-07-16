@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import './ParticleBackground.css';
+import styles from './ParticleBackground.module.css';
 
 export default function ParticleBackground() {
   const canvasRef = useRef(null);
@@ -51,10 +51,10 @@ export default function ParticleBackground() {
 
     const lineBuckets = Array.from({ length: LINE_OPACITY_STEPS }, () => []);
 
-    const styles = getComputedStyle(document.documentElement);
+    const computedStyles = getComputedStyle(document.documentElement);
 
-    const accentRgb = styles.getPropertyValue('--brand-accent-rgb').trim() || '255, 255, 255';
-    const secondaryRgb = styles.getPropertyValue('--brand-secondary-rgb').trim() || '100, 100, 100';
+    const accentRgb = computedStyles.getPropertyValue('--brand-accent-rgb').trim() || '255, 255, 255';
+    const secondaryRgb = computedStyles.getPropertyValue('--brand-secondary-rgb').trim() || '100, 100, 100';
 
     const accentColor = `rgb(${accentRgb})`;
     const secondaryColor = `rgb(${secondaryRgb})`;
@@ -278,7 +278,7 @@ export default function ParticleBackground() {
   return (
     <canvas
       ref={canvasRef}
-      id="particle-canvas"
+      className={styles.particleCanvas}
       aria-hidden="true"
     />
   );

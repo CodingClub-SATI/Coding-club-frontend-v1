@@ -1,0 +1,94 @@
+.empty {
+  padding: var(--space-xl);
+  text-align: center;
+}
+.empty p { color: var(--text-muted); }
+
+.carousel {
+  position: relative;
+  padding: var(--space-xl);
+  overflow: hidden;
+  margin-top: var(--space-lg);
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-xl);
+  align-items: center;
+}
+
+.left { display: flex; flex-direction: column; gap: var(--space-sm); align-items: flex-start; }
+
+.title {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  color: var(--text-primary);
+  margin: 12px 0;
+}
+.desc { color: var(--text-muted); line-height: 1.7; margin-bottom: var(--space-sm); }
+.meta { display: flex; gap: var(--space-lg); flex-wrap: wrap; color: var(--text-muted); font-size: var(--text-base); }
+
+.actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: var(--space-base); }
+
+.right { display: flex; align-items: center; justify-content: center; }
+.visual {
+  width: clamp(100px, 20vw, 160px);
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--border-dim);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  animation: glowPulse 3s ease-in-out infinite;
+}
+.typeLabel {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  color: var(--brand-accent);
+  letter-spacing: 0.1em;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+}
+.dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--border-dim);
+  background: transparent;
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+.dotActive {
+  background: var(--brand-accent);
+  border-color: var(--brand-accent);
+  box-shadow: 0 0 6px var(--brand-accent);
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(var(--bg-secondary-rgb), 0.8);
+  border: 1px solid var(--border-dim);
+  color: var(--text-muted);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  font-size: var(--text-xl);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition-base);
+}
+.arrow:hover { border-color: var(--brand-accent); color: var(--brand-accent); }
+.arrowLeft { left: 12px; }
+.arrowRight { right: 12px; }
+
+@media (max-width: 768px) {
+  .content { grid-template-columns: 1fr; }
+  .right { display: none; }
+}

@@ -1,7 +1,6 @@
 /* =========================================
     Layout and Spacing
   ========================================== */
-.app-wrapper { position: relative; z-index: var(--z-base); }
 .section { padding: var(--space-hero) 0; }
 .container { 
   max-width: var(--container-main);
@@ -48,7 +47,7 @@
     text-shadow: var(--text-glow-secondary);
 }
 
-.neon-divider {
+.section-divider {
   height: 1px;
   background: linear-gradient(to right, transparent, var(--brand-primary), var(--brand-secondary), transparent);
   margin: 0;
@@ -86,4 +85,31 @@
 
 .animate-blink {
   animation: blink 1s step-end infinite;
+}
+
+/* =========================================
+    Reveal Animations (Data Attributes)
+  ========================================== */
+.reveal-element {
+  opacity: 0;
+  transform: translateY(30px);
+  /* Matches your global animation feel */
+  transition: opacity var(--duration-slow) cubic-bezier(0.4, 0, 0.2, 1), 
+              transform var(--duration-slow) cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-element[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================
+    Image Protection
+========================================== */
+.protect-image {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none; /* Disables the iOS popup menu */
+  pointer-events: auto; /* Ensures clicks still register if wrapped in a link */
 }

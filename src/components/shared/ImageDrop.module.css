@@ -7,10 +7,10 @@
   justify-content: center;
   cursor: pointer;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(var(--text-primary-rgb), 0.02);
 }
 .imageDrop:hover {
-  border-color: var(--neon-blue);
+  border-color: var(--brand-accent);
 }
 .imageDrop img {
   width: 100%;
@@ -24,5 +24,5 @@
   align-items: center;
   gap: 6px;
   color: var(--text-muted);
-  font-size: 0.78rem;
+  font-size: var(--text-xs);
 }
