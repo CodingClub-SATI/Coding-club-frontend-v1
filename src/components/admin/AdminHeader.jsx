@@ -1,9 +1,12 @@
-// DEMO CODE
+import styles from './AdminHeader.module.css';
 
-function AdminHeader(){
-    return (
-        <h1>Admin Header</h1>
-    );
+export default function AdminHeader() {
+  return (
+    <header className={styles.topbar}>
+      <div className={styles.user}>
+        <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Logged in as</span>
+        <strong>Super Admin</strong>
+      </div>
+    </header>
+  );
 }
-
-export default AdminHeader;

@@ -9,3 +9,6 @@
   padding-top: 8px; border-top: 1px solid var(--border-dim); margin-top: 6px;
 }
 
+@media (max-width: 720px) {
+  .admin-form-grid { grid-template-columns: 1fr; }
+}
