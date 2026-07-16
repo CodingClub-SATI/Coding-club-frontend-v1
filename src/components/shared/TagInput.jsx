@@ -14,7 +14,7 @@ export function TagInput({ value = [], onChange, placeholder }) {
   return (
     <div className={styles.tagInput}>
       {value.map((tag, i) => (
-        <span key={i} className={styles.tag}>
+        <span key={tag} className={styles.tag}>
           {tag}
           <button type="button" onClick={() => onChange(value.filter((_, idx) => idx !== i))}>
             <X size={12} />
