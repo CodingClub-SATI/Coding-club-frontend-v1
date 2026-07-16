@@ -1,9 +1,3 @@
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 18px;
-}
-
 .admin-tile {
   background: var(--bg-card);
   border: 1px solid var(--border-dim);

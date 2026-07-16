@@ -5,7 +5,3 @@
   display: flex; align-items: center; justify-content: center; gap: 8px; transition: opacity 0.15s;
 }
 .admin-photo-tile:hover .photo-actions { opacity: 1; }
-
-@media (max-width: 720px) {
-  .admin-form-grid { grid-template-columns: 1fr; }
-}

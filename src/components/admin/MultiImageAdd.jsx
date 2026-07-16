@@ -1,3 +1,5 @@
+import { useRef } from 'react';
+import { Plus } from 'lucide-react';
 import Button from '@/components/shared/Button';
 
 export default function MultiImageAdd({ onAdd }) {
@@ -9,9 +11,9 @@ export default function MultiImageAdd({ onAdd }) {
   return (
     <>
       <input ref={inputRef} type="file" accept="image/*" multiple hidden onChange={(e) => { handleFiles(e.target.files); e.target.value = ''; }} />
-      <button className="btn-outline" onClick={() => inputRef.current?.click()}>
+      <Button variant="outline" onClick={() => inputRef.current?.click()}>
         <Plus size={16} /> Add Photos
-      </button>
+      </Button>
     </>
   );
 }
