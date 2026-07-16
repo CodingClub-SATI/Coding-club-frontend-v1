@@ -1,7 +1,6 @@
 /* =========================================
     Layout and Spacing
   ========================================== */
-.app-wrapper { position: relative; z-index: var(--z-base); }
 .section { padding: var(--space-hero) 0; }
 .container { 
   max-width: var(--container-main);
