@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, Calendar, Image as ImageIcon, Users,
@@ -17,7 +18,8 @@ const ADMIN_NAV = [
   { label: 'Inbox', path: '/admin/inbox', icon: Inbox },
 ];
 
-export default function AdminSidebar({ open, onToggle }) {
+export default function AdminSidebar() {
+  const [open, setOpen] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -32,7 +34,7 @@ export default function AdminSidebar({ open, onToggle }) {
         <div className={styles.logoText}>
           Club <span className="neon-blue">Admin</span>
         </div>
-        <IconButton onClick={onToggle} aria-label={open ? 'Collapse sidebar' : 'Expand sidebar'}>
+        <IconButton onClick={() => setOpen((o) => !o)} aria-label={open ? 'Collapse sidebar' : 'Expand sidebar'}>
           {open ? <PanelLeftClose size={18} /> : <PanelLeftOpen size={18} />}
         </IconButton>
       </div>
