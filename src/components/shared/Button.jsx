@@ -1,10 +1,17 @@
 import styles from './Button.module.css';
 
+/**
+ * variant: 'filled' | 'outline' | 'ghost' |
+ * tone: 'primary' | 'secondary' | danger |
+ * size: 'sm' | 'md' | 'lg'
+ */
+
 const Button = ({ 
   Component = 'button',
   children, 
-  variant = 'primary',  // 'primary' | 'secondary' | 'outline' | 'ghost'
-  size = 'md',          // 'sm' | 'md' | 'lg'
+  variant = 'filled',
+  tone = 'primary',
+  size = 'md', 
   isLoading = false, 
   className = '', 
   disabled,
@@ -14,10 +21,11 @@ const Button = ({
   
   const baseClass = styles.btn;
   const variantClass = styles[`btn-${variant}`];
+  const toneClass = styles[`btn-${tone}`];
   const sizeClass = styles[`btn-${size}`];
   const loadingClass = isLoading ? styles.loaderActive : ''; 
 
-  const combinedClasses = `${baseClass} ${variantClass} ${sizeClass} ${loadingClass} ${className}`.trim();
+  const combinedClasses = `${baseClass} ${variantClass} ${toneClass} ${sizeClass} ${loadingClass} ${className}`.trim();
 
   return (
     <Component 
@@ -37,16 +45,36 @@ Button.displayName = 'Button';
 export default Button;
 
 /*
-export default function ConfirmButton({ label, confirmLabel = 'Confirm?', onConfirm, danger }) {
+import { useState } from 'react';
+
+export function ConfirmButton({ label, confirmLabel = 'Confirm?', onConfirm, danger }) {
   const [confirming, setConfirming] = useState(false);
+
   if (confirming) {
     return (
-      <span className="admin-confirm-inline">
-        <button className={`btn-small ${danger ? 'btn-danger' : ''}`} onClick={() => { setConfirming(false); onConfirm(); }}>{confirmLabel}</button>
-        <button className="btn-small btn-ghost" onClick={() => setConfirming(false)}>Cancel</button>
+      <span className={styles.inline}>
+        <Button
+          size="small"
+          variant={danger ? 'danger' : 'ghost'}
+          onClick={() => { setConfirming(false); onConfirm(); }}
+        >
+          {confirmLabel}
+        </Button>
+        <Button size="small" variant="ghost" onClick={() => setConfirming(false)}>
+          Cancel
+        </Button>
       </span>
     );
   }
-  return <button className={`btn-small ${danger ? 'btn-danger-outline' : 'btn-ghost'}`} onClick={() => setConfirming(true)}>{label}</button>;
+
+  return (
+    <Button
+      size="small"
+      variant={danger ? 'dangerOutline' : 'ghost'}
+      onClick={() => setConfirming(true)}
+    >
+      {label}
+    </Button>
+  );
 }
   */

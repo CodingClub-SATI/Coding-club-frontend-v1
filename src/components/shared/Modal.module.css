@@ -1,30 +1,58 @@
-.modal-overlay {
+.overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(4, 7, 13, 0.7);
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  animation: fadeIn 0.2s ease;
+  animation: fadeIn 0.2s ease; /* keyframe defined once in global.css */
 }
-.modal-box {
+
+.modal {
   background: var(--bg-card);
-  border: 1px solid var(--border-glow);
-  border-radius: 16px;
-  max-width: 600px;
+  border: 1px solid var(--border-dim);
+  border-radius: 12px;
   width: 100%;
+  max-width: 480px;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* variant="glow" — the original public-site look */
+.modal.glow {
+  border-color: var(--border-glow);
   box-shadow: var(--glow-blue);
-  position: relative;
-  max-height: 90vh;
+  max-width: 600px;
+}
+
+.wide {
+  max-width: 720px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--border-dim);
+}
+.header h3 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+}
+
+.body {
+  padding: 22px;
   overflow-y: auto;
 }
-.modal-close {
-  position: absolute;
-  top: 16px;
-  right: 16px;
+
+.close {
   background: transparent;
   border: 1px solid var(--border-dim);
   color: var(--text-muted);
@@ -37,31 +65,7 @@
   justify-content: center;
   transition: var(--transition);
 }
-.modal-close:hover {
+.close:hover {
   border-color: var(--neon-blue);
   color: var(--neon-blue);
 }
-
-.admin-modal-overlay {
-  position: fixed; inset: 0; background: rgba(4,7,13,0.7);
-  backdrop-filter: blur(4px);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 1000; padding: 20px;
-}
-.admin-modal {
-  background: var(--bg-card);
-  border: 1px solid var(--border-dim);
-  border-radius: 12px;
-  width: 100%; max-width: 480px;
-  max-height: 88vh;
-  display: flex; flex-direction: column;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-}
-.admin-modal-wide { max-width: 720px; }
-.admin-modal-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 18px 22px;
-  border-bottom: 1px solid var(--border-dim);
-}
-.admin-modal-header h3 { font-family: var(--font-display); font-size: 1.05rem; }
-.admin-modal-body { padding: 22px; overflow-y: auto; }

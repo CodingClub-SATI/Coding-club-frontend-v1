@@ -1,15 +1,37 @@
-.admin-tag-input {
-  display: flex; flex-wrap: wrap; gap: 6px;
-  background: var(--bg-primary); border: 1px solid var(--border-dim);
-  border-radius: 6px; padding: 8px 10px;
+.tagInput {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-dim);
+  border-radius: 6px;
+  padding: 8px 10px;
 }
-.admin-tag {
-  display: inline-flex; align-items: center; gap: 4px;
-  background: rgba(0,245,255,0.1); color: var(--neon-blue);
-  padding: 3px 8px; border-radius: 20px; font-size: 0.76rem;
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0, 245, 255, 0.1);
+  color: var(--neon-blue);
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-size: 0.76rem;
 }
-.admin-tag button { background: none; border: none; color: inherit; cursor: pointer; display: flex; }
-.admin-tag-input input {
-  flex: 1; min-width: 100px; background: transparent; border: none; outline: none;
-  color: var(--text-primary); font-size: 0.85rem;
+.tag button {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+}
+
+.tagInput input {
+  flex: 1;
+  min-width: 100px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-size: 0.85rem;
 }

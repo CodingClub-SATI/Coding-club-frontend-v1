@@ -8,13 +8,24 @@ export default function ImageDrop({ value, onChange, label, aspect }) {
     const url = URL.createObjectURL(file);
     onChange(url);
   };
+
   return (
-    <div className="admin-image-drop" style={aspect ? { aspectRatio: aspect } : undefined} onClick={() => inputRef.current?.click()}>
-      <input ref={inputRef} type="file" accept="image/*" hidden onChange={(e) => handleFile(e.target.files?.[0])} />
+    <div
+      className={styles.imageDrop}
+      style={aspect ? { aspectRatio: aspect } : undefined}
+      onClick={() => inputRef.current?.click()}
+    >
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        hidden
+        onChange={(e) => handleFile(e.target.files?.[0])}
+      />
       {value ? (
         <img src={value} alt={label || 'preview'} />
       ) : (
-        <div className="admin-image-drop-empty">
+        <div className={styles.empty}>
           <Upload size={20} />
           <span>{label || 'Upload image'}</span>
         </div>

@@ -1,18 +1,24 @@
-import styles from './Taginput.module.css';
+import { useState } from 'react';
+import { X } from 'lucide-react';
+import styles from './TagInput.module.css';
 
-export default function TagInput({ value = [], onChange, placeholder }) {
+export function TagInput({ value = [], onChange, placeholder }) {
   const [draft, setDraft] = useState('');
+
   const commit = () => {
     const v = draft.trim();
     if (v && !value.includes(v)) onChange([...value, v]);
     setDraft('');
   };
+
   return (
-    <div className="admin-tag-input">
+    <div className={styles.tagInput}>
       {value.map((tag, i) => (
-        <span key={i} className="admin-tag">
+        <span key={i} className={styles.tag}>
           {tag}
-          <button type="button" onClick={() => onChange(value.filter((_, idx) => idx !== i))}><X size={12} /></button>
+          <button type="button" onClick={() => onChange(value.filter((_, idx) => idx !== i))}>
+            <X size={12} />
+          </button>
         </span>
       ))}
       <input
