@@ -4,15 +4,15 @@ import Footer from '@/components/public/Footer';
 import ParticleBackground from '@/components/public/ParticleBackground';
 
 export default function PublicLayout() {
-    return (
-        <div>
-            <ParticleBackground />
-            <ScrollRestoration />
-            <Header />
-            <main style={{ paddingTop: 'var(--header-height, 80px)'}}>
-                <Outlet />
-            </main>
-            <Footer />
-        </div>
-    );
+  return (
+    <div style={{ position: 'relative', ZIndex: 'var(--z-base)' }}>
+      <ParticleBackground />
+      <ScrollRestoration />
+      <Header />
+      <main style={{ paddingTop: 'var(--header-height, 80px)'}}>
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  );
 }
