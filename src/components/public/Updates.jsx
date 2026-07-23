@@ -1,7 +1,7 @@
 import { Modal } from '@/components/shared/Modal';
 // TODO: Import your API hook or static data here (e.g., useUpdates())
 
-export default function UpdatesModal({ isOpen, onClose }) {
+export default function Updates({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (

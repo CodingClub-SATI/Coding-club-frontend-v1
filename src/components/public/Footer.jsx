@@ -1,33 +1,33 @@
 import { Link } from 'react-router';
 import { clubInfo } from '@/data/clubInfo';
-import './Footer.css';
+import styles from './Footer.module.css';
 
 export default function Footer() {
   return (
-    <footer className="footer">
+    <footer className={styles.footer}>
       <div className="neon-divider" />
       <div className="container">
-        <div className="footer-grid">
+        <div className={styles.footerGrid}>
           {/* Brand */}
-          <div className="footer-brand">
-            <div className="footer-logo">
+          <div className={styles.footerBrand}>
+            <div className={styles.footerLogo}>
               <img 
                 src={'/logo.jpg'} 
                 alt="Coding Club SATI Logo" 
                 style={{ width: '28px', height: '28px', objectFit: 'contain' }} 
               />
-              <span className="footer-logo-text">Coding Club 
+              <span className={styles.footerLogoText}>Coding Club 
                 <span className="neon-blue"> SATI</span>
               </span>
             </div>
-            <p className="footer-tagline">{clubInfo.tagline}</p>
+            <p className={styles.footerTagline}>{clubInfo.tagline}</p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="footer-heading">Quick Links</h4>
-            <ul className="footer-links">
-              {[['Home', '/'], ['About', '/#about'], ['Events', '/events'], ['Gallery', '/gallery'], ['Teams', '/teams'], ['Projects', '/projects']].map(([label, path]) => (
+            <h4 className={styles.footerHeading}>Quick Links</h4>
+            <ul className={styles.footerLinks}>
+              {[['Home', '/'], ['Events', '/events'], ['Gallery', '/gallery'], ['Teams', '/teams'], ['Projects', '/projects']].map(([label, path]) => (
                 <li key={path}><Link to={path}>{label}</Link></li>
               ))}
             </ul>
@@ -35,8 +35,8 @@ export default function Footer() {
 
           {/* Resources */}
           <div>
-            <h4 className="footer-heading">Resources</h4>
-            <ul className="footer-links">
+            <h4 className={styles.footerHeading}>Resources</h4>
+            <ul className={styles.footerLinks}>
               {[['Learning Hub', '/learning'], ['Contact Us', '/contact']].map(([label, path]) => (
                 <li key={path}><Link to={path}>{label}</Link></li>
               ))}
@@ -47,8 +47,8 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="footer-heading">Contact</h4>
-            <div className="footer-contact">
+            <h4 className={styles.footerHeading}>Contact</h4>
+            <div className={styles.footerContact}>
               <p><span className="neon-blue">✉</span> {clubInfo.email}</p>
               <p><span className="neon-blue">📞</span> {clubInfo.phone}</p>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', marginTop: '8px' }}>

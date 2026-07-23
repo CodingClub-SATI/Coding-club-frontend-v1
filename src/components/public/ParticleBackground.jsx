@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import './ParticleBackground.module.css';
+import styles from './ParticleBackground.module.css';
 
 export default function ParticleBackground() {
   const canvasRef = useRef(null);
@@ -278,7 +278,7 @@ export default function ParticleBackground() {
   return (
     <canvas
       ref={canvasRef}
-      id="particle-canvas"
+      className={styles.particleCanvas}
       aria-hidden="true"
     />
   );
