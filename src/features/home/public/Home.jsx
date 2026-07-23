@@ -5,11 +5,11 @@ import TypingText from '@/features/home/components/TypingText';
 import Reveal from '@/components/shared/Reveal';
 import styles from './Home.module.css';
 
-const STAT_KEYS = {
-  'Active Members': 'activeMembers',
-  'Events': 'totalEvents',
-  'Projects': 'studentProjects',
-};
+const STATS_CONFIG = [
+  { label: "Active Members", icon: "👥", dataKey: "activeMembers" },
+  { label: "Events", icon: "📅", dataKey: "totalEvents" },
+  { label: "Projects", icon: "🚀", dataKey: "studentProjects" },
+];
 
 function ClubMascot() {
   return (
@@ -33,9 +33,8 @@ function ClubMascot() {
 export default function Home() {
   const liveStats = useLoaderData() || ZERO_LIVE_STATS;
 
-  const displayStats = clubInfo.stats.map((stat) => {
-    const key = STAT_KEYS[stat.label];
-    const value = key ? liveStats[key] : 0;
+  const displayStats = STATS_CONFIG.map((stat) => {
+    const value = liveStats[stat.dataKey] || 0;
     return { ...stat, value, suffix: value > 0 ? '+' : '' };
   });
 

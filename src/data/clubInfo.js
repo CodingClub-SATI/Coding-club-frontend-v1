@@ -11,9 +11,4 @@ export const clubInfo = {
     discord: "https://discord.com/...",
     youtube: "https://youtube.com/..."
   },
-  stats: [
-    { label: "Active Members", icon: "👥" },
-    { label: "Events", icon: "📅" },
-    { label: "Projects", icon: "🚀" },
-  ],
 };
