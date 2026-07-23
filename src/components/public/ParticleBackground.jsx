@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import './ParticleBackground.css';
+import './ParticleBackground.module.css';
 
 export default function ParticleBackground() {
   const canvasRef = useRef(null);

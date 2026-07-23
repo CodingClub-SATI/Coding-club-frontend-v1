@@ -1,5 +1,3 @@
-import React from 'react';
-
 // Reusable wrapper to ensure these behave exactly like lucide-react icons
 const IconWrapper = ({ size = 24, color = "currentColor", className = "", children, ...props }) => (
   <svg 

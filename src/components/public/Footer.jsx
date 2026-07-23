@@ -1,6 +1,5 @@
-import { Link } from 'react-router-dom';
-import { clubInfo } from '../data';
-import logo from '../assets/logo.jpg';
+import { Link } from 'react-router';
+import { clubInfo } from '@/data/clubInfo';
 import './Footer.css';
 
 export default function Footer() {
@@ -13,7 +12,7 @@ export default function Footer() {
           <div className="footer-brand">
             <div className="footer-logo">
               <img 
-                src={logo} 
+                src={'/logo.jpg'} 
                 alt="Coding Club SATI Logo" 
                 style={{ width: '28px', height: '28px', objectFit: 'contain' }} 
               />

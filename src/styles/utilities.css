@@ -86,3 +86,20 @@
 .animate-blink {
   animation: blink 1s step-end infinite;
 }
+
+/* =========================================
+    Reveal Animations (Data Attributes)
+  ========================================== */
+.reveal-element {
+  opacity: 0;
+  transform: translateY(30px);
+  /* Matches your global animation feel */
+  transition: opacity var(--duration-slow) cubic-bezier(0.4, 0, 0.2, 1), 
+              transform var(--duration-slow) cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-element[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}

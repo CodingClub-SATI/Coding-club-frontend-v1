@@ -1,4 +1,5 @@
-import { clubInfo } from '../data';
+import { clubInfo } from '@/data/clubInfo';
+import styles from './SocialSidebar.module.css';
 
 export default function SocialSidebar() {
   const links = [
@@ -17,7 +18,7 @@ export default function SocialSidebar() {
   ];
 
   return (
-    <aside className="social-sidebar">
+    <aside className="socialsidebar">
       {links.map(l => (
         <a key={l.label} href={l.href} target="_blank" rel="noreferrer" title={l.label}>
           {l.icon}

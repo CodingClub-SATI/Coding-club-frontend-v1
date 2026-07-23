@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router';
 import useScrollProgress from '@/hooks/useScrollProgress.js';
 import Button from '@/components/shared/Button';
-import './Header.css';
+import './Header.module.css';
 
 const NAV_LINKS = [
   { label: 'Home', path: '/', end: true },
@@ -55,6 +55,7 @@ export default function Header() {
         </nav>
 
         {/* CTA */}
+        {/* TODO - make this into bell icon for recent update model box */}
         <div className="header-actions">
           <Button Component={Link} to="/contact" variant="outline" className="header-cta">
             Join Now
