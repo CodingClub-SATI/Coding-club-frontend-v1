@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router';
 import {
   LayoutDashboard, Calendar, Image as ImageIcon, Users,
   FolderGit2, BookOpen, Inbox, Settings, LogOut,
@@ -12,7 +12,7 @@ const ADMIN_NAV = [
   { label: 'Dashboard', path: '/admin', icon: LayoutDashboard },
   { label: 'Events', path: '/admin/events', icon: Calendar },
   { label: 'Gallery', path: '/admin/gallery', icon: ImageIcon },
-  { label: 'Team', path: '/admin/team', icon: Users },
+  { label: 'Team', path: '/admin/teams', icon: Users },
   { label: 'Projects', path: '/admin/projects', icon: FolderGit2 },
   { label: 'Learning', path: '/admin/learning', icon: BookOpen },
   { label: 'Inbox', path: '/admin/inbox', icon: Inbox },

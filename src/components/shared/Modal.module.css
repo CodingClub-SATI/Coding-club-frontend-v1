@@ -16,23 +16,23 @@
   background: var(--bg-card);
   border: 1px solid var(--border-dim);
   border-radius: 12px;
+  margin: 20px;
   width: 100%;
-  max-width: 480px;
   max-height: 88vh;
   display: flex;
   flex-direction: column;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
+.size-sm { max-width: 400px; }
+.size-md { max-width: 500px; } 
+.size-lg { max-width: 720px; } 
+
 /* variant="glow" — the original public-site look */
 .modal.glow {
   border-color: var(--border-glow);
   box-shadow: var(--glow-blue);
   max-width: 600px;
-}
-
-.wide {
-  max-width: 720px;
 }
 
 .header {

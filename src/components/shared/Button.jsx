@@ -1,8 +1,8 @@
 import styles from './Button.module.css';
 
 /**
- * variant: 'filled' | 'outline' | 'ghost' |
- * tone: 'primary' | 'secondary' | danger |
+ * variant: 'filled' | 'outline' | 'ghost'
+ * tone: 'primary' | 'secondary' | 'danger'
  * size: 'sm' | 'md' | 'lg'
  */
 

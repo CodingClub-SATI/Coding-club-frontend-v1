@@ -1,4 +1,3 @@
-// src/features/home/public/components/TypingText.jsx
 import { useEffect, useRef } from 'react';
 
 export default function TypingText({ 
@@ -23,7 +22,6 @@ export default function TypingText({
         nodeRef.current.textContent = currentText.substring(0, currentCharIndex);
       }
 
-      // Logic to determine the next keystroke/action
       if (!isDeleting && currentCharIndex < currentText.length) {
         currentCharIndex++;
         timeoutId = setTimeout(type, typingSpeed);
@@ -43,10 +41,7 @@ export default function TypingText({
       }
     };
 
-    // Kick off the loop
     timeoutId = setTimeout(type, typingSpeed);
-
-    // Cleanup prevents the recursive loop from memory leaking if the user leaves the page
     return () => clearTimeout(timeoutId);
   }, [texts, typingSpeed, deletingSpeed, delayBeforeDelete]);
 

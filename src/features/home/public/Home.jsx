@@ -1,6 +1,5 @@
 import { useLoaderData, Link } from 'react-router';
 import { clubInfo } from '@/data/clubInfo';
-import { statsApi } from '@/services/api';
 import AnimatedCounter from '@/features/home/components/AnimatedCounter';
 import TypingText from '@/features/home/components/TypingText';
 import Reveal from '@/components/shared/Reveal';
@@ -11,27 +10,6 @@ const STAT_KEYS = {
   'Events': 'totalEvents',
   'Projects': 'studentProjects',
 };
-
-const ZERO_LIVE_STATS = { 
-  totalEvents: 0, 
-  activeMembers: 0, 
-  studentProjects: 0 
-};
-
-export async function homeLoader() {
-  try {
-    const stats = await statsApi.get();
-    
-    return {
-      totalEvents: Number(stats?.totalEvents) || 0,
-      activeMembers: Number(stats?.activeMembers) || 0,
-      studentProjects: Number(stats?.studentProjects) || 0,
-    };
-  } catch (err) {
-    console.error('Failed to load stats in loader:', err);
-    return ZERO_LIVE_STATS;
-  }
-}
 
 function ClubMascot() {
   return (
@@ -57,8 +35,8 @@ export default function Home() {
 
   const displayStats = clubInfo.stats.map((stat) => {
     const key = STAT_KEYS[stat.label];
-    const liveValue = key && liveStats[key] != null ? liveStats[key] : null;
-    return liveValue ? { ...stat, value: liveValue, suffix: '+' } : stat;
+    const value = key ? liveStats[key] : 0;
+    return { ...stat, value, suffix: value > 0 ? '+' : '' };
   });
 
   return (

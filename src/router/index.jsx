@@ -1,8 +1,10 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router';
 
 // Public Layout & Components
 import PublicLayout from '@/layouts/PublicLayout';
 import Home from '@/features/home/public/Home';
+import { homeLoader } from '@/features/home/api'; 
+
 // import ErrorScreen from '@/components/error/ErrorScreen';
 // import NotFound from '@/components/error/NotFound'
 
@@ -21,7 +23,7 @@ const router = createBrowserRouter([
     errorElement: <div>System Crash - Return to Base</div>,
     hydrateFallbackElement: <div>Loading...</div>,
     children: [
-      { index: true, element: <Home /> },
+      { index: true, element: <Home />, loader: homeLoader },
       { path: 'events', lazy: lazyLoad(() => import('@/features/events/public/Events')) },
       { path: 'gallery', lazy: lazyLoad(() => import('@/features/gallery/public/Gallery')) },
       { path: 'teams', lazy: lazyLoad(() => import('@/features/teams/public/Teams')) },

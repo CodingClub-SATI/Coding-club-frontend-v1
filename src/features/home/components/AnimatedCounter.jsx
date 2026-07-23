@@ -1,11 +1,11 @@
-// src/features/home/public/components/AnimatedCounter.jsx
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function AnimatedCounter({ value, duration = 1500 }) {
-  const nodeRef = useRef(null);
+  const [count, setCount] = useState(0);
+  const observerRef = useRef(null);
   
   useEffect(() => {
-    const node = nodeRef.current;
+    const node = observerRef.current;
     if (!node || typeof value !== 'number') return;
 
     let frameId;
@@ -20,10 +20,7 @@ export default function AnimatedCounter({ value, duration = 1500 }) {
             const elapsed = Date.now() - start;
             const progress = Math.min(elapsed / duration, 1);
             
-            // Direct DOM mutation for the strict number
-            if (nodeRef.current) {
-              nodeRef.current.textContent = Math.floor(progress * value);
-            }
+            setCount(Math.floor(progress * value));
             
             if (progress < 1) {
               frameId = requestAnimationFrame(tick);
@@ -45,6 +42,5 @@ export default function AnimatedCounter({ value, duration = 1500 }) {
     };
   }, [value, duration]);
 
-  // Initial render is 0
-  return <span ref={nodeRef}>0</span>;
+  return <span ref={observerRef}>{count}</span>;
 }

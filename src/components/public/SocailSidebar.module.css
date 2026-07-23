@@ -1,7 +1,0 @@
-.sidebarStyle {
-  position: fixed;
-  left: 0;
-  top: 55%;
-  transform: translateY(-50%);
-  z-index: var(--z-sticky);
-}

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, NavLink } from 'react-router';
 import useScrollProgress from '@/hooks/useScrollProgress.js';
 import Button from '@/components/shared/Button';
+import Updates from '@/components/public/Updates';
 import './Header.module.css';
 
 const NAV_LINKS = [
@@ -34,10 +35,12 @@ function NavItems({ variant, onLinkClick }) {
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isUpdatesOpen, setIsUpdatesOpen] = useState(false);
   const progress = useScrollProgress();
   const handleNavClick = () => { setMenuOpen(false); };
 
   return (
+  <>
     <header className={`header ${progress > 1 ? 'scrolled' : ''}`}>
       <div className="header-inner">
         {/* Logo */}
@@ -57,8 +60,30 @@ export default function Header() {
         {/* CTA */}
         {/* TODO - make this into bell icon for recent update model box */}
         <div className="header-actions">
-          <Button Component={Link} to="/contact" variant="outline" className="header-cta">
-            Join Now
+          <Button 
+            Component="button" 
+            onClick={() => setIsUpdatesOpen(true)}
+            variant="outline" 
+            tone="primary" 
+            className="header-cta"
+            aria-label="View Important Updates"
+          >
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              width="16" 
+              height="16" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+              style={{ marginBottom: '2px' }}
+            >
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+            </svg>
+            Updates
           </Button>
           <button
             className={`hamburger ${menuOpen ? 'open' : ''}`}
@@ -82,5 +107,8 @@ export default function Header() {
         </nav>
       )}
     </header>
+
+    {isUpdatesOpen && (<UpdatesModal onClose={() => setIsUpdatesOpen(false)} />)}
+  </>
   );
 }
