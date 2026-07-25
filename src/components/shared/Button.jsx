@@ -37,7 +37,7 @@ const Button = ({
       {...props}
     >
       {isLoading && <Spinner />}
-      <span className={styles.btnContent}>{children}</span>
+      {children}
     </Component>
   );
 };
