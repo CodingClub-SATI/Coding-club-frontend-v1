@@ -82,7 +82,7 @@
 /* Hardcoded strings mapped via :global to prevent module hashing */
 :global(.typing-text) { color: var(--brand-secondary); }
 :global(.cursor) {
-  animation: blink 1s step-end infinite; /* Utilizing your existing keyframe */
+  animation: blink 1s step-end infinite; 
   color: var(--brand-accent);
 }
 
@@ -210,7 +210,7 @@
 .aboutCard p { 
   color: var(--text-muted); 
   font-size: var(--text-base); 
-  line-height: 1.6; 
+  line-height: 1.6;
 }
 
 /* ===== STATS ===== */

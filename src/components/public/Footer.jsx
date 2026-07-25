@@ -41,7 +41,7 @@ export default function Footer() {
                 <li key={path}><Link to={path}>{label}</Link></li>
               ))}
               <li><a href={clubInfo.socials.github} target="_blank" rel="noreferrer">GitHub Repos</a></li>
-              <li><a href="#" target="_blank" rel="noreferrer">Discord Server</a></li>
+              <li><a href={clubInfo.socials.discord} target="_blank" rel="noreferrer">Discord Server</a></li>
             </ul>
           </div>
 
@@ -59,7 +59,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p>© 2025 Coding Club SATI. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Coding Club SATI. All rights reserved.</p>
           <p>Designed & Developed by <span className="neon-blue">Coding Club SATI</span></p>
         </div>
       </div>

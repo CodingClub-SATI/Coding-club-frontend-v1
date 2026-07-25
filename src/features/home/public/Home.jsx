@@ -31,7 +31,7 @@ function ClubMascot() {
 }
 
 export default function Home() {
-  const liveStats = useLoaderData() || ZERO_LIVE_STATS;
+  const liveStats = useLoaderData();
 
   const displayStats = STATS_CONFIG.map((stat) => {
     const value = liveStats[stat.dataKey] || 0;
