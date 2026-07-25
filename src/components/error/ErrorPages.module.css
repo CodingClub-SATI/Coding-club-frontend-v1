@@ -26,3 +26,9 @@
   max-width: 420px;
   margin-bottom: var(--space-base);
 }
+
+.cta {
+  display: flex;
+  gap: var(--space-md); 
+  justify-content: center;
+}

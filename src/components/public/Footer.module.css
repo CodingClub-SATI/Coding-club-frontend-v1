@@ -55,7 +55,16 @@
 }
 
 .tagline {
-  line-height: 1.5;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.socials {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
 }
 
 /* =========================================
@@ -71,6 +80,9 @@
 
 .linksWrapper {
   list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
 }
 
 .linksWrapper a {
@@ -89,13 +101,14 @@
 ========================================= */
 .bottom {
   border-top: 1px solid var(--border-dim);
-  padding-top: var(--space-lg); /* Replaces 24px */
+  padding-top: var(--space-lg);
+  margin-top: var(--space-lg);
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: var(--space-sm);
-  font-size: var(--text-xs); /* Standardizes 0.8rem */
+  font-size: var(--text-sm);
   color: var(--text-muted);
 }
 

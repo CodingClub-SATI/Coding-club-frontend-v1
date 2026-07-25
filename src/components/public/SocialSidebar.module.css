@@ -9,28 +9,8 @@
   z-index: 50;
 }
 
-.link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.25rem; 
-  height: 2.25rem; 
-  border: 1px solid var(--border-dim);
-  border-radius: var(--radius-full);
-  color: var(--text-muted);
-  text-decoration: none;
-  font-size: var(--text-sm); 
-  transition: var(--transition-base);
-}
-
-.link:hover {
-  border-color: var(--brand-primary);
-  color: var(--brand-primary);
-  box-shadow: 0 0 10px rgba(var(--brand-primary-rgb), 0.3);
-}
-
 @media (max-width: 768px) {
-  .sidebar { 
-    display: none; 
+  .sidebar {
+     display: none;
   }
 }

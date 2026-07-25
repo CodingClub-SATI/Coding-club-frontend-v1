@@ -65,6 +65,9 @@ export default function Home() {
               <Button Component={Link} to="/learning" variant="filled">
                 Learning Resources
               </Button>
+              <Button Component={Link} to="/events" variant="outline" tone="secondary">
+                Explore Events
+              </Button>
             </div>
           </div>
           
@@ -72,12 +75,15 @@ export default function Home() {
             <ClubMascot />
           </div>
         </div>
+        <div className={styles.scrollIndicator} aria-hidden="true">
+          <span className={styles.scrollDot} />
+          SCROLL
+        </div>
       </section>
 
       {/* ===== ABOUT ===== */}
       <section className={styles.aboutSection} id="about">
         <div className="container">
-          {/* 3. Zero-render scroll animations abstract away IntersectionObserver logic */}
           <Reveal Component="h2" className="section-title">
             About <span className="text-primary-glow">Coding Club</span> SATI
           </Reveal>
@@ -92,6 +98,25 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Director Quote */}
+      <section className="section">
+        <div className="container">
+          <Reveal Component={Glasscard} className={styles.directorCard}>
+            <div className={styles.quoteMark} aria-hidden="true">"</div>
+            <blockquote>
+              Our mission is to bridge the gap between academic curriculum and industry demands. We empower students to build real-world solutions and foster a culture of continuous learning.
+            </blockquote>
+            <div className={styles.directorAttribution}>
+              <div className={styles.directorAvatar} aria-hidden="true">NV</div>
+              <div>
+                <div className={styles.directorName}>Dr. Neha Verma</div>
+                <div className={styles.directorRole}>Faculty Mentor</div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       {/* ===== STATS ===== */}
       <section className={styles.statsSection}>
         <div className="container">
@@ -101,7 +126,6 @@ export default function Home() {
           
           <div className={styles.statsGrid}>
             {displayStats.map((stat, i) => (
-              // Staggered delay based on index creates a clean waterfall animation effect
               <Reveal key={stat.label} delay={i * 100}>
                 <Glasscard className={styles.statCard}>
                   <div className={styles.statIcon}>{stat.icon}</div>
@@ -113,6 +137,20 @@ export default function Home() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Bottom CTA  */}
+      <section className="section">
+        <div className="container">
+          <Reveal Component={Glasscard} className={styles.ctaBox}>
+            <div className={styles.ctaPulse} aria-hidden="true" />
+            <h2>Ready to <span className="text-primary-glow">Level Up?</span></h2>
+            <p>Join the community, participate in hackathons, and build your network.</p>
+            <Button Component={Link} to="/events" variant="filled">
+              View Upcoming Events
+            </Button>
+          </Reveal>
         </div>
       </section>
     </div>

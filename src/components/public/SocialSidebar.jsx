@@ -1,8 +1,9 @@
 import { clubInfo } from '@/data/clubInfo';
-import styles from './SocialSidebar.module.css';
+import SocialLink from '@/components/shared/SocialLink';
 import { 
   GithubIcon, InstagramIcon, LinkedinIcon, XIcon 
 } from '@/components/public/BrandIcons';
+import styles from './SocialSidebar.module.css';
 
 export default function SocialSidebar() {
   const links = [
@@ -14,18 +15,10 @@ export default function SocialSidebar() {
 
   return (
     <aside className={styles.sidebar}>
-      {links.map(l => (
-        <a
-          key={l.label}
-          href={l.href}
-          target="_blank"
-          rel="noreferrer"
-          title={l.label}
-          aria-label={l.label}
-          className={styles.link}
-        >
-          {l.icon}
-        </a>
+      {links.map((link) => (
+        <SocialLink key={link.label} href={link.href} label={link.label}>
+          {link.icon}
+        </SocialLink>
       ))}
     </aside>
   );

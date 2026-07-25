@@ -103,3 +103,13 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+/* =========================================
+    Image Protection
+========================================== */
+.protect-image {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none; /* Disables the iOS popup menu */
+  pointer-events: auto; /* Ensures clicks still register if wrapped in a link */
+}
