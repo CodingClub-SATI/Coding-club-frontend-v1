@@ -34,8 +34,23 @@ const TYPE_ICONS = {
 };
 
 export default function EventCard({ event, onClick }) {
+  // Enables keyboard users to activate the card with Enter or Space
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onClick(event);
+    }
+  };
+
   return (
-    <Glasscard className={styles.eventCard} onClick={() => onClick(event)}>
+    <Glasscard
+      className={styles.eventCard}
+      onClick={() => onClick(event)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      aria-label={`View details for ${event.title}`}
+    >
       <div className={styles.cover}>
         <div className={styles.coverIcon}>
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">

@@ -108,6 +108,7 @@ export default function Events() {
                   className={styles.filterSelect}
                   value={filter}
                   onChange={(e) => setFilter(e.target.value)}
+                  aria-label="Filter events by type"
                 >
                   {TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
                 </select>
