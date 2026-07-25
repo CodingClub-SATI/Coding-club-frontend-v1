@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { request } from '@/services/api';
 
 export function useUpdates() {
   const [updates, setUpdates] = useState([]);
@@ -11,22 +12,17 @@ export function useUpdates() {
     async function fetchUpdates() {
       try {
         setIsLoading(true);
-        // TODO: Replace with your actual backend API endpoint
-        const response = await fetch('/api/updates', { signal: controller.signal });
-        if (!response.ok) throw new Error('Failed to fetch updates');
-        
-        const data = await response.json();
+        // Uses your global request wrapper automatically prepending the Base URL
+        const data = await request('/api/updates', { signal: controller.signal });
         setUpdates(data);
       } catch (err) {
-        if (err.name !== 'AbortError') {
-          setError(err.message);
-        }
+        if (err.name !== 'AbortError') setError(err.message);
       } finally {
         setIsLoading(false);
       }
     }
-    fetchUpdates();
 
+    fetchUpdates();
     return () => controller.abort();
   }, []);
 

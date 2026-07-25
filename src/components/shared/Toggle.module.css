@@ -1,18 +1,21 @@
 .toggle {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-sm);
   cursor: pointer;
 }
 .toggle input {
-  display: none;
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
 .track {
   width: 36px;
   height: 20px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-full);
+  background: rgba(var(--text-primary-rgb), 0.12);
   position: relative;
   transition: var(--transition-base);
 }
@@ -24,8 +27,13 @@
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--text-primary);
   transition: var(--transition-base);
+}
+
+.toggle input:focus-visible + .track {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
 }
 
 .toggle input:checked + .track {

@@ -3,6 +3,8 @@ import { clubInfo } from '@/data/clubInfo';
 import AnimatedCounter from '@/features/home/components/AnimatedCounter';
 import TypingText from '@/features/home/components/TypingText';
 import Reveal from '@/components/shared/Reveal';
+import Button from '@/components/shared/Button';
+import Glasscard from '@/components/shared/Glasscard';
 import styles from './Home.module.css';
 
 const STATS_CONFIG = [
@@ -77,12 +79,12 @@ export default function Home() {
         <div className="container">
           {/* 3. Zero-render scroll animations abstract away IntersectionObserver logic */}
           <Reveal Component="h2" className="section-title">
-            About <span className="neon-blue">Coding Club</span> SATI
+            About <span className="text-primary-glow">Coding Club</span> SATI
           </Reveal>
           
           <p className="section-subtitle">A dynamic and vibrant technical community dedicated to fostering knowledge.</p>
           
-          <Reveal delay={150} className="glass-card">
+          <Reveal Component={Glasscard} delay={150}>
             <p>The club brings together passionate students eager to explore the ever-evolving world of technology...</p>
           </Reveal>
         </div>
@@ -92,7 +94,7 @@ export default function Home() {
       <section className={styles.statsSection}>
         <div className="container">
           <Reveal Component="h2" className="section-title">
-            Club Stats & <span className="neon-blue">Achievements</span>
+            Club Stats & <span className="text-primary-glow">Achievements</span>
           </Reveal>
           
           <div className={styles.statsGrid}>

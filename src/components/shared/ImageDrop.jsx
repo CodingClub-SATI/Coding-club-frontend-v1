@@ -12,13 +12,11 @@ export default function ImageDrop({ value, onChange, label, aspect }) {
   };
 
   return (
-    <div
+    <label
       className={styles.imageDrop}
       style={aspect ? { aspectRatio: aspect } : undefined}
-      onClick={() => inputRef.current?.click()}
     >
       <input
-        ref={inputRef}
         type="file"
         accept="image/*"
         hidden
@@ -32,6 +30,6 @@ export default function ImageDrop({ value, onChange, label, aspect }) {
           <span>{label || 'Upload image'}</span>
         </div>
       )}
-    </div>
+    </label>
   );
 }

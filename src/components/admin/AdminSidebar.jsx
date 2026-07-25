@@ -32,7 +32,7 @@ export default function AdminSidebar() {
     <aside className={`${styles.sidebar} ${open ? '' : styles.closed}`}>
       <div className={styles.header}>
         <div className={styles.logoText}>
-          Club <span className="neon-blue">Admin</span>
+          Club <span className="text-primary-glow">Admin</span>
         </div>
         <IconButton onClick={() => setOpen((o) => !o)} aria-label={open ? 'Collapse sidebar' : 'Expand sidebar'}>
           {open ? <PanelLeftClose size={18} /> : <PanelLeftOpen size={18} />}

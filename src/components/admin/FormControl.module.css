@@ -8,7 +8,7 @@
   font-family: var(--font-body);
   outline: none;
 }
-.admin-select:focus, .admin-input:focus, .admin-textarea:focus { border-color: var(--neon-blue); }
+.admin-select:focus, .admin-input:focus, .admin-textarea:focus { border-color: var(--brand-primary); }
 .admin-textarea { width: 100%; resize: vertical; min-height: 80px; }
 
 .admin-search-input { min-width: 220px; }

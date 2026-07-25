@@ -28,3 +28,6 @@
   font-size: var(--text-sm);
   margin-top: var(--space-xs);
 }
+
+.spinnerAccent { color: var(--brand-primary); }
+.errorText { color: var(--brand-destructive); }

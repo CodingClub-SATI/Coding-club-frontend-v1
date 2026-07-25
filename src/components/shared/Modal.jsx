@@ -11,6 +11,7 @@ export function Modal({
   variant = 'flat' 
 }) {
   useEffect(() => {
+    const previousFocus = document.activeElement;
     const handleEsc = (e) => {
       if (e.key === 'Escape') onClose();
     };
@@ -21,7 +22,8 @@ export function Modal({
     
     return () => {
       window.removeEventListener('keydown', handleEsc);
-      document.body.style.overflow = originalStyle; // Restore on unmount
+      document.body.style.overflow = originalStyle;
+      if (previousFocus) previousFocus.focus();
     };
   }, [onClose]);
 

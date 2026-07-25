@@ -1,25 +1,25 @@
 .row { 
-  margin-bottom: 16px; 
+  margin-bottom: var(--space-base); 
 }
 .label {
   display: block; 
-  font-size: 0.8rem; 
+font-size: var(--text-sm);
   color: var(--text-muted);
-  margin-bottom: 6px; 
+  margin-bottom: var(--space-xs);
   font-weight: 500;
 }
 .grid { 
   display: grid; 
   grid-template-columns: 1fr 1fr; 
-  gap: 14px; 
+  gap: var(--space-md); 
 }
 .actions {
   display: flex; 
   justify-content: flex-end;
-  gap: 10px;
-  padding-top: 8px;
+gap: var(--space-sm);
+  padding-top: var(--space-sm);
   border-top: 1px solid var(--border-dim);
-  margin-top: 6px;
+  margin-top: var(--space-xs);
 }
 
 @media (max-width: 720px) {

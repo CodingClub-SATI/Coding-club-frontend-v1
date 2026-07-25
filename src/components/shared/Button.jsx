@@ -1,4 +1,5 @@
 import styles from './Button.module.css';
+import Spinner from '@/components/shared/Spinner';
 
 /**
  * variant: 'filled' | 'outline' | 'ghost'
@@ -35,7 +36,7 @@ const Button = ({
       aria-busy={isLoading}
       {...props}
     >
-      {isLoading && <span className={styles.loader} aria-hidden="true"></span>}
+      {isLoading && <Spinner/>}
       <span className={styles.btnContent}>{children}</span>
     </Component>
   );

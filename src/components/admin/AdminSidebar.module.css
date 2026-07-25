@@ -74,7 +74,7 @@
 
 .link.active {
   background: rgba(0, 245, 255, 0.1);
-  color: var(--neon-blue);
+  color: var(--brand-accent);
   border-color: rgba(0, 245, 255, 0.2);
 }
 

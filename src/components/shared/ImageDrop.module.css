@@ -10,7 +10,7 @@
   background: rgba(255, 255, 255, 0.02);
 }
 .imageDrop:hover {
-  border-color: var(--neon-blue);
+  border-color: var(--brand-accent);
 }
 .imageDrop img {
   width: 100%;
