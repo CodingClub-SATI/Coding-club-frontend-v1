@@ -51,7 +51,6 @@ export default function Home() {
             </div>
             
             <h1 className={styles.heroTitle}>
-              {/* Note: Global utility classes like 'text-primary-glow' can still be used directly */}
               <span className={`${styles.heroTitleMain} text-primary-glow`}>CODING CLUB</span>
               <span className={styles.heroTitleSub}>
                 <TypingText texts={['SATI VIDISHA', 'BUILD · INNOVATE', 'CODE · COFFEE', 'BEYOND CLASSROOMS']} />
@@ -61,8 +60,9 @@ export default function Home() {
             <p className={styles.heroDesc}>{clubInfo.description}</p>
             
             <div className={styles.heroCtas}>
-              <Link to="/learning" className="btn-filled">Learning Resources</Link>
-              <Link to="/events" className="btn-secondary">Explore Events</Link>
+              <Button Component={Link} to="/learning" variant="filled">
+                Learning Resources
+              </Button>
             </div>
           </div>
           

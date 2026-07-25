@@ -3,7 +3,6 @@
   height: 100vh;
   background: var(--bg-primary);
   overflow: hidden;
-  font-family: var(--font-body);
 }
 
 .main {
@@ -15,6 +14,12 @@
 
 .contentWrapper {
   flex: 1;
-  padding: 32px;
+  padding: var(--space-xl);
   overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .contentWrapper {
+    padding: var(--space-base);
+  }
 }

@@ -1,0 +1,32 @@
+.header {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  margin-bottom: var(--space-md);
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  font-size: var(--text-base);
+  color: var(--text-muted);
+  margin-bottom: var(--space-base);
+}
+
+.desc {
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: var(--space-base);
+}
+
+.tags {
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+}
+
+.registerBtn {
+  margin-top: var(--space-lg);
+  display: inline-flex;
+}

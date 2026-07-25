@@ -1,6 +1,10 @@
-.admin-table-wrap { overflow-x: auto; }
-.admin-table { width: 100%; border-collapse: collapse; text-align: left; }
-.admin-table thead th {
+.tableWrap { overflow-x: auto; }
+.table { 
+  width: 100%; 
+  border-collapse: collapse; 
+  text-align: left; 
+}
+.table thead th {
   font-weight: 500;
   font-size: 0.78rem;
   color: var(--text-muted);
@@ -9,12 +13,19 @@
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
-.admin-table tbody td {
+.table tbody td {
   padding: 14px 12px;
   border-bottom: 1px solid rgba(255,255,255,0.05);
   font-size: 0.88rem;
   vertical-align: middle;
 }
-.admin-table tbody tr { cursor: pointer; transition: background 0.15s; }
-.admin-table tbody tr:hover { background: rgba(0,245,255,0.04); }
-.admin-table tbody tr:last-child td { border-bottom: none; }
+.table tbody tr { 
+  cursor: pointer;
+  transition: background 0.15s; 
+}
+.table tbody tr:hover { 
+  background: rgba(var(--brand-primary-rgb), 0.04); 
+}
+.table tbody tr:last-child td { 
+  border-bottom: none;
+}

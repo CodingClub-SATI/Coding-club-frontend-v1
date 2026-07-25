@@ -47,7 +47,7 @@
     text-shadow: var(--text-glow-secondary);
 }
 
-.neon-divider {
+.section-divider {
   height: 1px;
   background: linear-gradient(to right, transparent, var(--brand-primary), var(--brand-secondary), transparent);
   margin: 0;

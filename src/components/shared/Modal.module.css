@@ -9,11 +9,11 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  animation: fadeIn 0.2s ease; /* keyframe defined once in global.css */
+  animation: fadeIn 0.2s ease;
 }
 
 .modal {
-  background: var(--bg-card);
+  background: var(--bg-secondary);
   border: 1px solid var(--border-dim);
   border-radius: 12px;
   margin: 20px;
@@ -24,14 +24,14 @@
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
-.size-sm { max-width: 400px; }
-.size-md { max-width: 500px; } 
-.size-lg { max-width: 720px; } 
+.sizesm { max-width: 400px; }
+.sizemd { max-width: 500px; } 
+.sizelg { max-width: 720px; } 
 
 /* variant="glow" — the original public-site look */
-.modal.glow {
+.variantGlow {
   border-color: var(--border-glow);
-  box-shadow: var(--glow-blue);
+  box-shadow: var(--shadow-glow-accent);
   max-width: 600px;
 }
 
@@ -63,9 +63,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: var(--transition);
+  transition: var(--transition-base);
 }
 .close:hover {
-  border-color: var(--neon-blue);
-  color: var(--neon-blue);
+  border-color: var(--brand-accent);
+  color: var(--brand-accent);
 }

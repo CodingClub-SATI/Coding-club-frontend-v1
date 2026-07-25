@@ -1,4 +1,4 @@
-.admin-badge {
+.badge {
   display: inline-block;
   padding: 3px 10px;
   border-radius: 20px;
@@ -6,9 +6,9 @@
   font-weight: 600;
   letter-spacing: 0.02em;
 }
-.badge-upcoming { background: rgba(0,245,255,0.12); color: var(--neon-blue); }
-.badge-completed { background: rgba(0,255,136,0.12); color: var(--neon-green); }
-.badge-archived { background: rgba(156,163,175,0.15); color: var(--text-muted); }
-.badge-featured { background: rgba(139,92,246,0.15); color: var(--neon-purple); }
-.badge-new { background: rgba(239,68,68,0.12); color: #ef4444; }
-.badge-responded { background: rgba(0,255,136,0.12); color: var(--neon-green); }
+.upcoming { background: rgba(0,245,255,0.12); color: var(--brand-primary); }
+.completed { background: rgba(0,255,136,0.12); color: var(--brand-secondary); }
+.archived { background: rgba(156,163,175,0.15); color: var(--text-muted); }
+.featured { background: rgba(139,92,246,0.15); color: var(--brand-accent); }
+.new { background: rgba(239,68,68,0.12); color: #ef4444; }
+.responded { background: rgba(0,255,136,0.12); color: var(--brand-accent); }

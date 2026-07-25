@@ -19,13 +19,13 @@ const Button = ({
   ...props 
 }) => {
   
-  const baseClass = styles.btn;
-  const variantClass = styles[`btn-${variant}`];
-  const toneClass = styles[`btn-${tone}`];
-  const sizeClass = styles[`btn-${size}`];
-  const loadingClass = isLoading ? styles.loaderActive : ''; 
-
-  const combinedClasses = `${baseClass} ${variantClass} ${toneClass} ${sizeClass} ${loadingClass} ${className}`.trim();
+  const combinedClasses = `
+    ${styles.btn} 
+    ${styles[variant]} 
+    ${styles[tone]} 
+    ${styles[size]} 
+    ${className}
+  `.trim();
 
   return (
     <Component 

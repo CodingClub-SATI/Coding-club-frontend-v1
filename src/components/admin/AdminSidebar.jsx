@@ -66,7 +66,7 @@ export default function AdminSidebar() {
           className={`${styles.link} ${styles.textRed}`}
           onClick={handleLogout}
           title={open ? undefined : 'Logout'}
-          style={{ background: 'transparent', width: '100%', textAlign: 'left', border: 'none', cursor: 'pointer' }}
+          style={{  }}
         >
           <LogOut size={18} />
           <span className={styles.linkText}>Logout</span>

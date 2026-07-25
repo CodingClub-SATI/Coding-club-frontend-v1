@@ -1,14 +1,13 @@
-/* Glassmorphism card */
-.glass-card {
-  background: rgba(17, 24, 39, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+.glassCard {
+  background: rgba(var(--bg-secondary-rgb), 0.7);
+  backdrop-filter: var(--blur-md);
+  -webkit-backdrop-filter: var(--blur-md);
   border: 1px solid var(--border-dim);
-  border-radius: 12px;
-  transition: var(--transition);
+  border-radius: var(--radius-md);
+  transition: var(--transition-base);
 }
-.glass-card:hover {
+.glassCard:hover {
   border-color: var(--border-glow);
-  box-shadow: var(--glow-blue);
+  box-shadow: var(--shadow-glow-accent);
   transform: translateY(-2px);
 }

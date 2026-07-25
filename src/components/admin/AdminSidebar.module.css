@@ -1,6 +1,6 @@
 .sidebar {
   width: 240px;
-  background: var(--bg-card);
+  background: var(--bg-secondary);
   border-right: 1px solid var(--border-dim);
   display: flex;
   flex-direction: column;
@@ -78,10 +78,18 @@
   border-color: rgba(0, 245, 255, 0.2);
 }
 
-.textRed { color: #ef4444 !important; }
-.textRed:hover { background: rgba(239, 68, 68, 0.1) !important; }
+.textRed { color: var(--brand-destructive); }
+.textRed:hover { background: var(--brand-destructive); }
 
 .footer {
   padding: 12px;
   border-top: 1px solid var(--border-dim);
+}
+
+.logoutBtn {
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  border: none;
+  cursor: pointer;
 }

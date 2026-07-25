@@ -1,15 +1,23 @@
-.admin-stat-strip {
+.statStrip {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
   margin-bottom: 20px;
 }
-.admin-stat-pill {
-  background: var(--bg-card);
+.statPill {
+  background: var(--bg-secondary);
   border: 1px solid var(--border-dim);
   border-radius: 8px;
   padding: 14px 20px;
   min-width: 130px;
 }
-.admin-stat-pill .val { font-family: var(--font-display); font-size: 1.4rem; color: var(--neon-blue); }
-.admin-stat-pill .lbl { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+.statValue { 
+  font-family: var(--font-display); 
+  font-size: 1.4rem; 
+  color: var(--brand-primary); 
+}
+.statLabel { 
+  font-size: 0.78rem; 
+  color: var(--text-muted); 
+  margin-top: 2px; 
+}

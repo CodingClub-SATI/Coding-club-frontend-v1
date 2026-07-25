@@ -7,7 +7,7 @@
   margin-bottom: 24px;
 }
 
-.title h1 { margin-bottom: 4px; }
+.heading { margin-bottom: 4px; }
 
 .subtitle {
   color: var(--text-muted);

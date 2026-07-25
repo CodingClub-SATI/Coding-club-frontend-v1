@@ -1,6 +1,6 @@
 .topbar {
   height: 60px;
-  background: var(--bg-card);
+  background: var(--bg-secondary);
   border-bottom: 1px solid var(--border-dim);
   display: flex;
   align-items: center;
