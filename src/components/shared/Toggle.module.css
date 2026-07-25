@@ -14,7 +14,7 @@
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.12);
   position: relative;
-  transition: var(--transition);
+  transition: var(--transition-base);
 }
 
 .thumb {
@@ -25,11 +25,11 @@
   height: 16px;
   border-radius: 50%;
   background: #fff;
-  transition: var(--transition);
+  transition: var(--transition-base);
 }
 
 .toggle input:checked + .track {
-  background: var(--neon-blue);
+  background: var(--brand-primary);
 }
 .toggle input:checked + .track .thumb {
   transform: translateX(16px);

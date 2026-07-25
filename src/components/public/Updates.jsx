@@ -1,23 +1,47 @@
 import { Modal } from '@/components/shared/Modal';
-// TODO: Import your API hook or static data here (e.g., useUpdates())
+import { useUpdates } from '@/hooks/useUpdates';
+import styles from './Updates.module.css';
 
-export default function Updates({ isOpen, onClose }) {
-  if (!isOpen) return null;
+export default function Updates({ onClose }) {
+  const { updates, isLoading, error } = useUpdates();
 
   return (
-    <Modal 
-      title="System Alerts" 
-      onClose={onClose} 
-      size="md" 
-      variant="glow"
-    >
-      <div className="flex flex-col gap-4"> 
+    <Modal title="System Alerts" onClose={onClose} size="md" variant="glow">
+      <div className={styles.container}>
         
-        {/* Map over your fetched data here */}
-        <div className="update-item border-l-2 border-[var(--brand-accent)] pl-3">
-          <span className="text-xs text-[var(--text-muted)] font-display">JUL 23, 2026</span>
-          <p className="text-sm mt-1">Registration for the annual Codeathon is now open!</p>
-        </div>
+        {/* Loading State */}
+        {isLoading && (
+          <div className={styles.statusBox}>
+            <span className="loader" style={{ color: 'var(--brand-primary)' }}></span>
+            <p>Fetching alerts...</p>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && !isLoading && (
+          <div className={styles.statusBox}>
+            <p style={{ color: 'var(--brand-destructive)' }}>{error}</p>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!isLoading && !error && updates.length === 0 && (
+          <div className={styles.statusBox}>
+            <p>No new updates right now.</p>
+          </div>
+        )}
+
+        {/* Data State */}
+        {!isLoading && !error && updates.map((update) => (
+          <div key={update.id} className={styles.item}>
+            <span className={styles.date}>
+              {new Date(update.publishDate).toLocaleDateString('en-US', { 
+                month: 'short', day: 'numeric', year: 'numeric' 
+              }).toUpperCase()}
+            </span>
+            <p className={styles.text}>{update.message}</p>
+          </div>
+        ))}
 
       </div>
     </Modal>

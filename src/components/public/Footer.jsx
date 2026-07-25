@@ -7,26 +7,26 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className="neon-divider" />
       <div className="container">
-        <div className={styles.footerGrid}>
+        <div className={styles.grid}>
           {/* Brand */}
-          <div className={styles.footerBrand}>
-            <div className={styles.footerLogo}>
+          <div className={styles.brand}>
+            <div className={styles.logo}>
               <img 
                 src={'/logo.jpg'} 
                 alt="Coding Club SATI Logo" 
                 style={{ width: '28px', height: '28px', objectFit: 'contain' }} 
               />
-              <span className={styles.footerLogoText}>Coding Club 
-                <span className="neon-blue"> SATI</span>
+              <span className={styles.logoText}>Coding Club 
+                <span className="text-primary-glow"> SATI</span>
               </span>
             </div>
-            <p className={styles.footerTagline}>{clubInfo.tagline}</p>
+            <p className={styles.tagline}>{clubInfo.tagline}</p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className={styles.footerHeading}>Quick Links</h4>
-            <ul className={styles.footerLinks}>
+            <h4 className={styles.heading}>Quick Links</h4>
+            <ul className={styles.links}>
               {[['Home', '/'], ['Events', '/events'], ['Gallery', '/gallery'], ['Teams', '/teams'], ['Projects', '/projects']].map(([label, path]) => (
                 <li key={path}><Link to={path}>{label}</Link></li>
               ))}
@@ -35,8 +35,8 @@ export default function Footer() {
 
           {/* Resources */}
           <div>
-            <h4 className={styles.footerHeading}>Resources</h4>
-            <ul className={styles.footerLinks}>
+            <h4 className={styles.heading}>Resources</h4>
+            <ul className={styles.links}>
               {[['Learning Hub', '/learning'], ['Contact Us', '/contact']].map(([label, path]) => (
                 <li key={path}><Link to={path}>{label}</Link></li>
               ))}
@@ -47,10 +47,10 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className={styles.footerHeading}>Contact</h4>
-            <div className={styles.footerContact}>
-              <p><span className="neon-blue">✉</span> {clubInfo.email}</p>
-              <p><span className="neon-blue">📞</span> {clubInfo.phone}</p>
+            <h4 className={styles.heading}>Contact</h4>
+            <div className={styles.contact}>
+              <p><span className="text-primary-glow">✉</span> {clubInfo.email}</p>
+              <p><span className="text-primary-glow">📞</span> {clubInfo.phone}</p>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', marginTop: '8px' }}>
                 SATI Vidisha, Madhya Pradesh, India
               </p>
@@ -58,9 +58,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="footer-bottom">
+        <div className={styles.bottom}>
           <p>© {new Date().getFullYear()} Coding Club SATI. All rights reserved.</p>
-          <p>Designed & Developed by <span className="neon-blue">Coding Club SATI</span></p>
+          <p>Designed & Developed by <span className="text-primary-glow">Coding Club SATI</span></p>
         </div>
       </div>
     </footer>

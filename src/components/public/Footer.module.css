@@ -1,81 +1,121 @@
+/* =========================================
+   Base Footer Layout
+========================================= */
 .footer {
-  background: var(--bg-card);
-  margin-top: 0;
+  background: var(--bg-secondary);
 }
-.footer .container {
-  padding-top: 56px;
-  padding-bottom: 32px;
+
+.container {
+  padding-top: var(--space-2xl);
+  padding-bottom: var(--space-xl);
 }
-.footerGrid {
+
+.grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1.5fr;
-  gap: 48px;
-  margin-bottom: 48px;
+  gap: var(--space-2xl);
+  margin-bottom: var(--space-2xl);
 }
-.footerBrand { display: flex; flex-direction: column; gap: 12px; }
-.footerLogo {
+
+/* =========================================
+   Column Structures
+========================================= */
+.brand, 
+.linksWrapper, 
+.contact {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand {
+  gap: var(--space-md);
+}
+
+.linksWrapper, 
+.contact {
+  gap: var(--space-sm);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+/* =========================================
+   Brand Elements
+========================================= */
+.logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-sm);
 }
-.footerLogoText {
+
+.logoText {
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: var(--text-base); /* Replaces 1rem */
   font-weight: 600;
   color: var(--text-primary);
 }
-.footerTagline {
-  color: var(--text-muted);
-  font-size: 0.85rem;
+
+.tagline {
   line-height: 1.5;
 }
 
-.footerHeading {
+/* =========================================
+   Links & Headings
+========================================= */
+.heading {
   font-family: var(--font-display);
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  color: var(--neon-blue);
-  margin-bottom: 16px;
+  font-size: var(--text-xs); /* Replaces 0.75rem */
+  letter-spacing: var(--space-letter);
+  color: var(--brand-primary);
+  margin-bottom: var(--space-base); /* Replaces 16px */
 }
-.footerLinks {
+
+.linksWrapper {
   list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
 }
-.footerLinks a {
-  color: var(--text-muted);
+
+.linksWrapper a {
+  color: inherit; /* Inherits text-muted from parent wrapper */
   text-decoration: none;
-  font-size: 0.88rem;
-  transition: var(--transition);
+  transition: var(--transition-base);
 }
-.footerLinks a:hover {
+
+.linksWrapper a:hover {
   color: var(--text-primary);
   padding-left: 6px;
 }
-.footerContact {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  font-size: 0.88rem;
-  color: var(--text-muted);
-}
-.footerBottom {
+
+/* =========================================
+   Bottom Bar
+========================================= */
+.bottom {
   border-top: 1px solid var(--border-dim);
-  padding-top: 24px;
+  padding-top: var(--space-lg); /* Replaces 24px */
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 8px;
-  font-size: 0.8rem;
+  gap: var(--space-sm);
+  font-size: var(--text-xs); /* Standardizes 0.8rem */
   color: var(--text-muted);
 }
 
+/* =========================================
+   Responsive Breakpoints
+========================================= */
 @media (max-width: 900px) {
-  .footerGrid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .grid { 
+    grid-template-columns: 1fr 1fr; 
+    gap: var(--space-xl); /* Replaces 32px */
+  }
 }
+
 @media (max-width: 600px) {
-  .footerGrid { grid-template-columns: 1fr; gap: 24px; }
-  .footerBottom { flex-direction: column; text-align: center; }
+  .grid { 
+    grid-template-columns: 1fr; 
+    gap: var(--space-lg); /* Replaces 24px */
+  }
+  .bottom { 
+    flex-direction: column; 
+    text-align: center; 
+  }
 }

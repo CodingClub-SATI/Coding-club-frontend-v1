@@ -1,4 +1,4 @@
-.admin-select, .admin-input, .admin-textarea {
+.adminSelect, .admin-input, .admin-textarea {
   background: var(--bg-primary);
   border: 1px solid var(--border-dim);
   color: var(--text-primary);

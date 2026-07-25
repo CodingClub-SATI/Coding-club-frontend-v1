@@ -107,7 +107,7 @@ export default function Header() {
       )}
     </header>
 
-    <Updates isOpen={isUpdatesOpen} onClose={() => setIsUpdatesOpen(false)} />
+    {isUpdatesOpen && <Updates onClose={() => setIsUpdatesOpen(false)} />}
   </>
   );
 }
