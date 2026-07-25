@@ -1,4 +1,4 @@
-.adminSelect, .admin-input, .admin-textarea {
+.select, .input, .textarea {
   background: var(--bg-primary);
   border: 1px solid var(--border-dim);
   color: var(--text-primary);
@@ -8,7 +8,7 @@
   font-family: var(--font-body);
   outline: none;
 }
-.admin-select:focus, .admin-input:focus, .admin-textarea:focus { border-color: var(--brand-primary); }
-.admin-textarea { width: 100%; resize: vertical; min-height: 80px; }
+.select:focus, .input:focus, .textarea:focus { border-color: var(--brand-accent); }
+.textarea { width: 100%; resize: vertical; min-height: 80px; }
 
-.admin-search-input { min-width: 220px; }
+.searchInput { min-width: 220px; }

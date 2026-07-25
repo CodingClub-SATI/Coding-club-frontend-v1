@@ -36,7 +36,7 @@ const Button = ({
       aria-busy={isLoading}
       {...props}
     >
-      {isLoading && <Spinner/>}
+      {isLoading && <Spinner />}
       <span className={styles.btnContent}>{children}</span>
     </Component>
   );

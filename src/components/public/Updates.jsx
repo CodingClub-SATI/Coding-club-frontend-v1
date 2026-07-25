@@ -1,15 +1,16 @@
 import { Modal } from '@/components/shared/Modal';
+import Spinner from '@/components/shared/Spinner';
 import { useUpdates } from '@/hooks/useUpdates';
 import styles from './Updates.module.css';
-import Spinner from '@/components/shared/Spinner';
 
 export default function Updates({ onClose }) {
   const { updates, isLoading, error } = useUpdates();
 
   return (
     <Modal title="System Alerts" onClose={onClose} size="md" variant="glow">
-      <div className={styles.container} aria-live="polite">
+      <div className={styles.container} role="status" aria-live="polite">
         
+        {/* Loading State */}
         {isLoading && (
           <div className={styles.statusBox}>
             <Spinner className={styles.spinnerAccent} />
@@ -17,6 +18,7 @@ export default function Updates({ onClose }) {
           </div>
         )}
 
+        {/* Error State */}
         {error && !isLoading && (
           <div className={styles.statusBox}>
             <p className={styles.errorText}>{error}</p>

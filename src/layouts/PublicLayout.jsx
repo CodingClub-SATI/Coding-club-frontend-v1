@@ -8,10 +8,11 @@ import styles from './PublicLayout.module.css';
 export default function PublicLayout() {
   return (
     <div className={styles.container}>
+      <a href="#main-content" className={styles.skipLink}>Skip to main content</a>
       <ParticleBackground />
       <ScrollRestoration />
       <Header />
-      <main className={styles.main}>
+      <main className={styles.main} id="main-content">
         <Outlet />
       </main>
       <SocialSidebar />

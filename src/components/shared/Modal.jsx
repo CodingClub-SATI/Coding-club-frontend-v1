@@ -1,7 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import styles from './Modal.module.css';
+
+const FOCUSABLE_SELECTOR =
+  'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 export function Modal({ 
   title, 
@@ -10,20 +13,41 @@ export function Modal({
   size = 'md', 
   variant = 'flat' 
 }) {
+  const dialogRef = useRef(null);
+
   useEffect(() => {
-    const previousFocus = document.activeElement;
-    const handleEsc = (e) => {
-      if (e.key === 'Escape') onClose();
+    const previouslyFocused = document.activeElement;
+    dialogRef.current?.focus();
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
+      if (e.key !== 'Tab' || !dialogRef.current) return;
+
+      const focusable = dialogRef.current.querySelectorAll(FOCUSABLE_SELECTOR);
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
-    window.addEventListener('keydown', handleEsc);
+    window.addEventListener('keydown', handleKeyDown);
 
     const originalStyle = window.getComputedStyle(document.body).overflow;
     document.body.style.overflow = 'hidden';
     
     return () => {
-      window.removeEventListener('keydown', handleEsc);
+      window.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = originalStyle;
-      if (previousFocus) previousFocus.focus();
+      previouslyFocused?.focus?.();
     };
   }, [onClose]);
 
@@ -39,6 +63,8 @@ export function Modal({
         role="dialog" 
         aria-modal="true" 
         aria-labelledby="modal-title"
+        ref={dialogRef}
+        tabIndex={-1}
       >
         <div className={styles.header}>
           <h3 id="modal-title">{title}</h3>

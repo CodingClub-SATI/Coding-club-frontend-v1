@@ -13,6 +13,14 @@
     gap: var(--space-md); 
 }
 
+.spinnerAccent {
+  color: var(--brand-primary);
+}
+
+.errorText {
+  color: var(--brand-destructive);
+}
+
 .item {
   border-left: 2px solid var(--brand-accent);
   padding-left: var(--space-md);
@@ -28,6 +36,3 @@
   font-size: var(--text-sm);
   margin-top: var(--space-xs);
 }
-
-.spinnerAccent { color: var(--brand-primary); }
-.errorText { color: var(--brand-destructive); }

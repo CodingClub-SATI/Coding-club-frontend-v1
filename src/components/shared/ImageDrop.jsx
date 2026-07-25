@@ -1,10 +1,8 @@
-import { useRef } from 'react';
 import { Upload } from 'lucide-react';
 import styles from './ImageDrop.module.css';
 
 /* (stores a local object URL — no backend yet) ---------- */
 export default function ImageDrop({ value, onChange, label, aspect }) {
-  const inputRef = useRef(null);
   const handleFile = (file) => {
     if (!file) return;
     const url = URL.createObjectURL(file);
@@ -26,7 +24,7 @@ export default function ImageDrop({ value, onChange, label, aspect }) {
         <img src={value} alt={label || 'preview'} />
       ) : (
         <div className={styles.empty}>
-          <Upload size={20} />
+          <Upload size={20} aria-hidden="true" />
           <span>{label || 'Upload image'}</span>
         </div>
       )}

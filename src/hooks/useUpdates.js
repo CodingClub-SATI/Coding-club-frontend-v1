@@ -12,17 +12,18 @@ export function useUpdates() {
     async function fetchUpdates() {
       try {
         setIsLoading(true);
-        // Uses your global request wrapper automatically prepending the Base URL
         const data = await request('/api/updates', { signal: controller.signal });
         setUpdates(data);
       } catch (err) {
-        if (err.name !== 'AbortError') setError(err.message);
+        if (err.name !== 'AbortError') {
+          setError(err.message);
+        }
       } finally {
         setIsLoading(false);
       }
     }
-
     fetchUpdates();
+
     return () => controller.abort();
   }, []);
 

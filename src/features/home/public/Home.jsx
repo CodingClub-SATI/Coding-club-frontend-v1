@@ -3,8 +3,8 @@ import { clubInfo } from '@/data/clubInfo';
 import AnimatedCounter from '@/features/home/components/AnimatedCounter';
 import TypingText from '@/features/home/components/TypingText';
 import Reveal from '@/components/shared/Reveal';
-import Button from '@/components/shared/Button';
 import Glasscard from '@/components/shared/Glasscard';
+import Button from '@/components/shared/Button';
 import styles from './Home.module.css';
 
 const STATS_CONFIG = [
@@ -84,8 +84,10 @@ export default function Home() {
           
           <p className="section-subtitle">A dynamic and vibrant technical community dedicated to fostering knowledge.</p>
           
-          <Reveal Component={Glasscard} delay={150}>
-            <p>The club brings together passionate students eager to explore the ever-evolving world of technology...</p>
+          <Reveal delay={150}>
+            <Glasscard>
+              <p>The club brings together passionate students eager to explore the ever-evolving world of technology...</p>
+            </Glasscard>
           </Reveal>
         </div>
       </section>
@@ -100,16 +102,14 @@ export default function Home() {
           <div className={styles.statsGrid}>
             {displayStats.map((stat, i) => (
               // Staggered delay based on index creates a clean waterfall animation effect
-              <Reveal 
-                key={stat.label} 
-                delay={i * 100} 
-                className={`${styles.statCard} glass-card`}
-              >
-                <div className={styles.statIcon}>{stat.icon}</div>
-                <div className={styles.statNumber}>
-                  <AnimatedCounter value={stat.value} />
-                </div>
-                <div className={styles.statLabel}>{stat.label}</div>
+              <Reveal key={stat.label} delay={i * 100}>
+                <Glasscard className={styles.statCard}>
+                  <div className={styles.statIcon}>{stat.icon}</div>
+                  <div className={styles.statNumber}>
+                    <AnimatedCounter value={stat.value} />
+                  </div>
+                  <div className={styles.statLabel}>{stat.label}</div>
+                </Glasscard>
               </Reveal>
             ))}
           </div>

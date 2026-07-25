@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import styles from './TypingText.module.css';
 
 export default function TypingText({ 
   texts, 
@@ -46,8 +47,8 @@ export default function TypingText({
   }, [texts, typingSpeed, deletingSpeed, delayBeforeDelete]);
 
   return (
-    <span className="typing-text">
-      <span ref={nodeRef}></span><span className="cursor">_</span>
+    <span className={styles.typingText} aria-hidden="true">
+      <span ref={nodeRef}></span><span className={styles.cursor}>_</span>
     </span>
   );
 }
