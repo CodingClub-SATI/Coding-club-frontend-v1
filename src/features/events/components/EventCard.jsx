@@ -75,7 +75,9 @@ export default function EventCard({ event, onClick }) {
             <Tag key={tag} tone="accent" style={{ fontSize: '0.65rem' }}>{tag}</Tag>
           ))}
         </div>
-        <Button className={styles.viewBtn}>View Details →</Button>
+        <Button Component="span" className={styles.viewBtn} aria-hidden="true">
+          View Details →
+        </Button>
       </div>
     </Glasscard>
   );
