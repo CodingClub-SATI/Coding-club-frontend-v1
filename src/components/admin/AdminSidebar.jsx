@@ -63,10 +63,9 @@ export default function AdminSidebar() {
           <span className={styles.linkText}>Settings</span>
         </Link>
         <button
-          className={`${styles.link} ${styles.textRed}`}
+          className={`${styles.link} ${styles.textRed} ${styles.logoutBtn}`.trim()}
           onClick={handleLogout}
           title={open ? undefined : 'Logout'}
-          style={{  }}
         >
           <LogOut size={18} />
           <span className={styles.linkText}>Logout</span>

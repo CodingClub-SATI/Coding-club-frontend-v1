@@ -1,3 +1,5 @@
+import styles from './PhotoTile.module.css';
+
 export default function PhotoTile({ src, alt, isFeatured, onEdit, onDelete }) {
   return (
     <div className={styles.tile}>
