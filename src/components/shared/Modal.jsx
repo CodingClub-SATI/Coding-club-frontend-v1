@@ -53,10 +53,10 @@ export function Modal({
   }, [onClose]);
 
   const modalClasses = [
-  styles.modal,
-  styles[variant],
-  styles[size]
-].filter(Boolean).join(' ');
+    styles.modal,
+    styles[variant],
+    styles[size]
+  ].filter(Boolean).join(' ');
 
   return createPortal(
     <div

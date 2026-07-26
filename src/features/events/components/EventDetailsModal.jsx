@@ -1,14 +1,8 @@
 import { Modal } from '@/components/shared/Modal';
 import Tag from '@/components/shared/Tag';
 import Button from '@/components/shared/Button';
+import { TYPE_TONES } from '../constants';
 import styles from './EventDetailsModal.module.css';
-
-const TYPE_TONES = {
-  Hackathon: 'secondary',
-  Workshop: 'accent',
-  Competition: 'primary',
-  Seminar: 'accent',
-};
 
 export default function EventDetailsModal({ event, onClose }) {
   if (!event) return null;

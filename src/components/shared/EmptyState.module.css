@@ -10,11 +10,11 @@
 }
 
 .title {
-  font-size: 0.95rem;
+  font-size: var(--text-base);
   color: var(--text-primary);
   font-weight: 500;
 }
 
 .subtitle {
-  font-size: 0.8rem;
+  font-size: var(--text-xs);
 }

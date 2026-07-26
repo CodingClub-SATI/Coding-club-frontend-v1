@@ -1,14 +1,8 @@
 import Glasscard from '@/components/shared/Glasscard';
 import Tag from '@/components/shared/Tag';
 import Button from '@/components/shared/Button';
+import { TYPE_TONES } from '../constants';
 import styles from './EventCard.module.css';
-
-const TYPE_TONES = {
-  Hackathon: 'secondary',
-  Workshop: 'accent',
-  Competition: 'primary',
-  Seminar: 'accent',
-};
 
 const TYPE_ICONS = {
   Hackathon: <path d="M13 10V3L4 14h7v7l9-11h-7z" />,
@@ -72,7 +66,7 @@ export default function EventCard({ event, onClick }) {
         <p className={styles.desc}>{event.description}</p>
         <div className={styles.tags}>
           {event.tags.map((tag) => (
-            <Tag key={tag} tone="accent" style={{ fontSize: '0.65rem' }}>{tag}</Tag>
+            <Tag key={tag} tone="accent" className={styles.cardTag}>{tag}</Tag>
           ))}
         </div>
         <Button Component="span" className={styles.viewBtn} aria-hidden="true">

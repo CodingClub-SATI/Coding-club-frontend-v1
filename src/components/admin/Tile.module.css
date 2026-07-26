@@ -1,7 +1,7 @@
 .tile {
   background: var(--bg-secondary);
   border: 1px solid var(--border-dim);
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   overflow: hidden;
   cursor: pointer;
   transition: var(--transition-base);
@@ -32,10 +32,10 @@
 }
 .tileTitle { 
   font-weight: 600; 
-  font-size: 0.92rem; 
+  font-size: var(--text-sm); 
   margin-bottom: 2px; 
 }
 .tileSub { 
-  font-size: 0.76rem; 
+  font-size: var(--text-xs); 
   color: var(--text-muted); 
 }

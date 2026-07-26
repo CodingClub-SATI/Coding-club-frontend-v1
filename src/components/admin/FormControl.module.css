@@ -2,9 +2,9 @@
   background: var(--bg-primary);
   border: 1px solid var(--border-dim);
   color: var(--text-primary);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   padding: 9px 12px;
-  font-size: 0.85rem;
+  font-size: var(--text-sm);
   font-family: var(--font-body);
   outline: none;
 }

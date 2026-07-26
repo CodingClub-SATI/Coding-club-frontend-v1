@@ -47,6 +47,18 @@
   gap: var(--space-sm);
 }
 
+.logoImg {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.address {
+  color: var(--text-muted);
+  font-size: var(--text-xs); /* Nearest token to the original 0.82rem */
+  margin-top: var(--space-sm); /* Replaces 8px */
+}
+
 .logoText {
   font-family: var(--font-display);
   font-size: var(--text-base); /* Replaces 1rem */

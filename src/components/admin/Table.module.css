@@ -10,7 +10,7 @@
 
 .th {
   font-weight: 500;
-  font-size: 0.78rem;
+  font-size: var(--text-xs);
   color: var(--text-muted);
   padding: var(--space-md) var(--space-lg);
   border-bottom: 1px solid var(--border-dim);
@@ -22,7 +22,7 @@
   padding: var(--space-lg) var(--space-md);
   /* Mapped to text-primary-rgb for automatic dark/light mode scaling */
   border-bottom: 1px solid rgba(var(--text-primary-rgb), 0.05);
-  font-size: 0.88rem;
+  font-size: var(--text-sm);
   vertical-align: middle;
 }
 

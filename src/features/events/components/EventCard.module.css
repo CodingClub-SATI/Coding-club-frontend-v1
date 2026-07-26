@@ -62,6 +62,10 @@
   flex-wrap: wrap;
 }
 
+.cardTag {
+  font-size: var(--text-xs);
+}
+
 .viewBtn {
   margin-top: var(--space-md);
   width: 100%;

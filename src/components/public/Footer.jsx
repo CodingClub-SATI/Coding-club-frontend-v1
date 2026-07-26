@@ -1,19 +1,10 @@
 import { Link } from 'react-router';
 import { clubInfo } from '@/data/clubInfo';
 import SocialLink from '@/components/shared/SocialLink';
-import { 
-  GithubIcon, InstagramIcon, LinkedinIcon, XIcon 
-} from '@/components/public/BrandIcons';
+import { SOCIAL_LINKS } from '@/data/socialLinks';
 import styles from './Footer.module.css';
 
 export default function Footer() {
-  const socialLinks = [
-    { href: clubInfo.socials.github, label: 'GitHub', icon: <GithubIcon size={16} /> },
-    { href: clubInfo.socials.instagram, label: 'Instagram', icon: <InstagramIcon size={16} /> },
-    { href: clubInfo.socials.linkedin, label: 'LinkedIn', icon: <LinkedinIcon size={16} /> },
-    { href: clubInfo.socials.x, label: 'X', icon: <XIcon size={16} /> },
-  ];
-
   return (
     <footer className={styles.footer}>
       <div className="section-divider" />
@@ -25,7 +16,7 @@ export default function Footer() {
               <img 
                 src={'/logo.jpg'} 
                 alt="Coding Club SATI Logo" 
-                style={{ width: '28px', height: '28px', objectFit: 'contain' }} 
+                className={styles.logoImg} 
               />
               <span className={styles.logoText}>Coding Club 
                 <span className="text-primary-glow"> SATI</span>
@@ -34,7 +25,7 @@ export default function Footer() {
             <p className={styles.tagline}>{clubInfo.tagline}</p>
 
             <div className={styles.socials}>
-              {socialLinks.map((link) => (
+              {SOCIAL_LINKS.map((link) => (
                 <SocialLink key={link.label} href={link.href} label={link.label}>
                   {link.icon}
                 </SocialLink>
@@ -70,7 +61,7 @@ export default function Footer() {
             <div className={styles.contact}>
               <p><span className="text-primary-glow">✉</span> {clubInfo.email}</p>
               <p><span className="text-primary-glow">📞</span> {clubInfo.phone}</p>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', marginTop: '8px' }}>
+              <p className={styles.address}>
                 SATI Vidisha, Madhya Pradesh, India
               </p>
             </div>

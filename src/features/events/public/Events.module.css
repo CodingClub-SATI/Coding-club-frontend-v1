@@ -81,7 +81,7 @@
   cursor: pointer;
   transition: var(--transition-base);
 }
-.filterSelect:focus { outline: none; border-color: var(--brand-accent); }
+.filterSelect:focus { border-color: var(--brand-accent); }
 
 .eventsGrid { margin-top: var(--space-sm); }
 
