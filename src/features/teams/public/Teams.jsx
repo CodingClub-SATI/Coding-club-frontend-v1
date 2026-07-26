@@ -30,46 +30,66 @@ export default function Teams() {
 
       <section className={`section ${styles.rosterSection}`}>
         <div className="container">
+          {years.length > 1 && (
+            <Tabs
+              className={styles.yearTabs}
+              items={years.map((year) => ({
+                value: year,
+                label: year === currentYear ? `${year} (Current)` : year,
+              }))}
+              value={safeActiveYear}
+              onChange={setActiveYear}
+            />
+          )}
+
           {error ? (
-            <EmptyState icon={AlertTriangle} title={error} subtitle="Try refreshing the page in a moment." />
+            <Glasscard className={styles.emptyState}>
+              <EmptyState 
+                icon={AlertTriangle} 
+                title={error} 
+                subtitle="Try refreshing the page in a moment." 
+              />
+            </Glasscard>
           ) : years.length === 0 ? (
             <Glasscard className={styles.emptyState}>
-              <EmptyState icon={Users} title="No team roster yet" subtitle="Check back soon to meet the team." />
+              <EmptyState 
+                icon={Users} 
+                title="No team roster yet" 
+                subtitle="Check back soon to meet the team." 
+              />
+            </Glasscard>
+          ) : !yearGroups ? (
+            <Glasscard className={styles.emptyState}>
+              <EmptyState 
+                icon={Users} 
+                title="No roster available" 
+                subtitle={`No roster data found for ${safeActiveYear}.`} 
+              />
             </Glasscard>
           ) : (
-            <>
-              {years.length > 1 && (
-                <Tabs
-                  className={styles.yearTabs}
-                  items={years.map((year) => ({
-                    value: year,
-                    label: year === currentYear ? `${year} (Current)` : year,
-                  }))}
-                  value={safeActiveYear}
-                  onChange={setActiveYear}
+            <div>
+              {yearGroups.coreTeam?.length > 0 && (
+                <TeamSection 
+                  title="Core Team" 
+                  members={yearGroups.coreTeam} 
+                  onSelectMember={setSelectedMember} 
                 />
               )}
-
-              {!yearGroups ? (
-                <p className={styles.noRoster}>No roster available for {safeActiveYear}.</p>
-              ) : (
-                <div>
-                  {yearGroups.coreTeam?.length > 0 && (
-                    <TeamSection title="Core Team" members={yearGroups.coreTeam} onSelectMember={setSelectedMember} />
-                  )}
-                  {yearGroups.mentors?.length > 0 && (
-                    <TeamSection title="Mentors" members={yearGroups.mentors} onSelectMember={setSelectedMember} />
-                  )}
-                  {yearGroups.developers?.length > 0 && (
-                    <TeamSection
-                      title="Developers & Designers"
-                      members={yearGroups.developers}
-                      onSelectMember={setSelectedMember}
-                    />
-                  )}
-                </div>
+              {yearGroups.mentors?.length > 0 && (
+                <TeamSection 
+                  title="Mentors" 
+                  members={yearGroups.mentors} 
+                  onSelectMember={setSelectedMember} 
+                />
               )}
-            </>
+              {yearGroups.developers?.length > 0 && (
+                <TeamSection
+                  title="Developers & Designers"
+                  members={yearGroups.developers}
+                  onSelectMember={setSelectedMember}
+                />
+              )}
+            </div>
           )}
         </div>
       </section>
