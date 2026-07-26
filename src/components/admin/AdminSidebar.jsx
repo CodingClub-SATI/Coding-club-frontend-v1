@@ -6,6 +6,7 @@ import {
   PanelLeftClose, PanelLeftOpen
 } from 'lucide-react';
 import IconButton from '@/components/shared/IconButton';
+import { clearSession } from '@/services/authToken';
 import styles from './AdminSidebar.module.css';
 
 const ADMIN_NAV = [
@@ -24,8 +25,8 @@ export default function AdminSidebar() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('admin_auth');
-    navigate('/admin/login');
+    clearSession();
+    navigate('/admin/login', { replace: true });
   };
 
   return (

@@ -1,0 +1,84 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+  position: relative;
+}
+
+.card {
+  position: relative;
+  z-index: var(--z-base);
+  width: 100%;
+  max-width: 26rem;
+  padding: var(--space-2xl) var(--space-xl);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-full);
+  background: rgba(var(--brand-primary-rgb), 0.1);
+  border: 1px solid var(--border-glow);
+  color: var(--brand-primary);
+  margin-bottom: var(--space-base);
+}
+
+.title {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-xs);
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.inputWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIcon {
+  position: absolute;
+  left: var(--space-md);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+  padding-left: 2.25rem;
+}
+
+.passwordInput {
+  padding-right: 2.25rem;
+}
+
+.toggleVisibility {
+  position: absolute;
+  right: var(--space-xs);
+}
+
+.error {
+  color: var(--brand-destructive);
+  font-size: var(--text-sm);
+  text-align: center;
+  margin-bottom: var(--space-base);
+}
+
+.submit {
+  width: 100%;
+  justify-content: center;
+  margin-top: var(--space-sm);
+}

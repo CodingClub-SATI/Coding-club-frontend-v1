@@ -12,6 +12,7 @@ import { projectsLoader } from '@/features/projects/api';
 import ErrorScreen from '@/components/error/ErrorScreen';
 import NotFound from '@/components/error/NotFound';
 import ProtectedRoute from '@/components/admin/ProtectedRoute';
+import { requireAuthLoader } from '@/features/auth/api';
 
 // lazyLoad wrapper
 const lazyLoad = (importFn) => {
@@ -40,12 +41,15 @@ const router = createBrowserRouter([
   },
   {
     path:'/admin/login', lazy: lazyLoad(() => import('@/features/auth/admin/Login')),
+    errorElement: <ErrorScreen />,
     hydrateFallbackElement: <div>Loading Login...</div>
   },
   {
     path: '/admin',
     element: <ProtectedRoute />,
+    loader: requireAuthLoader,
     errorElement: <ErrorScreen />,
+    hydrateFallbackElement: <div>Verifying session...</div>,
     children: [
       {
         lazy: lazyLoad(() => import('@/layouts/AdminLayout')),
