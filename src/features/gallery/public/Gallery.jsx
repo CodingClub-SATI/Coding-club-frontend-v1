@@ -14,6 +14,7 @@ const MAX_FEATURED_PHOTOS = 12;
 // Prefer photos the admin has explicitly starred. Until any exist (e.g. a
 // freshly launched site), fall back to one photo per album so the spotlight
 // still has something real to show instead of sitting empty.
+// TODO: after site is active, remove this fallback
 function getFeaturedPhotos(albums) {
   const flagged = albums.flatMap((album) =>
     (album.images || [])
@@ -54,14 +55,6 @@ export default function Gallery() {
         </div>
       </section>
 
-      {error && (
-        <section className="section">
-          <div className="container">
-            <EmptyState icon={AlertTriangle} title={error} subtitle="Try refreshing the page in a moment." />
-          </div>
-        </section>
-      )}
-
       {/* Featured spotlight */}
       {!error && featuredPhotos.length > 0 && (
         <section className="section">
@@ -72,46 +65,52 @@ export default function Gallery() {
       )}
 
       {/* Albums */}
-      {!error && (
-        <section className="section" id="albums">
-          <div className="container">
-            <div className={styles.toolbar}>
-              <h2 className={`section-title ${styles.toolbarTitle}`}>
-                Event <span className="text-secondary-glow">Albums</span>
-              </h2>
-              <div className={styles.searchBox}>
-                <Search size={16} className={styles.searchIcon} aria-hidden="true" />
-                <input
-                  type="search"
-                  className={styles.searchInput}
-                  placeholder="Search albums..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  aria-label="Search albums by title"
-                />
-              </div>
+      <section className="section" id="albums">
+        <div className="container">
+          <div className={styles.toolbar}>
+            <h2 className={`section-title ${styles.toolbarTitle}`}>
+              Event <span className="text-secondary-glow">Albums</span>
+            </h2>
+            <div className={styles.searchBox}>
+              <Search size={16} className={styles.searchIcon} aria-hidden="true" />
+              <input
+                type="search"
+                className={styles.searchInput}
+                placeholder="Search albums..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                aria-label="Search albums by title"
+              />
             </div>
-
-            {filteredAlbums.length === 0 ? (
-              <Glasscard className={styles.emptyState}>
-                <EmptyState
-                  icon={ImageOff}
-                  title={albums.length === 0 ? 'No albums yet' : 'No albums found'}
-                  subtitle={albums.length === 0 ? 'Check back soon for event photos.' : 'Try a different search term.'}
-                />
-              </Glasscard>
-            ) : (
-              <div className={`grid-3 ${styles.albumsGrid}`}>
-                {filteredAlbums.map((album, i) => (
-                  <Reveal key={album.id} delay={i * 60}>
-                    <AlbumCard album={album} onClick={setSelectedAlbum} />
-                  </Reveal>
-                ))}
-              </div>
-            )}
           </div>
-        </section>
-      )}
+
+          {error ? (
+            <Glasscard className={styles.emptyState}>
+              <EmptyState 
+                icon={AlertTriangle} 
+                title={error} 
+                subtitle="Try refreshing the page in a moment." 
+              />
+            </Glasscard>
+          ) : filteredAlbums.length === 0 ? (
+            <Glasscard className={styles.emptyState}>
+              <EmptyState
+                icon={ImageOff}
+                title={albums.length === 0 ? 'No albums yet' : 'No albums found'}
+                subtitle={albums.length === 0 ? 'Check back soon for event photos.' : 'Try a different search term.'}
+              />
+            </Glasscard>
+          ) : (
+            <div className={`grid-3 ${styles.albumsGrid}`}>
+              {filteredAlbums.map((album, i) => (
+                <Reveal key={album.id} delay={i * 60}>
+                  <AlbumCard album={album} onClick={setSelectedAlbum} />
+                </Reveal>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
 
       {selectedAlbum && (
         <AlbumLightbox key={selectedAlbum.id} album={selectedAlbum} onClose={() => setSelectedAlbum(null)} />

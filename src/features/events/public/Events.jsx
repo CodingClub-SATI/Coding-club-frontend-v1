@@ -79,16 +79,8 @@ export default function Events() {
         </div>
       </section>
 
-      {error && (
-        <section className="section">
-          <div className="container">
-            <EmptyState icon={AlertTriangle} title={error} subtitle="Try refreshing the page in a moment." />
-          </div>
-        </section>
-      )}
-
       {/* Featured carousel */}
-      {!error && (
+      {!error && featured.length > 0 && (
         <section className="section">
           <div className="container">
             <h2 className="section-title">Featured <span className="text-secondary-glow">Events</span></h2>
@@ -98,40 +90,42 @@ export default function Events() {
       )}
 
       {/* All events */}
-      {!error && (
-        <section className="section" id="all-events">
-          <div className="container">
-            <div className={styles.filterBar}>
-              <h2 className={`section-title ${styles.filterBarTitle}`}>All Events</h2>
-              <div className={styles.controls}>
-                <Tabs items={TAB_ITEMS} value={tab} onChange={setTab} />
-                <select
-                  className={styles.filterSelect}
-                  value={filter}
-                  onChange={(e) => setFilter(e.target.value)}
-                  aria-label="Filter events by type"
-                >
-                  {TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
-                </select>
-              </div>
+      <section className="section" id="all-events">
+        <div className="container">
+          <div className={styles.filterBar}>
+            <h2 className={`section-title ${styles.filterBarTitle}`}>All Events</h2>
+            <div className={styles.controls}>
+              <Tabs items={TAB_ITEMS} value={tab} onChange={setTab} />
+              <select
+                className={styles.filterSelect}
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+                aria-label="Filter events by type"
+              >
+                {TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
+              </select>
             </div>
-
-            {filtered.length === 0 ? (
-              <Glasscard className={styles.emptyState}>
-                <EmptyState icon={CalendarX} title="No events found" subtitle="Try a different filter or check back later." />
-              </Glasscard>
-            ) : (
-              <div className={`grid-3 ${styles.eventsGrid}`}>
-                {filtered.map((event, i) => (
-                  <Reveal key={event.id} delay={i * 80}>
-                    <EventCard event={event} onClick={setSelectedEvent} />
-                  </Reveal>
-                ))}
-              </div>
-            )}
           </div>
-        </section>
-      )}
+
+          {error ? (
+            <Glasscard className={styles.emptyState}>
+              <EmptyState icon={AlertTriangle} title={error} subtitle="Try refreshing the page in a moment." />
+            </Glasscard>
+          ) : filtered.length === 0 ? (
+            <Glasscard className={styles.emptyState}>
+              <EmptyState icon={CalendarX} title="No events found" subtitle="Try a different filter or check back later." />
+            </Glasscard>
+          ) : (
+            <div className={`grid-3 ${styles.eventsGrid}`}>
+              {filtered.map((event, i) => (
+                <Reveal key={event.id} delay={i * 80}>
+                  <EventCard event={event} onClick={setSelectedEvent} />
+                </Reveal>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* Host CTA */}
       <section className="section">
