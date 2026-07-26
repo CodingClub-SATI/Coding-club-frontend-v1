@@ -1,0 +1,46 @@
+.filterBar {
+  display: flex;
+  gap: var(--space-sm);
+  overflow-x: auto;
+  padding-bottom: var(--space-sm);
+  margin-bottom: var(--space-xl);
+  border-bottom: 1px solid var(--border-dim);
+  scrollbar-width: none;
+}
+.filterBar::-webkit-scrollbar {
+  display: none;
+}
+
+.filterChip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-shrink: 0;
+  padding: var(--space-sm) var(--space-lg);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+
+.filterChip:hover {
+  border-color: var(--brand-accent);
+  color: var(--text-primary);
+}
+
+.filterChip.active {
+  background: rgba(var(--brand-accent-rgb), 0.1);
+  border-color: var(--brand-accent);
+  color: var(--brand-accent);
+  box-shadow: var(--shadow-glow-accent);
+}
+
+.roadmapWrap {
+  max-width: var(--container-sm);
+  margin: 0 auto;
+}
