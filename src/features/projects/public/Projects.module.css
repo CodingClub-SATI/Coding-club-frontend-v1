@@ -1,0 +1,140 @@
+/* ===== Leaderboard ===== */
+.leaderboard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-base);
+  margin-top: var(--space-lg);
+}
+
+.leaderboardItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-base) var(--space-lg);
+}
+
+.rank1 {
+  border-color: rgba(var(--rank-gold-rgb), 0.4);
+  box-shadow: 0 0 15px rgba(var(--rank-gold-rgb), 0.1);
+}
+.rank2 {
+  border-color: rgba(var(--rank-silver-rgb), 0.4);
+  box-shadow: 0 0 10px rgba(var(--rank-silver-rgb), 0.05);
+}
+.rank3 {
+  border-color: rgba(var(--rank-bronze-rgb), 0.4);
+  box-shadow: 0 0 10px rgba(var(--rank-bronze-rgb), 0.05);
+}
+
+.medal {
+  font-size: var(--text-3xl);
+  line-height: 1;
+}
+
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.itemTitle {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.itemTeam {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  font-family: var(--font-display);
+}
+
+.itemStats {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  color: var(--brand-accent);
+  font-weight: 600;
+}
+
+/* ===== Toolbar & category filter ===== */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-xl);
+  flex-wrap: wrap;
+  gap: var(--space-base);
+}
+
+.toolbarTitle {
+  margin: 0;
+  text-align: left;
+}
+
+.categoryFilter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.categoryChip {
+  background: transparent;
+  border: 1px solid var(--border-dim);
+  color: var(--text-muted);
+  padding: 6px var(--space-base);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-family: var(--font-display);
+  letter-spacing: var(--space-letter);
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+.categoryChip:hover {
+  border-color: var(--brand-secondary);
+  color: var(--text-primary);
+}
+.categoryChip.active {
+  background: var(--brand-secondary);
+  color: var(--bg-primary);
+  border-color: var(--brand-secondary);
+  font-weight: 600;
+}
+
+.projectsGrid {
+  margin-top: var(--space-sm);
+}
+
+.emptyState {
+  padding: var(--space-2xl);
+  text-align: center;
+}
+
+/* ===== Submit CTA ===== */
+.submitCta {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-xl);
+}
+.submitCta h2 {
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  margin-bottom: var(--space-sm);
+}
+.submitCta p {
+  color: var(--text-muted);
+  margin-bottom: var(--space-lg);
+}
+
+@media (max-width: 768px) {
+  .toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .leaderboardItem {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-md);
+  }
+}
