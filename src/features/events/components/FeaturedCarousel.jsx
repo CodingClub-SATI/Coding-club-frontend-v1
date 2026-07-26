@@ -3,11 +3,13 @@ import Glasscard from '@/components/shared/Glasscard';
 import Tag from '@/components/shared/Tag';
 import Button from '@/components/shared/Button';
 import { BoltPath } from '@/components/shared/Icons';
+import { formatDate } from '@/utils/date';
 import styles from './FeaturedCarousel.module.css';
 
 export default function FeaturedCarousel({ items, onSelect }) {
   const [active, setActive] = useState(0);
-  const event = items[active];
+  const activeIndex = items.length ? active % items.length : 0;
+  const event = items[activeIndex];
 
   if (!event) {
     return (
@@ -55,7 +57,7 @@ export default function FeaturedCarousel({ items, onSelect }) {
           <p className={styles.desc}>{description}</p>
 
           <div className={styles.meta}>
-            <span>📅 {date}</span>
+            <span>📅 {formatDate(date)}</span>
             <span>📍 {venue}</span>
           </div>
 
@@ -97,7 +99,7 @@ export default function FeaturedCarousel({ items, onSelect }) {
       {/* Indicators */}
       <div className={styles.dots}>
         {items.map((_, index) => {
-          const dotClass = `${styles.dot} ${index === active ? styles.dotActive : ''}`;
+          const dotClass = `${styles.dot} ${index === activeIndex ? styles.dotActive : ''}`;
 
           return (
             <button

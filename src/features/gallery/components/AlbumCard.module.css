@@ -29,7 +29,7 @@
   position: absolute;
   bottom: var(--space-sm);
   right: var(--space-sm);
-  background: rgba(4, 7, 13, 0.75);
+  background: rgba(var(--overlay-rgb), 0.75);
   border: 1px solid var(--border-dim);
   border-radius: var(--radius-full);
   padding: 2px 10px;
@@ -41,7 +41,7 @@
 .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(4, 7, 13, 0.6);
+  background: rgba(var(--overlay-rgb), 0.6);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -35,3 +35,14 @@
   color: var(--text-primary);
   font-size: var(--text-sm);
 }
+
+.tagInput input:disabled {
+  cursor: not-allowed;
+}
+
+.tagCount {
+  align-self: center;
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  white-space: nowrap;
+}

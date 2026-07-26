@@ -1,7 +1,7 @@
 import Glasscard from '@/components/shared/Glasscard';
 import styles from './RoadmapCard.module.css';
 
-// tone: 'accent' | 'secondary'
+// tone: 'primary' | 'accent' | 'secondary'
 export default function RoadmapCard({ roadmap }) {
   return (
     <Glasscard className={styles.card}>

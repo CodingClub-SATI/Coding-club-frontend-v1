@@ -1,4 +1,3 @@
-// src/components/shared/Reveal.jsx
 import { useEffect, useRef } from 'react';
 
 export default function Reveal({ 
@@ -14,7 +13,6 @@ export default function Reveal({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          // Direct DOM mutation — ZERO React re-renders triggered
           ref.current.setAttribute('data-visible', 'true');
           observer.disconnect(); 
         }

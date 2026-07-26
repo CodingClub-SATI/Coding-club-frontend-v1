@@ -1,10 +1,25 @@
+.leadershipSection {
+  padding-bottom: 0;
+}
+
 .rosterSection {
   padding-top: 0;
 }
 
-.yearTabs {
+.batchTabs {
   width: fit-content;
   margin: 0 auto var(--space-2xl);
+}
+
+.memberGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11.25rem, 1fr));
+  margin-top: var(--space-md);
+  gap: var(--space-xl);
+}
+
+@media (max-width: 600px) {
+  .memberGrid { grid-template-columns: repeat(2, 1fr); }
 }
 
 .emptyState {

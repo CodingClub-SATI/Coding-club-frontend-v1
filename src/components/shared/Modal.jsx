@@ -16,13 +16,18 @@ export function Modal({
   const dialogRef = useRef(null);
   const titleId = useId();
 
+  const onCloseRef = useRef(onClose);
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
+
   useEffect(() => {
     const previouslyFocused = document.activeElement;
     dialogRef.current?.focus();
 
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
-        onClose();
+        onCloseRef.current();
         return;
       }
       if (e.key !== 'Tab' || !dialogRef.current) return;
@@ -42,7 +47,7 @@ export function Modal({
     };
     window.addEventListener('keydown', handleKeyDown);
 
-    const originalStyle = window.getComputedStyle(document.body).overflow;
+    const originalStyle = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     
     return () => {
@@ -50,7 +55,7 @@ export function Modal({
       document.body.style.overflow = originalStyle;
       previouslyFocused?.focus?.();
     };
-  }, [onClose]);
+  }, []);
 
   const modalClasses = [
     styles.modal,

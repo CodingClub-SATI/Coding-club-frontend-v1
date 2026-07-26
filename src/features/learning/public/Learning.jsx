@@ -9,13 +9,8 @@ import { LEARNING_RESOURCES, ROADMAPS } from '@/features/learning/data';
 import styles from './Learning.module.css';
 
 export default function Learning() {
-  // LEARNING_RESOURCES is static bundled data (not fetched, not editable at
-  // runtime), so the active category can never go stale after mount — no
-  // effect needed to keep it in sync.
   const [activeCategory, setActiveCategory] = useState(LEARNING_RESOURCES[0]?.id ?? null);
   const activeData = LEARNING_RESOURCES.find((r) => r.id === activeCategory);
-  // Roadmaps section follows the active tab via categoryId — a category
-  // without a matching roadmap just falls back to the EmptyState below.
   const activeRoadmap = ROADMAPS.find((r) => r.categoryId === activeCategory);
 
   return (
@@ -33,7 +28,7 @@ export default function Learning() {
       </section>
 
       {/* Resources */}
-      <section className="section">
+      <section className="section no-divider">
         <div className="container">
           <div className={styles.filterBar} role="tablist" aria-label="Resource categories">
             {LEARNING_RESOURCES.map((r) => (

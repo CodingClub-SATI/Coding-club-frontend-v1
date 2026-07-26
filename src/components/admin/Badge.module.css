@@ -32,7 +32,7 @@
   color: var(--brand-accent);
   border-color: rgba(var(--brand-accent-rgb), 0.2);
 }
-.responded {
+.read {
   background: rgba(var(--brand-secondary-rgb), 0.12);
   color: var(--brand-secondary);
   border-color: rgba(var(--brand-secondary-rgb), 0.2);

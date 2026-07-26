@@ -48,3 +48,9 @@
   font-size: var(--text-sm);
   color: var(--text-muted);
 }
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}

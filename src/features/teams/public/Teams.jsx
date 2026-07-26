@@ -6,16 +6,24 @@ import Tabs from '@/components/shared/Tabs';
 import Glasscard from '@/components/shared/Glasscard';
 import EmptyState from '@/components/shared/EmptyState';
 import TeamSection from '@/features/teams/components/TeamSection';
+import MemberCard from '@/features/teams/components/MemberCard';
 import MemberProfileModal from '@/features/teams/components/MemberProfileModal';
+import { LEADERSHIP_SECTIONS } from '@/features/teams/constants';
 import styles from './Teams.module.css';
 
 export default function Teams() {
-  const { years, byYear, currentYear, error } = useLoaderData();
-  const [activeYear, setActiveYear] = useState(currentYear ?? years[0] ?? null);
+  const { leadership, batches, error } = useLoaderData();
+  const [activeBatch, setActiveBatch] = useState(batches[0]?.batch ?? null);
   const [selectedMember, setSelectedMember] = useState(null);
 
-  const safeActiveYear = years.includes(activeYear) ? activeYear : years[0];
-  const yearGroups = safeActiveYear ? byYear[safeActiveYear] : null;
+  const safeActiveBatch = batches.some((b) => b.batch === activeBatch) ? activeBatch : batches[0]?.batch ?? null;
+  const currentBatch = batches.find((b) => b.batch === safeActiveBatch) ?? null;
+
+  const leadershipGroups = LEADERSHIP_SECTIONS.map(({ key, label }) => ({
+    key,
+    label,
+    members: leadership?.[key] || [],
+  })).filter((group) => group.members.length > 0);
 
   return (
     <div>
@@ -28,48 +36,62 @@ export default function Teams() {
         </div>
       </section>
 
+      {leadershipGroups.length > 0 && (
+        <section className={`section ${styles.leadershipSection}`}>
+          <div className="container">
+            {leadershipGroups.map((group) => (
+              <TeamSection
+                key={group.key}
+                title={group.label}
+                members={group.members}
+                onSelectMember={setSelectedMember}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
       <section className={`section ${styles.rosterSection}`}>
         <div className="container">
+          {batches.length > 1 && (
+            <Tabs
+              className={styles.batchTabs}
+              items={batches.map((batch) => ({ value: batch.batch, label: batch.batch }))}
+              value={safeActiveBatch}
+              onChange={setActiveBatch}
+            />
+          )}
+
           {error ? (
-            <EmptyState icon={AlertTriangle} title={error} subtitle="Try refreshing the page in a moment." />
-          ) : years.length === 0 ? (
             <Glasscard className={styles.emptyState}>
-              <EmptyState icon={Users} title="No team roster yet" subtitle="Check back soon to meet the team." />
+              <EmptyState
+                icon={AlertTriangle}
+                title={error}
+                subtitle="Try refreshing the page in a moment."
+              />
+            </Glasscard>
+          ) : batches.length === 0 ? (
+            <Glasscard className={styles.emptyState}>
+              <EmptyState
+                icon={Users}
+                title="No team roster yet"
+                subtitle="Check back soon to meet the team."
+              />
+            </Glasscard>
+          ) : !currentBatch || currentBatch.members.length === 0 ? (
+            <Glasscard className={styles.emptyState}>
+              <EmptyState
+                icon={Users}
+                title="No members yet"
+                subtitle={`No members found for batch ${safeActiveBatch}.`}
+              />
             </Glasscard>
           ) : (
-            <>
-              {years.length > 1 && (
-                <Tabs
-                  className={styles.yearTabs}
-                  items={years.map((year) => ({
-                    value: year,
-                    label: year === currentYear ? `${year} (Current)` : year,
-                  }))}
-                  value={safeActiveYear}
-                  onChange={setActiveYear}
-                />
-              )}
-
-              {!yearGroups ? (
-                <p className={styles.noRoster}>No roster available for {safeActiveYear}.</p>
-              ) : (
-                <div>
-                  {yearGroups.coreTeam?.length > 0 && (
-                    <TeamSection title="Core Team" members={yearGroups.coreTeam} onSelectMember={setSelectedMember} />
-                  )}
-                  {yearGroups.mentors?.length > 0 && (
-                    <TeamSection title="Mentors" members={yearGroups.mentors} onSelectMember={setSelectedMember} />
-                  )}
-                  {yearGroups.developers?.length > 0 && (
-                    <TeamSection
-                      title="Developers & Designers"
-                      members={yearGroups.developers}
-                      onSelectMember={setSelectedMember}
-                    />
-                  )}
-                </div>
-              )}
-            </>
+            <div className={styles.memberGrid}>
+              {currentBatch.members.map((member) => (
+                <MemberCard key={member.id} member={member} onClick={setSelectedMember} />
+              ))}
+            </div>
           )}
         </div>
       </section>

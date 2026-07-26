@@ -12,3 +12,5 @@
 .textarea { width: 100%; resize: vertical; min-height: 80px; }
 
 .searchInput { min-width: 220px; }
+
+.fullWidth { width: 100%; }

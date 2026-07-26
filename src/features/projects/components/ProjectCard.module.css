@@ -48,6 +48,13 @@
   gap: var(--space-base);
 }
 
+.headerTags {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-shrink: 0;
+}
+
 .title {
   font-size: var(--text-lg);
   color: var(--text-primary);

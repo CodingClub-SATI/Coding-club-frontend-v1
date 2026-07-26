@@ -1,15 +1,17 @@
-import { useState } from 'react';
-import { useLoaderData } from 'react-router';
+import { useEffect, useState } from 'react';
+import { Link, useLoaderData, useLocation, useSearchParams, useNavigation } from 'react-router';
 import { CalendarX, AlertTriangle } from 'lucide-react';
 import Reveal from '@/components/shared/Reveal';
 import Glasscard from '@/components/shared/Glasscard';
 import Tabs from '@/components/shared/Tabs';
 import Button from '@/components/shared/Button';
 import EmptyState from '@/components/shared/EmptyState';
+import Pagination from '@/components/shared/Pagination';
 import { BoltPath } from '@/components/shared/Icons';
 import EventCard from '@/features/events/components/EventCard';
 import FeaturedCarousel from '@/features/events/components/FeaturedCarousel';
 import EventDetailsModal from '@/features/events/components/EventDetailsModal';
+import { EVENT_CATEGORIES } from '@/features/events/constants';
 import styles from './Events.module.css';
 
 const TAB_ITEMS = [
@@ -18,20 +20,47 @@ const TAB_ITEMS = [
   { value: 'all', label: 'All Events' },
 ];
 
-const TYPES = ['All', 'Workshop', 'Hackathon', 'Competition', 'Seminar'];
+const TYPES = ['All', ...EVENT_CATEGORIES];
 
 export default function Events() {
-  const { events, error } = useLoaderData();
-  const [tab, setTab] = useState('upcoming');
-  const [filter, setFilter] = useState('All');
+  const { events, featuredEvents, page, totalPages, error } = useLoaderData();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const navigation = useNavigation();
+  const location = useLocation();
+  const isFiltering = navigation.state === 'loading';
 
-  const featured = events.filter((e) => e.featured);
-  const filtered = events.filter((e) => {
-    if (tab !== 'all' && e.status !== tab) return false;
-    if (filter !== 'All' && e.type !== filter) return false;
-    return true;
-  });
+  const tab = searchParams.get('status') || 'upcoming';
+  const filter = searchParams.get('type') || 'All';
+
+  const updateParam = (key, value, defaultValue) => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (value === defaultValue) next.delete(key);
+      else next.set(key, value);
+      next.delete('page'); // changing a filter starts back at page 1
+      return next;
+    }, { replace: true, preventScrollReset: true });
+  };
+
+  const setTab = (value) => updateParam('status', value, 'upcoming');
+  const setFilter = (value) => updateParam('type', value, 'All');
+
+  const setPage = (nextPage) => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (nextPage <= 1) next.delete('page');
+      else next.set('page', String(nextPage));
+      return next;
+    }, { replace: true, preventScrollReset: true });
+  };
+
+  useEffect(() => {
+    if (location.hash === '#all-events') {
+      document.getElementById('all-events')?.scrollIntoView({ behavior: 'smooth' });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div>
@@ -80,11 +109,11 @@ export default function Events() {
       </section>
 
       {/* Featured carousel */}
-      {!error && featured.length > 0 && (
+      {!error && featuredEvents.length > 0 && (
         <section className="section">
           <div className="container">
             <h2 className="section-title">Featured <span className="text-secondary-glow">Events</span></h2>
-            <FeaturedCarousel items={featured} onSelect={setSelectedEvent} />
+            <FeaturedCarousel items={featuredEvents} onSelect={setSelectedEvent} />
           </div>
         </section>
       )}
@@ -111,18 +140,25 @@ export default function Events() {
             <Glasscard className={styles.emptyState}>
               <EmptyState icon={AlertTriangle} title={error} subtitle="Try refreshing the page in a moment." />
             </Glasscard>
-          ) : filtered.length === 0 ? (
+          ) : events.length === 0 ? (
             <Glasscard className={styles.emptyState}>
               <EmptyState icon={CalendarX} title="No events found" subtitle="Try a different filter or check back later." />
             </Glasscard>
           ) : (
-            <div className={`grid-3 ${styles.eventsGrid}`}>
-              {filtered.map((event, i) => (
-                <Reveal key={event.id} delay={i * 80}>
-                  <EventCard event={event} onClick={setSelectedEvent} />
-                </Reveal>
-              ))}
-            </div>
+            <>
+              <div
+                className={`grid-3 ${styles.eventsGrid}`}
+                aria-busy={isFiltering}
+                style={isFiltering ? { opacity: 0.5, transition: 'opacity 150ms ease' } : undefined}
+              >
+                {events.map((event, i) => (
+                  <Reveal key={event.id} delay={i * 80}>
+                    <EventCard event={event} onClick={setSelectedEvent} />
+                  </Reveal>
+                ))}
+              </div>
+              <Pagination page={page} totalPages={totalPages} onChange={setPage} />
+            </>
           )}
         </div>
       </section>
@@ -133,7 +169,7 @@ export default function Events() {
           <Glasscard className={styles.hostCta}>
             <h2>Want to Host an Event?</h2>
             <p>Have an idea for a workshop or event? We're always looking for passionate individuals to share their knowledge with the community.</p>
-            <Button Component="a" href="/contact">Get In Touch</Button>
+            <Button Component={Link} to="/contact">Get In Touch</Button>
           </Glasscard>
         </div>
       </section>

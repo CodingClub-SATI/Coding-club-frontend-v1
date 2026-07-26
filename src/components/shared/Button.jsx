@@ -7,7 +7,7 @@ import Spinner from '@/components/shared/Spinner';
  * size: 'sm' | 'md' | 'lg'
  */
 
-const Button = ({ 
+export default function Button({ 
   Component = 'button',
   children, 
   variant = 'filled',
@@ -18,15 +18,14 @@ const Button = ({
   disabled,
   ref,
   ...props 
-}) => {
-  
-  const combinedClasses = `
-    ${styles.btn} 
-    ${styles[variant]} 
-    ${styles[tone]} 
-    ${styles[size]} 
-    ${className}
-  `.trim();
+}) {
+  const combinedClasses = [
+    styles.btn,
+    styles[variant],
+    styles[tone],
+    styles[size],
+    className,
+  ].filter(Boolean).join(' ');
 
   return (
     <Component 
@@ -40,7 +39,4 @@ const Button = ({
       {children}
     </Component>
   );
-};
-
-Button.displayName = 'Button';
-export default Button;
+}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { request } from '@/services/api';
+import { updatesApi } from '@/features/updates/api';
 
 export function useUpdates() {
   const [updates, setUpdates] = useState([]);
@@ -12,11 +12,12 @@ export function useUpdates() {
     async function fetchUpdates() {
       try {
         setIsLoading(true);
-        const data = await request('/api/updates', { signal: controller.signal });
-        setUpdates(data);
+        const data = await updatesApi.list({ signal: controller.signal });
+        setUpdates(Array.isArray(data) ? data : []);
       } catch (err) {
         if (err.name !== 'AbortError') {
-          setError(err.message);
+          console.error('Failed to load alerts:', err);
+          setError('Could not load alerts right now.');
         }
       } finally {
         setIsLoading(false);

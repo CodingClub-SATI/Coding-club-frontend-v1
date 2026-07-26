@@ -1,9 +1,9 @@
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
-import router from './router';
-import { RouterProvider } from 'react-router';
+import { RouterProvider } from 'react-router/dom';
 
-// Global styles
+import router from './router';
+
 import './styles/global.css';
 import './styles/utilities.css';
 

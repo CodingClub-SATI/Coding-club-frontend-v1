@@ -4,3 +4,7 @@ export const TYPE_TONES = {
   Competition: 'primary',
   Seminar: 'accent',
 };
+
+export const EVENT_CATEGORIES = Object.keys(TYPE_TONES);
+
+export const EVENT_STATUSES = ['upcoming', 'completed'];

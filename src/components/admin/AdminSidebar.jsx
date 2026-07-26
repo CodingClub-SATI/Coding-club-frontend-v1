@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 import {
   LayoutDashboard, Calendar, Image as ImageIcon, Users,
-  FolderGit2, BookOpen, Inbox, Settings, LogOut,
+  FolderGit2, Inbox, Megaphone, Settings, LogOut,
   PanelLeftClose, PanelLeftOpen
 } from 'lucide-react';
 import IconButton from '@/components/shared/IconButton';
+import { clearSession } from '@/services/authToken';
 import styles from './AdminSidebar.module.css';
 
 const ADMIN_NAV = [
@@ -14,8 +15,8 @@ const ADMIN_NAV = [
   { label: 'Gallery', path: '/admin/gallery', icon: ImageIcon },
   { label: 'Team', path: '/admin/teams', icon: Users },
   { label: 'Projects', path: '/admin/projects', icon: FolderGit2 },
-  { label: 'Learning', path: '/admin/learning', icon: BookOpen },
   { label: 'Inbox', path: '/admin/inbox', icon: Inbox },
+  { label: 'Alerts', path: '/admin/updates', icon: Megaphone },
 ];
 
 export default function AdminSidebar() {
@@ -23,9 +24,9 @@ export default function AdminSidebar() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    localStorage.removeItem('admin_auth');
-    navigate('/admin/login');
+  const handleLogout = async () => {
+    await clearSession();
+    navigate('/admin/login', { replace: true });
   };
 
   return (

@@ -54,6 +54,30 @@
   opacity: 0.4;
 }
 
+.section + .section {
+  position: relative;
+}
+
+.section + .section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--container-main);
+  max-width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--brand-primary), var(--brand-secondary), transparent);
+  opacity: 0.4;
+}
+
+/* Opt-out: put this on a .section that should NOT get the automatic
+   divider even though it directly follows another .section. Higher
+   specificity than the rule above, so no !important needed. */
+.section + .section.no-divider::before {
+  content: none;
+}
+
 /* =========================================
     Animation Utility Classes
   ========================================== */
@@ -112,4 +136,19 @@
   -webkit-user-select: none;
   -webkit-touch-callout: none; /* Disables the iOS popup menu */
   pointer-events: auto; /* Ensures clicks still register if wrapped in a link */
+}
+
+/* =========================================
+    Accessibility
+========================================== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

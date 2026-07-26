@@ -21,6 +21,8 @@
   --rank-silver-rgb: 192, 192, 192;
   --rank-bronze-rgb: 205, 127, 50;
 
+  --overlay-rgb: 4, 7, 13;
+
   /* =========================================
       Constructed Colors
     ========================================= */
@@ -215,12 +217,13 @@ h1, h2, h3, h4 {
 
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
+  50% { transform: translateY(-20px); }
 }
 
 /* =========================================
     Motion sensitivity as per OS settings
   ========================================= */
+/*
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -229,3 +232,4 @@ h1, h2, h3, h4 {
     scroll-behavior: auto !important;
   }
 }
+*/

@@ -18,11 +18,12 @@ export default function MemberCard({ member, onClick }) {
       role="button"
       tabIndex={0}
       onKeyDown={handleKeyDown}
-      aria-label={`View ${member.name}'s profile`}
+      aria-label={`View ${member.fullName}'s profile`}
     >
       <MemberAvatar member={member} />
-      <h3 className={styles.name}>{member.name}</h3>
-      <p className={styles.role}>{member.role}</p>
+      <h3 className={styles.name}>{member.fullName}</h3>
+      {member.clubPosition && <p className={styles.role}>{member.clubPosition}</p>}
+      {member.specialization && <p className={styles.specialization}>{member.specialization}</p>}
       {/* Decorative only — rendered as a span (not a real button) so the
           whole card stays a single keyboard/screen-reader stop, not two. */}
       <Button Component="span" variant="outline" size="sm" className={styles.viewBtn} aria-hidden="true">

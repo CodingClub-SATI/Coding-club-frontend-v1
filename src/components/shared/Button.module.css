@@ -122,39 +122,65 @@
 }
 
 .outline.primary {
+  background-color: transparent;
   border-color: var(--brand-primary);
   color: var(--brand-primary);
 }
 .outline.primary:hover:not(:disabled) {
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
   box-shadow: var(--shadow-glow-primary-dim);
   background-color: rgba(var(--brand-primary-rgb), 0.08);
 }
 
 .outline.secondary {
+  background-color: transparent;
   border-color: var(--brand-secondary);
   color: var(--brand-secondary);
 }
 .outline.secondary:hover:not(:disabled) {
+  border-color: var(--brand-secondary);
   background-color: var(--brand-secondary);
   color: var(--text-primary);
   box-shadow: var(--shadow-glow-secondary);
 }
 
 .outline.danger {
+  background-color: transparent;
   border-color: var(--brand-destructive);
   color: var(--brand-destructive);
 }
 .outline.danger:hover:not(:disabled) {
+  border-color: var(--brand-destructive);
+  color: var(--brand-destructive);
   background-color: rgba(var(--brand-destructive-rgb), 0.1);
 }
 
-.ghost.secondary { color: var(--brand-secondary); }
+.ghost.primary {
+  background-color: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  letter-spacing: normal;
+  box-shadow: none;
+}
+.ghost.primary:hover:not(:disabled) {
+  color: var(--text-primary);
+  background-color: rgba(var(--text-primary-rgb), 0.05);
+}
+
+.ghost.secondary {
+  background-color: transparent;
+  color: var(--brand-secondary);
+}
 .ghost.secondary:hover:not(:disabled) {
   color: var(--brand-secondary);
   background-color: rgba(var(--brand-secondary-rgb), 0.08);
 }
 
-.ghost.danger { color: var(--brand-destructive); }
+.ghost.danger {
+  background-color: transparent;
+  color: var(--brand-destructive);
+}
 .ghost.danger:hover:not(:disabled) {
   color: var(--brand-destructive);
   background-color: rgba(var(--brand-destructive-rgb), 0.08);

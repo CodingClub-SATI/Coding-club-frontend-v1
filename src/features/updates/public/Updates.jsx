@@ -1,6 +1,7 @@
 import { Modal } from '@/components/shared/Modal';
 import Spinner from '@/components/shared/Spinner';
 import { useUpdates } from '@/hooks/useUpdates';
+import { formatDate } from '@/utils/date';
 import styles from './Updates.module.css';
 
 export default function Updates({ onClose }) {
@@ -36,9 +37,7 @@ export default function Updates({ onClose }) {
         {!isLoading && !error && updates.map((update) => (
           <div key={update.id} className={styles.item}>
             <span className={styles.date}>
-              {new Date(update.publishDate).toLocaleDateString('en-US', { 
-                month: 'short', day: 'numeric', year: 'numeric' 
-              }).toUpperCase()}
+              {formatDate(update.createdAt).toUpperCase()}
             </span>
             <p className={styles.text}>{update.message}</p>
           </div>

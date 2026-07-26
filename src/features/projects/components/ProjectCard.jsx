@@ -23,7 +23,9 @@ export default function ProjectCard({ project, rank }) {
           <h3 className={styles.title}>{project.title}</h3>
           <p className={styles.team}>{project.team} · {memberLabel}</p>
         </div>
-        <Tag tone={CATEGORY_TONES[project.category] || 'muted'}>{project.category}</Tag>
+        <div className={styles.headerTags}>
+          <Tag tone={CATEGORY_TONES[project.category] || 'muted'}>{project.category}</Tag>
+        </div>
       </div>
 
       <p className={styles.desc}>{project.description}</p>

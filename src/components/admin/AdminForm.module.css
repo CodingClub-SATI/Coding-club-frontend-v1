@@ -25,3 +25,17 @@
 @media (max-width: 720px) {
   .grid { grid-template-columns: 1fr; }
 }
+
+.fullWidth { width: 100%; }
+
+.error {
+  color: var(--brand-destructive);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.hint {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-top: var(--space-xs);
+}

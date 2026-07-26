@@ -18,4 +18,12 @@ export default defineConfig([
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
   },
+  {
+    files: ['**/route.jsx'],
+    rules: {
+      'react-refresh/only-export-components': ['warn', {
+        allowExportNames: ['loader', 'action', 'shouldRevalidate', 'ErrorBoundary'],
+      }],
+    },
+  },
 ])

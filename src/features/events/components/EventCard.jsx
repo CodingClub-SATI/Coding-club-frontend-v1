@@ -3,6 +3,7 @@ import Tag from '@/components/shared/Tag';
 import Button from '@/components/shared/Button';
 import { BoltPath } from '@/components/shared/Icons';
 import { TYPE_TONES } from '../constants';
+import { formatDate } from '@/utils/date';
 import styles from './EventCard.module.css';
 
 const TYPE_ICONS = {
@@ -60,16 +61,18 @@ export default function EventCard({ event, onClick }) {
       <div className={styles.body}>
         <h3 className={styles.title}>{event.title}</h3>
         <div className={styles.meta}>
-          <span>📅 {event.date}</span>
+          <span>📅 {formatDate(event.date)}</span>
           <span>🕐 {event.time}</span>
         </div>
         <div className={styles.meta}><span>📍 {event.venue}</span></div>
         <p className={styles.desc}>{event.description}</p>
-        <div className={styles.tags}>
-          {event.tags.map((tag) => (
-            <Tag key={tag} tone="accent" className={styles.cardTag}>{tag}</Tag>
-          ))}
-        </div>
+        {event.tags?.length > 0 && (
+          <div className={styles.tags}>
+            {event.tags.map((tag) => (
+              <Tag key={tag} tone="accent" className={styles.cardTag}>{tag}</Tag>
+            ))}
+          </div>
+        )}
         <Button Component="span" className={styles.viewBtn} aria-hidden="true">
           View Details →
         </Button>
