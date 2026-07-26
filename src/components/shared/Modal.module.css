@@ -24,9 +24,9 @@
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
-.sm { max-width: 400px; }
-.md { max-width: 500px; } 
-.lg { max-width: 720px; } 
+.sm { max-width: 25rem; }
+.md { max-width: 32rem; } 
+.lg { max-width: 45rem; } 
 
 .glow {
   border-color: var(--border-glow);

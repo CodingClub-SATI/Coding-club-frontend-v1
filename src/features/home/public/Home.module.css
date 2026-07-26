@@ -202,7 +202,7 @@
 
 /* ===== DIRECTOR ===== */
 .directorCard {
-  max-width: 720px;
+  max-width: 65ch;
   margin: 0 auto;
   padding: var(--space-3xl) var(--space-2xl);
   position: relative;
