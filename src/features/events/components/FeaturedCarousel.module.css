@@ -32,7 +32,8 @@
 
 .right { display: flex; align-items: center; justify-content: center; }
 .visual {
-  width: 160px; height: 160px;
+  width: clamp(100px, 20vw, 160px);
+  aspect-ratio: 1 / 1;
   border: 1px solid var(--border-dim);
   border-radius: 50%;
   display: flex;

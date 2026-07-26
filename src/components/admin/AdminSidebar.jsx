@@ -34,7 +34,10 @@ export default function AdminSidebar() {
         <div className={styles.logoText}>
           Club <span className="text-primary-glow">Admin</span>
         </div>
-        <IconButton onClick={() => setOpen((o) => !o)} aria-label={open ? 'Collapse sidebar' : 'Expand sidebar'}>
+        <IconButton
+          onClick={() => setOpen((o) => !o)}
+          aria-label={open ? 'Collapse sidebar' : 'Expand sidebar'}
+        >
           {open ? <PanelLeftClose size={18} /> : <PanelLeftOpen size={18} />}
         </IconButton>
       </div>
@@ -58,7 +61,11 @@ export default function AdminSidebar() {
       </nav>
 
       <div className={styles.footer}>
-        <Link to="/admin/settings" title={open ? undefined : 'Settings'} className={styles.link}>
+        <Link 
+          to="/admin/settings" 
+          title={open ? undefined : 'Settings'} 
+          className={styles.link}
+        >
           <Settings size={18} />
           <span className={styles.linkText}>Settings</span>
         </Link>

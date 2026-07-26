@@ -23,7 +23,7 @@
 
 .desc {
   color: var(--text-muted);
-  max-width: 420px;
+  max-width: 50ch;;
   margin-bottom: var(--space-base);
 }
 

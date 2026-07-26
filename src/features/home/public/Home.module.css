@@ -83,7 +83,7 @@
   color: var(--text-muted);
   font-size: var(--text-base);
   line-height: 1.7;
-  max-width: 440px;
+  max-width: 55ch;
 }
 
 .heroCtas { 
@@ -102,8 +102,9 @@
 
 .mascotContainer {
   position: relative;
-  width: 280px; 
-  height: 280px;
+  width: 100%;
+  max-width: 280px;
+  aspect-ratio: 1 / 1;
   display: flex; 
   align-items: center; 
   justify-content: center;
@@ -112,8 +113,8 @@
 
 .mascotGlowRing {
   position: absolute;
-  width: 220px; 
-  height: 220px;
+  width: 80%;
+  aspect-ratio: 1 / 1;
   border-radius: var(--radius-full);
   border: 1px solid rgba(var(--brand-accent-rgb), 0.2);
   animation: spin 20s linear infinite;

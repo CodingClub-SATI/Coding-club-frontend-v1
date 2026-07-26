@@ -35,7 +35,7 @@
 .heroDesc {
   color: var(--text-muted);
   margin: var(--space-base) 0;
-  max-width: 440px;
+  max-width: 55ch;
 }
 
 .heroCtas {

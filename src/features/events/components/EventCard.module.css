@@ -4,7 +4,7 @@
 }
 
 .cover {
-  height: 140px;
+  aspect-ratio: 16 / 9;
   background: linear-gradient(135deg, rgba(var(--brand-accent-rgb), 0.05), rgba(var(--brand-secondary-rgb), 0.08));
   display: flex;
   align-items: center;
