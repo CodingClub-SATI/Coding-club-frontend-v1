@@ -1,0 +1,19 @@
+.rosterSection {
+  padding-top: 0;
+}
+
+.yearTabs {
+  width: fit-content;
+  margin: 0 auto var(--space-2xl);
+}
+
+.emptyState {
+  padding: var(--space-2xl);
+  text-align: center;
+}
+
+.noRoster {
+  text-align: center;
+  color: var(--text-muted);
+  padding: var(--space-2xl) 0;
+}
