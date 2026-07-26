@@ -1,7 +1,7 @@
 import { clubInfo } from '@/data/clubInfo';
 import {
   GithubIcon, InstagramIcon, LinkedinIcon, XIcon
-} from '@/components/public/BrandIcons';
+} from '@/components/shared/Icons';
 
 export const SOCIAL_LINKS = [
   { href: clubInfo.socials.github, label: 'GitHub', icon: <GithubIcon size={16} /> },

@@ -1,11 +1,12 @@
 import Glasscard from '@/components/shared/Glasscard';
 import Tag from '@/components/shared/Tag';
 import Button from '@/components/shared/Button';
+import { BoltPath } from '@/components/shared/Icons';
 import { TYPE_TONES } from '../constants';
 import styles from './EventCard.module.css';
 
 const TYPE_ICONS = {
-  Hackathon: <path d="M13 10V3L4 14h7v7l9-11h-7z" />,
+  Hackathon: <BoltPath />,
   Workshop: (
     <>
       <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3-3a1 1 0 000-1.4l-1.6-1.6a1 1 0 00-1.4 0l-3 3z" />

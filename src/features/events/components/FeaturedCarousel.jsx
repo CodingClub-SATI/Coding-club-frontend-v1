@@ -2,22 +2,8 @@ import { useState } from 'react';
 import Glasscard from '@/components/shared/Glasscard';
 import Tag from '@/components/shared/Tag';
 import Button from '@/components/shared/Button';
+import { BoltPath } from '@/components/shared/Icons';
 import styles from './FeaturedCarousel.module.css';
-
-function EventIcon() {
-  return (
-    <svg
-      width="80"
-      height="80"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="var(--brand-accent)"
-      strokeWidth="1"
-    >
-      <path d="M13 10V3L4 14h7v7l9-11h-7z" />
-    </svg>
-  );
-}
 
 export default function FeaturedCarousel({ items, onSelect }) {
   const [active, setActive] = useState(0);
@@ -97,7 +83,9 @@ export default function FeaturedCarousel({ items, onSelect }) {
         {/* Right */}
         <div className={styles.right}>
           <div className={styles.visual}>
-            <EventIcon />
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="var(--brand-accent)" strokeWidth="1">
+              <BoltPath />
+            </svg>
 
             <div className={styles.typeLabel}>
               {type}
@@ -109,9 +97,7 @@ export default function FeaturedCarousel({ items, onSelect }) {
       {/* Indicators */}
       <div className={styles.dots}>
         {items.map((_, index) => {
-          const dotClass = `${styles.dot} ${
-            index === active ? styles.dotActive : ''
-          }`;
+          const dotClass = `${styles.dot} ${index === active ? styles.dotActive : ''}`;
 
           return (
             <button

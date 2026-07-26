@@ -6,6 +6,7 @@ import Glasscard from '@/components/shared/Glasscard';
 import Tabs from '@/components/shared/Tabs';
 import Button from '@/components/shared/Button';
 import EmptyState from '@/components/shared/EmptyState';
+import { BoltPath } from '@/components/shared/Icons';
 import EventCard from '@/features/events/components/EventCard';
 import FeaturedCarousel from '@/features/events/components/FeaturedCarousel';
 import EventDetailsModal from '@/features/events/components/EventDetailsModal';
@@ -72,7 +73,7 @@ export default function Events() {
           <div className={styles.heroMascot}>
             <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="var(--brand-accent)" strokeWidth="0.8">
               <circle cx="12" cy="12" r="11" strokeDasharray="6 3" />
-              <path d="M13 10V3L4 14h7v7l9-11h-7z" strokeWidth="1.5" />
+              <BoltPath strokeWidth="1.5" />
             </svg>
           </div>
         </div>
