@@ -41,7 +41,7 @@ export default function Home() {
   });
 
   return (
-    <div className={styles.homePage}>
+    <div>
       {/* ===== HERO ===== */}
       <section className={styles.heroSection}>
         <div className={styles.heroGridOverlay} />

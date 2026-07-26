@@ -4,10 +4,19 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 export async function request(path, options = {}) {
-  const res = await fetch(`${API_BASE_URL}${path}`, {
-    headers: { 'Content-Type': 'application/json', ...options.headers },
-    ...options,
-  });
+  let res;
+
+  try {
+    res = await fetch(`${API_BASE_URL}${path}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      },
+      ...options,
+    });
+  } catch (error) {
+    throw new Error(`Network error: ${error.message}`);
+  }
 
   if (!res.ok) {
     throw new Error(`API request failed: ${res.status} ${res.statusText}`);

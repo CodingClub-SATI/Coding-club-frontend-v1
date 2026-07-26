@@ -15,7 +15,7 @@
 .modal {
   background: var(--bg-secondary);
   border: 1px solid var(--border-dim);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   margin: 20px;
   width: 100%;
   max-height: 88vh;
@@ -24,15 +24,13 @@
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
-.sizesm { max-width: 400px; }
-.sizemd { max-width: 500px; } 
-.sizelg { max-width: 720px; } 
+.sm { max-width: 400px; }
+.md { max-width: 500px; } 
+.lg { max-width: 720px; } 
 
-/* variant="glow" — the original public-site look */
-.variantGlow {
+.glow {
   border-color: var(--border-glow);
   box-shadow: var(--shadow-glow-accent);
-  max-width: 600px;
 }
 
 .header {

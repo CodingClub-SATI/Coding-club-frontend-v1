@@ -45,7 +45,7 @@ export default function Footer() {
           {/* Quick Links */}
           <div>
             <h4 className={styles.heading}>Quick Links</h4>
-            <ul className={styles.links}>
+            <ul className={styles.linksWrapper}>
               {[['Home', '/'], ['Events', '/events'], ['Gallery', '/gallery'], ['Teams', '/teams'], ['Projects', '/projects']].map(([label, path]) => (
                 <li key={path}><Link to={path}>{label}</Link></li>
               ))}
@@ -55,7 +55,7 @@ export default function Footer() {
           {/* Resources */}
           <div>
             <h4 className={styles.heading}>Resources</h4>
-            <ul className={styles.links}>
+            <ul className={styles.linksWrapper}>
               {[['Learning Hub', '/learning'], ['Contact Us', '/contact']].map(([label, path]) => (
                 <li key={path}><Link to={path}>{label}</Link></li>
               ))}

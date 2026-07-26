@@ -58,7 +58,6 @@ export default function Header() {
         </nav>
 
         {/* CTA */}
-        {/* TODO - make this into bell icon for recent update model box */}
         <div className={styles.headerActions}>
           <Button 
             Component="button" 

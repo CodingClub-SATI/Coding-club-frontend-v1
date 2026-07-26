@@ -121,6 +121,45 @@
   background-color: rgba(var(--brand-destructive-rgb), 0.1);
 }
 
+.outline.primary {
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+}
+.outline.primary:hover:not(:disabled) {
+  box-shadow: var(--shadow-glow-primary-dim);
+  background-color: rgba(var(--brand-primary-rgb), 0.08);
+}
+
+.outline.secondary {
+  border-color: var(--brand-secondary);
+  color: var(--brand-secondary);
+}
+.outline.secondary:hover:not(:disabled) {
+  background-color: var(--brand-secondary);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-glow-secondary);
+}
+
+.outline.danger {
+  border-color: var(--brand-destructive);
+  color: var(--brand-destructive);
+}
+.outline.danger:hover:not(:disabled) {
+  background-color: rgba(var(--brand-destructive-rgb), 0.1);
+}
+
+.ghost.secondary { color: var(--brand-secondary); }
+.ghost.secondary:hover:not(:disabled) {
+  color: var(--brand-secondary);
+  background-color: rgba(var(--brand-secondary-rgb), 0.08);
+}
+
+.ghost.danger { color: var(--brand-destructive); }
+.ghost.danger:hover:not(:disabled) {
+  color: var(--brand-destructive);
+  background-color: rgba(var(--brand-destructive-rgb), 0.08);
+}
+
 /* =========================================
    Utilities
 ========================================= */

@@ -12,7 +12,7 @@ export default function ErrorScreen() {
       <p className={styles.desc}>
         {error?.statusText || error?.message || 'An unexpected error occurred while loading this page.'}
       </p>
-      <div style={ styles.cta }>
+      <div className={styles.cta}>
         <Button onClick={() => window.location.reload()} variant="filled" tone="primary">
           Reload Page
         </Button>

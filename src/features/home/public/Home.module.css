@@ -251,7 +251,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   color: var(--bg-primary);
-  font-size: var(--text-md);
+  font-size: var(--text-lg);
 }
 
 .directorName {

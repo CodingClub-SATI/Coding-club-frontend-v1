@@ -33,7 +33,7 @@ export default function Events() {
   });
 
   return (
-    <div className={styles.eventsPage}>
+    <div>
       {/* Hero */}
       <section className={styles.hero}>
         <div className={`container ${styles.heroGrid}`}>

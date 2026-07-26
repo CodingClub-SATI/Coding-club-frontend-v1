@@ -51,7 +51,11 @@ export function Modal({
     };
   }, [onClose]);
 
-  const modalClasses = `${styles.modal} ${styles[`variant-${variant}`]} ${styles[`size-${size}`]}`.trim();
+  const modalClasses = [
+  styles.modal,
+  styles[variant],
+  styles[size]
+].filter(Boolean).join(' ');
 
   return createPortal(
     <div
@@ -79,6 +83,6 @@ export function Modal({
         <div className={styles.body}>{children}</div>
       </div>
     </div>,
-    document.body // Target mount node
+    document.body
   );
 }

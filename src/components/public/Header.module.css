@@ -1,7 +1,7 @@
 .header {
   --header-gap: 0.75rem;
   --btn-padding: 0.5rem 1rem;
-  --link-font-size: 0.875rem;
+  --link-font-size: 0.75rem;
 
   position: fixed;
   top: 0;
@@ -41,8 +41,8 @@
   text-decoration: none;
 }
 .logoImg {
-  width: 3rem;
-  height: 3rem;
+  width: 2.5rem;
+  height: 2.5rem;
 }
 .logoText {
   display: flex;
@@ -52,12 +52,12 @@
 }
 .logoName {
   font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: 1rem;
   letter-spacing: 0.1em;
 }
 .logoSub {
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: 0.75rem;
   letter-spacing: 0.13em;
 }
 
@@ -84,8 +84,8 @@
   ===================================== */
 
 .navlink {
-  color: var(--text-muted);
   text-decoration: none;
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.15em;
   font-size: var(--link-font-size);
