@@ -6,6 +6,7 @@ import Home from '@/features/home/public/Home';
 import { homeLoader } from '@/features/home/api'; 
 import { eventsLoader } from '@/features/events/api';
 import { galleryLoader } from '@/features/gallery/api';
+import { projectsLoader } from '@/features/projects/api';
 
 import ErrorScreen from '@/components/error/ErrorScreen';
 import NotFound from '@/components/error/NotFound';
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
       { path: 'events', lazy: lazyLoad(() => import('@/features/events/public/Events')), loader: eventsLoader },
       { path: 'gallery', lazy: lazyLoad(() => import('@/features/gallery/public/Gallery')), loader: galleryLoader },
       { path: 'teams', lazy: lazyLoad(() => import('@/features/teams/public/Teams')) },
-      { path: 'projects', lazy: lazyLoad(() => import('@/features/projects/public/Projects')) },
+      { path: 'projects', lazy: lazyLoad(() => import('@/features/projects/public/Projects')), loader: projectsLoader },
       { path: 'learning', lazy: lazyLoad(() => import('@/features/learning/public/Learning')) },
       { path: 'contact', lazy: lazyLoad(() => import('@/features/contact/public/Contact')) },
       { path: '*', element: <NotFound /> },
