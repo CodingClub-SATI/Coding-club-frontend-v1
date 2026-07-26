@@ -1,6 +1,6 @@
 import styles from './PhotoTile.module.css';
 
-export default function PhotoTile({ src, alt, isFeatured, onEdit, onDelete }) {
+export default function PhotoTile({ src, alt='', isFeatured, onEdit, onDelete }) {
   return (
     <div className={styles.tile}>
       <img src={src} alt={alt} />
@@ -10,8 +10,8 @@ export default function PhotoTile({ src, alt, isFeatured, onEdit, onDelete }) {
       )}
 
       <div className={styles.actions}>
-        <button onClick={onEdit}>Edit</button>
-        <button onClick={onDelete}>Delete</button>
+        <button type="button" onClick={onEdit} aria-label={`Edit photo ${alt}`}>Edit</button>
+        <button type="button" onClick={onDelete} aria-label={`Delete photo ${alt}`}>Delete</button>
       </div>
     </div>
   );

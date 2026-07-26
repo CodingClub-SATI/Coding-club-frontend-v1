@@ -33,7 +33,7 @@
 }
 
 .logoText {
-  font-size: 1.2rem;
+  font-size: var(--text-xl);
   white-space: nowrap;
   overflow: hidden;
 }
@@ -55,9 +55,9 @@
   padding: 10px 12px;
   color: var(--text-muted);
   text-decoration: none;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  transition: all 0.2s;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  transition: var(--transition-base);
   border: 1px solid transparent;
   white-space: nowrap;
 }
@@ -68,14 +68,14 @@
 }
 
 .link:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(var(--text-primary-rgb), 0.03);
   color: var(--text-primary);
 }
 
 .link.active {
-  background: rgba(0, 245, 255, 0.1);
+  background: rgba(var(--brand-accent-rgb), 0.1);
   color: var(--brand-accent);
-  border-color: rgba(0, 245, 255, 0.2);
+  border-color: rgba(var(--brand-accent-rgb), 0.2);
 }
 
 .textRed { color: var(--brand-destructive); }

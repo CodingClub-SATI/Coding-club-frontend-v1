@@ -1,7 +1,7 @@
 .header {
-  --header-gap: 0.75rem;
+  --header-gap: var(--space-md);
   --btn-padding: 0.5rem 1rem;
-  --link-font-size: 0.75rem;
+  --link-font-size: var(--text-xs);
 
   position: fixed;
   top: 0;
@@ -57,7 +57,7 @@
 }
 .logoSub {
   font-family: var(--font-body);
-  font-size: 0.75rem;
+  font-size: var(--text-xs);
   letter-spacing: 0.13em;
 }
 

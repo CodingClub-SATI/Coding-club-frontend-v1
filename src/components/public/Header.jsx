@@ -84,6 +84,7 @@ export default function Header() {
             </svg>
           </Button>
           <button
+            type="button"
             className={`${styles.hamburger} ${menuOpen ? styles.open : ''}`.trim()}
             onClick={() => setMenuOpen(m => !m)}
             aria-label="Menu"
