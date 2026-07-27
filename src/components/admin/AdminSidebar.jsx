@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 import {
   LayoutDashboard, Calendar, Image as ImageIcon, Users,
-  FolderGit2, BookOpen, Inbox, Settings, LogOut,
+  FolderGit2, Inbox, Settings, LogOut,
   PanelLeftClose, PanelLeftOpen
 } from 'lucide-react';
 import IconButton from '@/components/shared/IconButton';
@@ -15,7 +15,6 @@ const ADMIN_NAV = [
   { label: 'Gallery', path: '/admin/gallery', icon: ImageIcon },
   { label: 'Team', path: '/admin/teams', icon: Users },
   { label: 'Projects', path: '/admin/projects', icon: FolderGit2 },
-  { label: 'Learning', path: '/admin/learning', icon: BookOpen },
   { label: 'Inbox', path: '/admin/inbox', icon: Inbox },
 ];
 

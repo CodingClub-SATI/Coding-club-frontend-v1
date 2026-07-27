@@ -5,9 +5,7 @@ export default function ParticleBackground() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    // ==========================
     // Configuration
-    // ==========================
     const TARGET_FPS = 30;
     const FRAME_TIME = 1000 / TARGET_FPS;
 
@@ -26,7 +24,7 @@ export default function ParticleBackground() {
     const LINE_OPACITY = 0.15;
     const LINE_OPACITY_STEPS = 5;
 
-    // Accessibility //
+    // Respect the reduced-motion preference
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return;
     }
@@ -145,9 +143,7 @@ export default function ParticleBackground() {
         lineBuckets[b].length = 0;
       }
 
-      // ==========================
-      // Update particles + build grid
-      // ==========================
+      // Move particles and rebuild the spatial grid
       for (let i = 0; i < particleCount; i++) {
         const p = particles[i];
 
@@ -172,9 +168,7 @@ export default function ParticleBackground() {
         grid[cellY * cols + cellX].push(p);
       }
 
-      // ==========================
-      // Find connections, sorted into opacity buckets
-      // ==========================
+      // Find nearby particles and bucket connections by opacity
       for (let i = 0; i < particleCount; i++) {
         const p1 = particles[i];
         const p1x = p1.x;
@@ -223,9 +217,7 @@ export default function ParticleBackground() {
         }
       }
 
-      // ==========================
-      // Draw connections: one beginPath/stroke per bucket, not per line
-      // ==========================
+      // One beginPath/stroke per bucket, not per line
       for (let b = 0; b < LINE_OPACITY_STEPS; b++) {
         const bucket = lineBuckets[b];
         const len = bucket.length;
@@ -240,9 +232,7 @@ export default function ParticleBackground() {
         ctx.stroke();
       }
 
-      // ==========================
       // Draw particles
-      // ==========================
       for (let i = 0; i < particleCount; i++) {
         const p = particles[i];
 

@@ -1,14 +1,10 @@
-// Centralizes how the admin session (auth token + a display-only username)
-// is persisted, so nothing else in the app touches localStorage directly
-// for auth. If storage ever needs to change (e.g. to a cookie), this is the
-// only file that has to change.
+// Centralizes admin session storage so only this file touches localStorage
+// for auth. If storage ever needs to change, this is the only file to update.
 //
-// TODO(auth): confirm with backend whether /api/auth/login can set the
-// session as an HttpOnly cookie instead of returning a token in the JSON
-// body. If so, switch this file to a no-op (cookies aren't readable from
-// JS anyway) and update src/services/api.js to send
-// `credentials: 'include'` instead of attaching an Authorization header.
-// HttpOnly cookies are immune to XSS-based token theft; localStorage is not.
+// TODO(auth): if the backend can set the session as an HttpOnly cookie
+// instead of returning a token, switch this to a no-op and have
+// src/services/api.js send credentials instead of an Authorization header —
+// cookies are safer against XSS than localStorage.
 
 const TOKEN_KEY = 'admin_token';
 const USERNAME_KEY = 'admin_username';

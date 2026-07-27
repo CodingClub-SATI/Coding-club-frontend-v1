@@ -20,9 +20,8 @@ export class ApiError extends Error {
 export async function request(path, { body, headers = {}, ...options } = {}) {
   const token = getToken();
 
-  // TODO(auth): if this project switches to HttpOnly cookie sessions (see
-  // TODO in ./authToken.js), replace this Authorization header with
-  // `credentials: 'include'` on the fetch call below.
+  // TODO(auth): switch to `credentials: 'include'` if the backend moves to
+  // HttpOnly cookie sessions (see TODO in ./authToken.js).
   const res = await fetch(`${API_BASE_URL}${path}`, {
     ...options,
     headers: {

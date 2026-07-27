@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import router from './router';
 import { RouterProvider } from 'react-router';
 
-// Global styles
 import './styles/global.css';
 import './styles/utilities.css';
 

@@ -5,13 +5,6 @@ export const teamApi = {
   getCurrent: () => request('/api/team/current'),
 };
 
-// Route loader for the public Teams page.
-// GET /api/team/current is the authoritative source for which year is
-// "current" (a business decision, not necessarily just the newest year key).
-// GET /api/team is needed regardless, since it's the only way to know what
-// past years exist at all (there's no lightweight "list of years" endpoint).
-// Both are fetched in parallel and merged so either one failing doesn't take
-// the whole page down.
 export async function teamLoader() {
   const [allResult, currentResult] = await Promise.allSettled([
     teamApi.getAll(),

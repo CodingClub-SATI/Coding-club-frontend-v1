@@ -42,7 +42,7 @@ export default function Home() {
 
   return (
     <div>
-      {/* ===== HERO ===== */}
+      {/* Hero */}
       <section className={styles.heroSection}>
         <div className={styles.heroGridOverlay} />
         <div className={`container ${styles.heroContainer}`}>
@@ -81,7 +81,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== ABOUT ===== */}
+      {/* About */}
       <section className={styles.aboutSection} id="about">
         <div className="container">
           <Reveal Component="h2" className="section-title">
@@ -117,7 +117,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== STATS ===== */}
+      {/* Stats */}
       <section className={styles.statsSection}>
         <div className="container">
           <Reveal Component="h2" className="section-title">
@@ -140,7 +140,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Bottom CTA  */}
+      {/* Bottom CTA */}
       <section className="section">
         <div className="container">
           <Reveal Component={Glasscard} className={styles.ctaBox}>

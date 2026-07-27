@@ -1,13 +1,10 @@
-// Learning resources and roadmaps shown on the Learning Hub page.
-// This content changes only a couple of times a year, so — like
-// src/data/clubInfo.js — it ships as a static file instead of an API-backed
-// collection. To add, edit, or remove a resource or roadmap, edit this file
-// directly and redeploy; no backend or database change is needed.
+// Learning resources and roadmaps for the Learning Hub page. This content
+// changes only a couple of times a year, so it ships as a static file
+// instead of an API-backed collection — edit this file and redeploy to
+// update it, no backend needed.
 //
-// Each roadmap is linked to a resource category via `categoryId`, so the
-// Roadmaps section on the page can show the one that matches the active
-// tab. Adding a new resource category without a matching roadmap is fine —
-// the page falls back to a "coming soon" message for that tab.
+// Each roadmap links to a resource category via `categoryId`; a category
+// with no matching roadmap just falls back to a "coming soon" message.
 
 export const LEARNING_RESOURCES = [
   {
