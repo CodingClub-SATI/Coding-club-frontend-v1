@@ -3,7 +3,7 @@ import { createBrowserRouter, Outlet as ProtectedRoute } from 'react-router';
 import PublicLayout from '@/layouts/PublicLayout';
 import Home from '@/features/home/public/Home';
 import { homeLoader } from '@/features/home/api'; 
-import { eventsLoader } from '@/features/events/api';
+import { eventsLoader, eventsAdminLoader } from '@/features/events/api';
 import { galleryLoader } from '@/features/gallery/api';
 import { teamLoader } from '@/features/teams/api';
 import { projectsLoader } from '@/features/projects/api';
@@ -56,7 +56,7 @@ const router = createBrowserRouter([
         hydrateFallbackElement: <div>Loading Admin Dashboard...</div>,
         children: [
           { index: true, lazy: lazyLoad(() => import('@/features/dashboard/admin/Dashboard')), loader: dashboardLoader },
-          { path: 'events', lazy: lazyLoad(() => import('@/features/events/admin/Events')) },
+          { path: 'events', lazy: lazyLoad(() => import('@/features/events/admin/Events')), loader: eventsAdminLoader },
           { path: 'gallery', lazy: lazyLoad(() => import('@/features/gallery/admin/Gallery')) },
           { path: 'teams', lazy: lazyLoad(() => import('@/features/teams/admin/Teams')) },
           { path: 'projects', lazy: lazyLoad(() => import('@/features/projects/admin/Projects')) },
