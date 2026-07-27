@@ -5,9 +5,9 @@ import Reveal from '@/components/shared/Reveal';
 import Glasscard from '@/components/shared/Glasscard';
 import Button from '@/components/shared/Button';
 import { contactApi } from '@/features/contact/api';
+import { REQUEST_TYPES } from '@/features/contact/constants';
 import styles from './Contact.module.css';
 
-const REQUEST_TYPES = ['Collaboration', 'Join Club', 'Sponsorship', 'General Inquiry', 'Other'];
 const EMPTY_FORM = { name: '', email: '', requestType: REQUEST_TYPES[0], message: '' };
 
 export default function Contact() {
