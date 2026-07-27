@@ -1,13 +1,15 @@
+import { forwardRef } from 'react';
 import styles from './Glasscard.module.css';
 
-/**
- * Reusable glassmorphism card wrapper. Renders as a <div> by default;
- * pass Component to render as something else (e.g. "article", "section").
- */
-export default function Glasscard({ Component = 'div', children, className = '', ...props }) {
+const Glasscard = forwardRef(function Glasscard(
+  { Component = 'div', children, className = '', ...props },
+  ref
+) {
   return (
-    <Component className={`${styles.glassCard} ${className}`.trim()} {...props}>
+    <Component ref={ref} className={`${styles.glassCard} ${className}`.trim()} {...props}>
       {children}
     </Component>
   );
-}
+});
+
+export default Glasscard;

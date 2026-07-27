@@ -1,8 +1,8 @@
 export const clubInfo = {
   email: "coding.club@satiengg.in",
-  description: "A dynamic and vibrant technical community...",
-  tagline: "Building the future, one commit at a time.",
   phone: "+91-XXXXXXXXXX",
+  tagline: "Building the future, one commit at a time.",
+  description: "A place to learn, build, and explore the ever-evolving world of technology.",
   socials: {
     instagram: "https://instagram.com/sati_coding_club",
     linkedin: "https://linkedin.com/company/coding-club-sati",
