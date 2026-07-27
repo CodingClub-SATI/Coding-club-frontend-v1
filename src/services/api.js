@@ -34,10 +34,10 @@ export async function request(path, { body, headers = {}, ...options } = {}) {
   });
 
   // A 401 on anything other than the auth endpoints themselves means the
-  // token we sent is missing, expired, or revoked. No retry fixes that, so
-  // clear it and send the admin back to login instead of leaving them on a
-  // broken page. (Login/verify handle their own 401s explicitly — see
-  // features/auth/admin/Login.jsx and components/admin/ProtectedRoute.jsx.)
+  // token we sent is missing, expired, or revoked. Clear it and send the
+  // admin back to login instead of leaving them on a broken page — login
+  // and session verification handle their own 401s explicitly, so they're
+  // excluded here.
   if (res.status === 401 && !path.startsWith('/api/auth/')) {
     clearSession();
     window.location.assign('/admin/login');

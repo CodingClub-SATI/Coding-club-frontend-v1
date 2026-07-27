@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router';
+import { createBrowserRouter, Outlet } from 'react-router';
 
 // Public Layout & Components
 import PublicLayout from '@/layouts/PublicLayout';
@@ -11,7 +11,6 @@ import { projectsLoader } from '@/features/projects/api';
 
 import ErrorScreen from '@/components/error/ErrorScreen';
 import NotFound from '@/components/error/NotFound';
-import ProtectedRoute from '@/components/admin/ProtectedRoute';
 import { requireAuthLoader } from '@/features/auth/api';
 
 // lazyLoad wrapper
@@ -46,7 +45,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/admin',
-    element: <ProtectedRoute />,
+    element: <Outlet />,  // ProtectedRoute
     loader: requireAuthLoader,
     errorElement: <ErrorScreen />,
     hydrateFallbackElement: <div>Verifying session...</div>,

@@ -8,8 +8,7 @@
 // body. If so, switch this file to a no-op (cookies aren't readable from
 // JS anyway) and update src/services/api.js to send
 // `credentials: 'include'` instead of attaching an Authorization header.
-// HttpOnly cookies are immune to XSS-based token theft, which the current
-// localStorage approach is not — see conversation from 2026-07-27.
+// HttpOnly cookies are immune to XSS-based token theft; localStorage is not.
 
 const TOKEN_KEY = 'admin_token';
 const USERNAME_KEY = 'admin_username';

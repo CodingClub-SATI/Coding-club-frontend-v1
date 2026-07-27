@@ -11,12 +11,10 @@ export const authApi = {
   verifySession: () => request('/api/auth/verify'),
 };
 
-// Route guard for /admin (see router/index.jsx and
-// components/admin/ProtectedRoute.jsx). Runs before any admin route
-// renders and confirms the stored token is still valid with the backend,
-// rather than just trusting that it's present — an expired or revoked
-// session is caught here instead of on whatever admin action happens to
-// hit the API first.
+// Route guard attached to the /admin route in router/index.jsx. Confirms
+// the stored token is still valid with the backend rather than just
+// trusting that it's present, so an expired or revoked session is caught
+// before any admin route renders.
 export async function requireAuthLoader() {
   try {
     await authApi.verifySession();
