@@ -20,13 +20,13 @@ const Button = ({
   ...props 
 }) => {
   
-  const combinedClasses = `
-    ${styles.btn} 
-    ${styles[variant]} 
-    ${styles[tone]} 
-    ${styles[size]} 
-    ${className}
-  `.trim();
+  const combinedClasses = [
+    styles.btn,
+    styles[variant],
+    styles[tone],
+    styles[size],
+    className,
+  ].filter(Boolean).join(' ');
 
   return (
     <Component 

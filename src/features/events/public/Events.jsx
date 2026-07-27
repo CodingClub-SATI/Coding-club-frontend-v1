@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLoaderData } from 'react-router';
+import { Link, useLoaderData } from 'react-router';
 import { CalendarX, AlertTriangle } from 'lucide-react';
 import Reveal from '@/components/shared/Reveal';
 import Glasscard from '@/components/shared/Glasscard';
@@ -133,7 +133,7 @@ export default function Events() {
           <Glasscard className={styles.hostCta}>
             <h2>Want to Host an Event?</h2>
             <p>Have an idea for a workshop or event? We're always looking for passionate individuals to share their knowledge with the community.</p>
-            <Button Component="a" href="/contact">Get In Touch</Button>
+            <Button Component={Link} to="/contact">Get In Touch</Button>
           </Glasscard>
         </div>
       </section>

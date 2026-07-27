@@ -65,11 +65,13 @@ export default function EventCard({ event, onClick }) {
         </div>
         <div className={styles.meta}><span>📍 {event.venue}</span></div>
         <p className={styles.desc}>{event.description}</p>
-        <div className={styles.tags}>
-          {event.tags.map((tag) => (
-            <Tag key={tag} tone="accent" className={styles.cardTag}>{tag}</Tag>
-          ))}
-        </div>
+        {event.tags?.length > 0 && (
+          <div className={styles.tags}>
+            {event.tags.map((tag) => (
+              <Tag key={tag} tone="accent" className={styles.cardTag}>{tag}</Tag>
+            ))}
+          </div>
+        )}
         <Button Component="span" className={styles.viewBtn} aria-hidden="true">
           View Details →
         </Button>

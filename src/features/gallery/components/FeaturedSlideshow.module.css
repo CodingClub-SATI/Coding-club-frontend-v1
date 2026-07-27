@@ -28,7 +28,7 @@
   position: absolute;
   bottom: var(--space-md);
   left: var(--space-md);
-  background: rgba(4, 7, 13, 0.8);
+  background: rgba(var(--overlay-rgb), 0.8);
   border: 1px solid var(--border-dim);
   border-radius: var(--radius-sm);
   padding: 4px 12px;

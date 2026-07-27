@@ -19,9 +19,11 @@ export default function EventDetailsModal({ event, onClose }) {
         <div>📍 {event.venue}</div>
       </div>
       <p className={styles.desc}>{event.description}</p>
-      <div className={styles.tags}>
-        {event.tags.map((tag) => <Tag key={tag} tone="secondary">{tag}</Tag>)}
-      </div>
+      {event.tags?.length > 0 && (
+        <div className={styles.tags}>
+          {event.tags.map((tag) => <Tag key={tag} tone="secondary">{tag}</Tag>)}
+        </div>
+      )}
       {event.registrationLink && (
         <Button Component="a" href={event.registrationLink} target="_blank" rel="noreferrer" className={styles.registerBtn}>
           Register for this Event →

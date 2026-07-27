@@ -7,7 +7,7 @@
   gap: 10px; 
   margin-bottom: 14px;
   font-family: var(--font-display); 
-  font-size: 1rem; 
+  font-size: var(--text-base);
   color: var(--text-primary);
 }
 .subgroupLabel { 

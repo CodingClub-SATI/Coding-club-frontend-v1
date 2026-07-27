@@ -10,7 +10,8 @@ export function ConfirmButton({ label, confirmLabel = 'Confirm?', onConfirm, dan
       <span className={styles.inlineConfirm}>
         <Button
           size="sm"
-          variant={danger ? 'danger' : 'ghost'}
+          tone={danger ? 'danger' : 'primary'}
+          variant={danger ? 'filled' : 'ghost'}
           onClick={() => { setConfirming(false); onConfirm(); }}
         >
           {confirmLabel}
@@ -25,7 +26,8 @@ export function ConfirmButton({ label, confirmLabel = 'Confirm?', onConfirm, dan
   return (
     <Button
       size="sm"
-      variant={danger ? 'dangerOutline' : 'ghost'}
+      tone={danger ? 'danger' : 'primary'}
+      variant={danger ? 'outline' : 'ghost'}
       onClick={() => setConfirming(true)}
     >
       {label}

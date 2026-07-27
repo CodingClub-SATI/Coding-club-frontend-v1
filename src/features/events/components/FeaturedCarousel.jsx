@@ -7,7 +7,8 @@ import styles from './FeaturedCarousel.module.css';
 
 export default function FeaturedCarousel({ items, onSelect }) {
   const [active, setActive] = useState(0);
-  const event = items[active];
+  const activeIndex = items.length ? active % items.length : 0;
+  const event = items[activeIndex];
 
   if (!event) {
     return (
@@ -97,7 +98,7 @@ export default function FeaturedCarousel({ items, onSelect }) {
       {/* Indicators */}
       <div className={styles.dots}>
         {items.map((_, index) => {
-          const dotClass = `${styles.dot} ${index === active ? styles.dotActive : ''}`;
+          const dotClass = `${styles.dot} ${index === activeIndex ? styles.dotActive : ''}`;
 
           return (
             <button

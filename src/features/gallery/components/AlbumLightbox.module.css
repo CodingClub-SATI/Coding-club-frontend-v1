@@ -51,7 +51,7 @@
   bottom: var(--space-sm);
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(4, 7, 13, 0.8);
+  background: rgba(var(--overlay-rgb), 0.8);
   padding: 4px 12px;
   border-radius: var(--radius-full);
   font-size: var(--text-sm);

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useLoaderData } from 'react-router';
+import { Link, useLoaderData } from 'react-router';
 import { AlertTriangle, FolderGit2 } from 'lucide-react';
 import Reveal from '@/components/shared/Reveal';
 import Glasscard from '@/components/shared/Glasscard';
@@ -138,7 +138,7 @@ export default function Projects() {
           <Glasscard className={styles.submitCta}>
             <h2>Built something cool? <span className="text-primary-glow">Submit your project</span></h2>
             <p>Share your project with the club community and get featured on the leaderboard.</p>
-            <Button Component="a" href="/contact">Submit Project</Button>
+            <Button Component={Link} to="/contact">Submit Project</Button>
           </Glasscard>
         </div>
       </section>
