@@ -11,6 +11,7 @@ import { projectsLoader } from '@/features/projects/api';
 import ErrorScreen from '@/components/error/ErrorScreen';
 import NotFound from '@/components/error/NotFound';
 import { requireAuthLoader } from '@/features/auth/api';
+import { dashboardLoader } from '@/features/dashboard/api';
 
 const lazyLoad = (importFn) => {
   return async () => {
@@ -43,7 +44,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/admin',
-    element: <PublicLayout />,
+    element: <ProtectedRoute />,
     loader: requireAuthLoader,
     shouldRevalidate: ({ currentUrl }) =>
       currentUrl.pathname === '/admin/login' || !currentUrl.pathname.startsWith('/admin'),
@@ -54,7 +55,7 @@ const router = createBrowserRouter([
         lazy: lazyLoad(() => import('@/layouts/AdminLayout')),
         hydrateFallbackElement: <div>Loading Admin Dashboard...</div>,
         children: [
-          { index: true, lazy: lazyLoad(() => import('@/features/dashboard/admin/Dashboard')) },
+          { index: true, lazy: lazyLoad(() => import('@/features/dashboard/admin/Dashboard')), loader: dashboardLoader },
           { path: 'events', lazy: lazyLoad(() => import('@/features/events/admin/Events')) },
           { path: 'gallery', lazy: lazyLoad(() => import('@/features/gallery/admin/Gallery')) },
           { path: 'teams', lazy: lazyLoad(() => import('@/features/teams/admin/Teams')) },

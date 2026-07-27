@@ -64,4 +64,8 @@ export async function request(path, { body, headers = {}, ...options } = {}) {
 
 export const statsApi = {
   get: () => request('/api/stats'),
+  // Richer admin-only counters (currentYearMembers, eventsConducted, etc.)
+  // used by the admin Dashboard. Requires a valid admin bearer token,
+  // attached automatically by request() above.
+  getAdmin: () => request('/api/admin/stats'),
 };
