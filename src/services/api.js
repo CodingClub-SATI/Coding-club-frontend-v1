@@ -1,13 +1,7 @@
-// Shared API client. Base URL comes from the environment so dev/staging/prod
-// can each point at a different backend without touching code.
-// Set VITE_API_BASE_URL in a local .env file (see .env.example).
-import { getToken, clearSession } from './authToken';
+import { clearSession } from './authToken';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
-// Thrown for any non-2xx response so callers can branch on `.status`
-// (e.g. show "invalid credentials" for 401 vs a generic message for 500)
-// instead of parsing a status code out of a plain Error's message.
 export class ApiError extends Error {
   constructor(message, status, body) {
     super(message);
@@ -18,32 +12,21 @@ export class ApiError extends Error {
 }
 
 export async function request(path, { body, headers = {}, ...options } = {}) {
-  const token = getToken();
-
-  // TODO(auth): switch to `credentials: 'include'` if the backend moves to
-  // HttpOnly cookie sessions (see TODO in ./authToken.js).
   const res = await fetch(`${API_BASE_URL}${path}`, {
     ...options,
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...headers,
     },
     body: body !== undefined ? JSON.stringify(body) : undefined,
   });
 
-  // A 401 on anything other than the auth endpoints themselves means the
-  // token we sent is missing, expired, or revoked. Clear it and send the
-  // admin back to login instead of leaving them on a broken page — login
-  // and session verification handle their own 401s explicitly, so they're
-  // excluded here.
   if (res.status === 401 && !path.startsWith('/api/auth/')) {
-    clearSession();
+    await clearSession();
     window.location.assign('/admin/login');
   }
 
-  // Responses can be empty (e.g. a 204 on delete), so parse defensively
-  // instead of assuming res.json() always succeeds.
   const text = await res.text();
   let data = null;
   if (text) {
@@ -58,14 +41,5 @@ export async function request(path, { body, headers = {}, ...options } = {}) {
     const message = (data && data.message) || `Request to ${path} failed with status ${res.status}`;
     throw new ApiError(message, res.status, data);
   }
-
   return data;
 }
-
-export const statsApi = {
-  get: () => request('/api/stats'),
-  // Richer admin-only counters (currentYearMembers, eventsConducted, etc.)
-  // used by the admin Dashboard. Requires a valid admin bearer token,
-  // attached automatically by request() above.
-  getAdmin: () => request('/api/admin/stats'),
-};

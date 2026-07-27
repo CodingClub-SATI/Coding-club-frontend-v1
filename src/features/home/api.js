@@ -1,4 +1,6 @@
-import { statsApi } from '@/services/api';
+import { request } from '@/services/api';
+
+const statsApi = { get: () => request('/api/stats'), };
 
 const ZERO_LIVE_STATS = { 
   totalEvents: 0, 
