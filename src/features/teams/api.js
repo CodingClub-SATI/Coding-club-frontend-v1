@@ -3,6 +3,13 @@ import { request } from '@/services/api';
 export const teamApi = {
   getAll: () => request('/api/team'),
   getCurrent: () => request('/api/team/current'),
+  addYear: (year) => request('/api/team', { method: 'POST', body: { year } }),
+  addMember: (year, group, member) =>
+    request(`/api/team/${encodeURIComponent(year)}/${group}`, { method: 'POST', body: member }),
+  updateMember: (year, group, id, patch) =>
+    request(`/api/team/${encodeURIComponent(year)}/${group}/${id}`, { method: 'PUT', body: patch }),
+  removeMember: (year, group, id) =>
+    request(`/api/team/${encodeURIComponent(year)}/${group}/${id}`, { method: 'DELETE' }),
 };
 
 export async function teamLoader() {

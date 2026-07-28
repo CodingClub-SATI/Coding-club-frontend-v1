@@ -7,6 +7,7 @@ import Glasscard from '@/components/shared/Glasscard';
 import EmptyState from '@/components/shared/EmptyState';
 import TeamSection from '@/features/teams/components/TeamSection';
 import MemberProfileModal from '@/features/teams/components/MemberProfileModal';
+import { TEAM_GROUPS } from '@/features/teams/constants';
 import styles from './Teams.module.css';
 
 export default function Teams() {
@@ -68,27 +69,16 @@ export default function Teams() {
             </Glasscard>
           ) : (
             <div>
-              {yearGroups.coreTeam?.length > 0 && (
-                <TeamSection 
-                  title="Core Team" 
-                  members={yearGroups.coreTeam} 
-                  onSelectMember={setSelectedMember} 
-                />
-              )}
-              {yearGroups.mentors?.length > 0 && (
-                <TeamSection 
-                  title="Mentors" 
-                  members={yearGroups.mentors} 
-                  onSelectMember={setSelectedMember} 
-                />
-              )}
-              {yearGroups.developers?.length > 0 && (
-                <TeamSection
-                  title="Developers & Designers"
-                  members={yearGroups.developers}
-                  onSelectMember={setSelectedMember}
-                />
-              )}
+              {TEAM_GROUPS.map(({ key, label }) => (
+                yearGroups[key]?.length > 0 && (
+                  <TeamSection
+                    key={key}
+                    title={label}
+                    members={yearGroups[key]}
+                    onSelectMember={setSelectedMember}
+                  />
+                )
+              ))}
             </div>
           )}
         </div>

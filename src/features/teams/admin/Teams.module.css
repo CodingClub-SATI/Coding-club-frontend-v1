@@ -1,0 +1,56 @@
+.groupHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.groupHeader h3 {
+  margin: 0;
+}
+
+.tileGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 14px;
+  margin-bottom: var(--space-lg);
+}
+
+.squareThumb {
+  aspect-ratio: 1/1;
+}
+
+.emptyGroup {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.detailAvatar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-base);
+}
+
+.socialRow {
+  display: flex;
+  gap: 14px;
+  margin-top: var(--space-base);
+}
+
+.description {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.tagList {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.formError {
+  color: var(--brand-destructive);
+  font-size: var(--text-sm);
+  margin-top: var(--space-sm);
+}
