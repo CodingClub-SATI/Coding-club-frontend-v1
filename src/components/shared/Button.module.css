@@ -127,6 +127,8 @@
   color: var(--brand-primary);
 }
 .outline.primary:hover:not(:disabled) {
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
   box-shadow: var(--shadow-glow-primary-dim);
   background-color: rgba(var(--brand-primary-rgb), 0.08);
 }
@@ -136,7 +138,9 @@
   border-color: var(--brand-secondary);
   color: var(--brand-secondary);
 }
+
 .outline.secondary:hover:not(:disabled) {
+  border-color: var(--brand-secondary);
   background-color: var(--brand-secondary);
   color: var(--text-primary);
   box-shadow: var(--shadow-glow-secondary);
@@ -147,7 +151,10 @@
   border-color: var(--brand-destructive);
   color: var(--brand-destructive);
 }
+
 .outline.danger:hover:not(:disabled) {
+  border-color: var(--brand-destructive);
+  color: var(--brand-destructive);
   background-color: rgba(var(--brand-destructive-rgb), 0.1);
 }
 

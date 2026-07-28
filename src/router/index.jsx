@@ -65,9 +65,9 @@ const router = createBrowserRouter([
         children: [
           { index: true, lazy: lazyLoad(() => import('@/features/dashboard/admin/Dashboard')), loader: dashboardLoader },
           { path: 'events', lazy: lazyLoad(() => import('@/features/events/admin/Events')), loader: eventsAdminLoader },
-          { path: 'gallery', lazy: lazyLoad(() => import('@/features/gallery/admin/Gallery')) },
-          { path: 'teams', lazy: lazyLoad(() => import('@/features/teams/admin/Teams')) },
-          { path: 'projects', lazy: lazyLoad(() => import('@/features/projects/admin/Projects')) },
+          { path: 'gallery', lazy: lazyLoad(() => import('@/features/gallery/admin/Gallery')), loader: galleryLoader },
+          { path: 'teams', lazy: lazyLoad(() => import('@/features/teams/admin/Teams')), loader: teamLoader },
+          { path: 'projects', lazy: lazyLoad(() => import('@/features/projects/admin/Projects')), loader: projectsLoader },
           { path: 'inbox', lazy: lazyLoad(() => import('@/features/contact/admin/Inbox')), loader: inboxLoader },
           { path: 'settings', lazy: lazyLoad(() => import('@/features/setting/admin/Settings')), loader: siteInfoLoader },
           { path: '*', element: <NotFound /> }
