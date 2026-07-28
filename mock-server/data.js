@@ -1,6 +1,6 @@
 // ===== SITE DATA FROM SOURCE =====
 
-const clubInfo = {
+export const clubInfo = {
   name: "Coding Club SATI",
   tagline: "Beyond Classrooms, Into Innovation",
   description: "A futuristic community of developers, innovators, cybersecurity enthusiasts, and tech learners building impactful solutions beyond classrooms.",

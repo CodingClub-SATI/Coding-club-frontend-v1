@@ -221,7 +221,12 @@ export default function ProjectFormModal({ project, onClose, onSubmit }) {
         </div>
 
         <div className={formStyles.row}>
-          <Toggle checked={form.achieved} onChange={(v) => setField('achieved', v)} label="Mark as Achieved" />
+          <Toggle 
+            checked={form.achieved} 
+            onChange={(v) => setField('achieved', v)} 
+            label="Mark as Achieved" 
+            disabled={submitting} 
+          />
         </div>
 
         {error && <p className={formStyles.error} role="alert">{error}</p>}

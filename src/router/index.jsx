@@ -27,10 +27,6 @@ const router = createBrowserRouter([
     path:'/',
     element: <PublicLayout />,
     loader: siteInfoLoader,
-    // Site info barely changes — fetch it once when the public route tree is
-    // first entered, not again on every Home -> Events -> Gallery nav. It'll
-    // still fetch fresh any time this route is (re)matched from scratch,
-    // e.g. coming back from /admin after an edit.
     shouldRevalidate: () => false,
     errorElement: <ErrorScreen />,
     hydrateFallbackElement: <div>Loading...</div>,

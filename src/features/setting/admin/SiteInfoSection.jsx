@@ -58,12 +58,14 @@ export default function SiteInfoSection({ siteInfo, error, onUpdated }) {
     if (!EMAIL_PATTERN.test(form.email.trim())) {
       nextErrors.email = 'Enter a valid email address.';
     }
+
     SOCIAL_FIELDS.forEach(({ key }) => {
       const value = form.socials[key].trim();
       if (value && !URL_PATTERN.test(value)) {
         nextErrors[`socials.${key}`] = 'Must start with http:// or https://';
       }
     });
+
     if (Object.keys(nextErrors).length > 0) {
       setFieldErrors(nextErrors);
       return;
@@ -71,6 +73,7 @@ export default function SiteInfoSection({ siteInfo, error, onUpdated }) {
 
     setFieldErrors({});
     setIsSaving(true);
+
     try {
       const payload = {
         email: form.email.trim(),
@@ -111,22 +114,21 @@ export default function SiteInfoSection({ siteInfo, error, onUpdated }) {
             <Pencil size={14} aria-hidden="true" /> Edit
           </Button>
         </div>
-
         <div className={formStyles.row}>
           <span className={formStyles.label}>Email</span>
-          <div>{siteInfo?.email || '—'}</div>
+          <div>{siteInfo?.email || ' '}</div>
         </div>
         <div className={formStyles.row}>
           <span className={formStyles.label}>Phone</span>
-          <div>{siteInfo?.phone || '—'}</div>
+          <div>{siteInfo?.phone || ' '}</div>
         </div>
         <div className={formStyles.row}>
           <span className={formStyles.label}>Tagline</span>
-          <div>{siteInfo?.tagline || '—'}</div>
+          <div>{siteInfo?.tagline || ' '}</div>
         </div>
         <div className={formStyles.row}>
           <span className={formStyles.label}>Description</span>
-          <p className={styles.description}>{siteInfo?.description || '—'}</p>
+          <p className={styles.description}>{siteInfo?.description || ' '}</p>
         </div>
         <div className={formStyles.row}>
           <span className={formStyles.label}>Social Links</span>
@@ -134,7 +136,7 @@ export default function SiteInfoSection({ siteInfo, error, onUpdated }) {
             {SOCIAL_FIELDS.map(({ key, label }) => (
               <div key={key} className={styles.socialItem}>
                 <span className={styles.socialLabel}>{label}</span>
-                <span className={styles.socialValue}>{siteInfo?.socials?.[key] || '—'}</span>
+                <span className={styles.socialValue}>{siteInfo?.socials?.[key] || ' '}</span>
               </div>
             ))}
           </div>
@@ -173,7 +175,6 @@ export default function SiteInfoSection({ siteInfo, error, onUpdated }) {
             />
           </div>
         </div>
-
         <div className={formStyles.row}>
           <label className={formStyles.label} htmlFor="site-tagline">Tagline</label>
           <input
@@ -185,7 +186,6 @@ export default function SiteInfoSection({ siteInfo, error, onUpdated }) {
             disabled={isSaving}
           />
         </div>
-
         <div className={formStyles.row}>
           <label className={formStyles.label} htmlFor="site-description">Description</label>
           <textarea
@@ -197,7 +197,6 @@ export default function SiteInfoSection({ siteInfo, error, onUpdated }) {
             disabled={isSaving}
           />
         </div>
-
         <div className={formStyles.grid}>
           {SOCIAL_FIELDS.map(({ key, label }) => (
             <div key={key} className={formStyles.row}>
@@ -205,7 +204,7 @@ export default function SiteInfoSection({ siteInfo, error, onUpdated }) {
               <input
                 id={`site-social-${key}`}
                 type="url"
-                placeholder="https://…"
+                placeholder="https://"
                 className={`${controlStyles.input} ${controlStyles.fullWidth}`}
                 value={form.socials[key]}
                 onChange={updateSocial(key)}
@@ -217,15 +216,13 @@ export default function SiteInfoSection({ siteInfo, error, onUpdated }) {
             </div>
           ))}
         </div>
-
         {formError && <p className={styles.formError} role="alert">{formError}</p>}
-
         <div className={detailStyles.actions}>
           <Button type="button" variant="outline" size="sm" onClick={() => setIsEditing(false)} disabled={isSaving}>
             Cancel
           </Button>
           <Button type="submit" size="sm" isLoading={isSaving}>
-            {isSaving ? 'Saving…' : 'Save Changes'}
+            {isSaving ? 'Saving ' : 'Save Changes'}
           </Button>
         </div>
       </form>

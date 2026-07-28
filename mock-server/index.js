@@ -1,5 +1,6 @@
 import http from 'http';
 import { 
+  clubInfo,
   homeData, 
   eventsData, 
   galleryData, 
@@ -41,6 +42,7 @@ const server = http.createServer((req, res) => {
 
   // --- PUBLIC & DASHBOARD GET ENDPOINTS ---
   if (req.method === 'GET') {
+    if (req.url.includes('/site-info')) return sendJSON(200, clubInfo);
     if (req.url.includes('/home')) return sendJSON(200, homeData);
     if (req.url.includes('/events')) return sendJSON(200, eventsData);
     if (req.url.includes('/gallery')) return sendJSON(200, galleryData);
@@ -98,6 +100,16 @@ const server = http.createServer((req, res) => {
     if (req.url.includes('/logout')) {
       return sendJSON(200, { message: 'Logged out successfully' });
     } 
+  }
+
+  if (req.method === 'PUT') {
+    if (req.url.includes('/site-info')) {
+      getBody().then(body => {
+        console.log('Received site info update:', body);
+        sendJSON(200, body);
+      });
+      return;
+    }
   }
 
   // 404 FALLBACK

@@ -167,6 +167,7 @@ export default function EventFormModal({ mode, event, onClose, onSaved }) {
                 checked={!!form.featured}
                 onChange={(featured) => updateField('featured', featured)}
                 label="Feature this event on the homepage"
+                disabled={isSaving || isImageUploading}
               />
             </div>
           </div>

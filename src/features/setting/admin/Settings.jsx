@@ -1,13 +1,18 @@
 import { useState } from 'react';
+import { useLoaderData, useRevalidator } from 'react-router';
 import { KeyRound } from 'lucide-react';
 import AdminTitle from '@/components/admin/AdminTitle';
 import Button from '@/components/shared/Button';
 import { getUsername } from '@/services/authToken';
+import SiteInfoSection from './SiteInfoSection';
 import UpdatePasswordModal from './UpdatePasswordModal';
 import formStyles from '@/components/admin/AdminForm.module.css';
 import styles from './Settings.module.css';
 
 export default function Settings() {
+  const { siteInfo, error } = useLoaderData();
+  const revalidator = useRevalidator();
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [confirmation, setConfirmation] = useState(null);
 
@@ -17,30 +22,41 @@ export default function Settings() {
     setTimeout(() => setConfirmation(null), 5000);
   };
 
+  const handleSiteInfoUpdated = () => {
+    // Re-fetch the data to reflect the latest saved changes
+    revalidator.revalidate();
+  };
+
   return (
     <div>
-      <AdminTitle title="Settings" subtitle="Manage your admin account." />
+      <AdminTitle title="Settings" subtitle="Manage your admin account and site details." />
+      
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xl)' }}>
+        {/* Render the SiteInfoSection with the loader data */}
+        <SiteInfoSection 
+          siteInfo={siteInfo} 
+          error={error} 
+          onUpdated={handleSiteInfoUpdated} 
+        />
 
-      <section className={styles.card}>
-        <h2 className={styles.cardTitle}>Profile</h2>
-
-        <div className={formStyles.row}>
-          <span className={formStyles.label}>Username</span>
-          <div>{getUsername() || '—'}</div>
-        </div>
-
-        <div className={formStyles.row}>
-          <span className={formStyles.label}>Password</span>
-          <div className={styles.passwordRow}>
-            <span className={styles.passwordDots}>••••••••</span>
-            <Button variant="outline" size="sm" onClick={() => setIsModalOpen(true)}>
-              <KeyRound size={14} aria-hidden="true" /> Update Password
-            </Button>
+        <section className={styles.card}>
+          <h2 className={styles.cardTitle}>Profile</h2>
+          <div className={formStyles.row}>
+            <span className={formStyles.label}>Username</span>
+            <div>{getUsername() || ' '}</div>
           </div>
-        </div>
-
-        {confirmation && <p className={styles.successMsg} role="status">{confirmation}</p>}
-      </section>
+          <div className={formStyles.row}>
+            <span className={formStyles.label}>Password</span>
+            <div className={styles.passwordRow}>
+              <span className={styles.passwordDots}>••••••••</span>
+              <Button variant="outline" size="sm" onClick={() => setIsModalOpen(true)}>
+                <KeyRound size={14} aria-hidden="true" /> Update Password
+              </Button>
+            </div>
+          </div>
+          {confirmation && <p className={styles.successMsg} role="status">{confirmation}</p>}
+        </section>
+      </div>
 
       {isModalOpen && (
         <UpdatePasswordModal onClose={() => setIsModalOpen(false)} onUpdated={handleUpdated} />
