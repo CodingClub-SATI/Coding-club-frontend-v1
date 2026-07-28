@@ -12,14 +12,19 @@ export class ApiError extends Error {
 }
 
 export async function request(path, { body, headers = {}, ...options } = {}) {
+  // File uploads (e.g. gallery photos) pass a FormData body. Let the browser
+  // set its own multipart Content-Type (with boundary) and send it as-is —
+  // only plain objects get JSON-encoded.
+  const isFormData = typeof FormData !== 'undefined' && body instanceof FormData;
+
   const res = await fetch(`${API_BASE_URL}${path}`, {
     ...options,
     credentials: 'include',
     headers: {
-      'Content-Type': 'application/json',
+      ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
       ...headers,
     },
-    body: body !== undefined ? JSON.stringify(body) : undefined,
+    body: isFormData ? body : body !== undefined ? JSON.stringify(body) : undefined,
   });
 
   if (res.status === 401 && !path.startsWith('/api/auth/')) {

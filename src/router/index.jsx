@@ -7,12 +7,12 @@ import { eventsLoader, eventsAdminLoader } from '@/features/events/api';
 import { galleryLoader } from '@/features/gallery/api';
 import { teamLoader } from '@/features/teams/api';
 import { projectsLoader } from '@/features/projects/api';
+import { inboxLoader } from '@/features/contact/api'
+import { requireAuthLoader } from '@/features/auth/api';
+import { dashboardLoader } from '@/features/dashboard/api';
 
 import ErrorScreen from '@/components/error/ErrorScreen';
 import NotFound from '@/components/error/NotFound';
-import { requireAuthLoader } from '@/features/auth/api';
-import { dashboardLoader } from '@/features/dashboard/api';
-import { inboxLoader } from '@/features/contact/api';
 
 const lazyLoad = (importFn) => {
   return async () => {
@@ -58,9 +58,9 @@ const router = createBrowserRouter([
         children: [
           { index: true, lazy: lazyLoad(() => import('@/features/dashboard/admin/Dashboard')), loader: dashboardLoader },
           { path: 'events', lazy: lazyLoad(() => import('@/features/events/admin/Events')), loader: eventsAdminLoader },
-          { path: 'gallery', lazy: lazyLoad(() => import('@/features/gallery/admin/Gallery')) },
+          { path: 'gallery', lazy: lazyLoad(() => import('@/features/gallery/admin/Gallery')), loader: galleryLoader },
           { path: 'teams', lazy: lazyLoad(() => import('@/features/teams/admin/Teams')) },
-          { path: 'projects', lazy: lazyLoad(() => import('@/features/projects/admin/Projects')) },
+          { path: 'projects', lazy: lazyLoad(() => import('@/features/projects/admin/Projects')), loader: projectsLoader },
           { path: 'inbox', lazy: lazyLoad(() => import('@/features/contact/admin/Inbox')), loader: inboxLoader },
           { path: 'settings', lazy: lazyLoad(() => import('@/features/setting/admin/Settings')) },
           { path: '*', element: <NotFound /> }

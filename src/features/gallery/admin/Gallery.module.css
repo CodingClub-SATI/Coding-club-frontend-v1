@@ -1,0 +1,38 @@
+.backBtn {
+  margin-bottom: var(--space-base);
+  padding-left: 0;
+}
+
+.albumGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-lg);
+}
+
+/* Resets the album card's clickable area back to plain text/box styling —
+   this is a real <button>, not the whole card, so rename/delete (also real
+   buttons) never end up nested inside another interactive element. */
+.tileOpenBtn {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.tileActions {
+  display: flex;
+  gap: var(--space-sm);
+  padding: 0 14px var(--space-md);
+  margin-top: -4px;
+}
+
+.photoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-base);
+}
