@@ -1,5 +1,4 @@
-import { useLoaderData, Link } from 'react-router';
-import { clubInfo } from '@/data/clubInfo';
+import { useLoaderData, useOutletContext, Link } from 'react-router';
 import AnimatedCounter from '@/features/home/components/AnimatedCounter';
 import TypingText from '@/features/home/components/TypingText';
 import Reveal from '@/components/shared/Reveal';
@@ -73,6 +72,7 @@ function ClubMascot() {
 
 export default function Home() {
   const liveStats = useLoaderData();
+  const { siteInfo } = useOutletContext();
 
   const displayStats = STATS_CONFIG.map((stat) => {
     const value = liveStats[stat.dataKey] || 0;
@@ -98,7 +98,7 @@ export default function Home() {
               </span>
             </h1>
             
-            <p className={styles.heroDesc}>{clubInfo.description}</p>
+            {siteInfo?.description && <p className={styles.heroDesc}>{siteInfo.description}</p>}
             
             <div className={styles.heroCtas}>
               <Button Component={Link} to="/learning" variant="filled">

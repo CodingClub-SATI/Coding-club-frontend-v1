@@ -1,11 +1,14 @@
 import SocialLink from '@/components/shared/SocialLink';
-import { SOCIAL_LINKS } from '@/data/socialLinks';
+import { getSocialLinks } from '@/data/socialLinks';
 import styles from './SocialSidebar.module.css';
 
-export default function SocialSidebar() {
+export default function SocialSidebar({ siteInfo }) {
+  const socialLinks = getSocialLinks(siteInfo?.socials);
+  if (socialLinks.length === 0) return null;
+
   return (
     <aside className={styles.sidebar}>
-      {SOCIAL_LINKS.map((link) => (
+      {socialLinks.map((link) => (
         <SocialLink key={link.label} href={link.href} label={link.label}>
           {link.icon}
         </SocialLink>

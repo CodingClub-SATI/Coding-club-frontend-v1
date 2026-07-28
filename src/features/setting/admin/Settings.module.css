@@ -1,0 +1,104 @@
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-md);
+  padding: var(--space-xl);
+  max-width: 32rem;
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.passwordRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-base);
+}
+
+.passwordDots {
+  color: var(--text-muted);
+  letter-spacing: 2px;
+}
+
+.successMsg {
+  color: var(--brand-primary);
+  font-size: var(--text-sm);
+  margin-top: var(--space-lg);
+}
+
+.passwordWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.passwordInput {
+  width: 100%;
+  padding-right: 2.25rem;
+}
+
+.toggleVisibility {
+  position: absolute;
+  right: var(--space-xs);
+}
+
+.hint {
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  margin-top: 4px;
+}
+
+.fieldError {
+  color: var(--brand-destructive);
+  font-size: var(--text-xs);
+  margin-top: 4px;
+}
+
+.formError {
+  color: var(--brand-destructive);
+  font-size: var(--text-sm);
+  margin-top: var(--space-sm);
+}
+
+.otpRow {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-start;
+}
+
+.otpRow .passwordWrap {
+  flex: 1;
+}
+
+.strengthMeter {
+  margin-top: var(--space-sm);
+}
+
+.strengthBar {
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: var(--bg-muted);
+  overflow: hidden;
+}
+
+.strengthFill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.2s ease, background 0.2s ease;
+}
+
+.strengthFill.weak { background: var(--brand-destructive); }
+.strengthFill.fair { background: var(--brand-accent); }
+.strengthFill.strong { background: var(--brand-primary); }
+
+.strengthLabel {
+  font-size: var(--text-xs);
+  margin-top: 4px;
+}
+
+.strengthLabel.weak { color: var(--brand-destructive); }
+.strengthLabel.fair { color: var(--brand-accent); }
+.strengthLabel.strong { color: var(--brand-primary); }

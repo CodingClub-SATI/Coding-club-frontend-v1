@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { clubInfo } from '@/data/clubInfo';
-import { SOCIAL_LINKS } from '@/data/socialLinks';
+import { useOutletContext } from 'react-router';
+import { getSocialLinks } from '@/data/socialLinks';
 import Reveal from '@/components/shared/Reveal';
 import Glasscard from '@/components/shared/Glasscard';
 import Button from '@/components/shared/Button';
@@ -11,6 +11,8 @@ import styles from './Contact.module.css';
 const EMPTY_FORM = { name: '', email: '', requestType: REQUEST_TYPES[0], message: '' };
 
 export default function Contact() {
+  const { siteInfo } = useOutletContext();
+  const socialLinks = getSocialLinks(siteInfo?.socials);
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [status, setStatus] = useState('idle'); // idle | sending | success | error
 
@@ -52,20 +54,24 @@ export default function Contact() {
               <h2 className={styles.infoHeading}>Let&apos;s Connect 🚀</h2>
 
               <div className={styles.infoList}>
-                <div className={styles.infoItem}>
-                  <span className={`${styles.infoIcon} text-primary-glow`}>✉</span>
-                  <div>
-                    <div className={styles.infoLabel}>Email</div>
-                    <a href={`mailto:${clubInfo.email}`} className={styles.infoValue}>{clubInfo.email}</a>
+                {siteInfo?.email && (
+                  <div className={styles.infoItem}>
+                    <span className={`${styles.infoIcon} text-primary-glow`}>✉</span>
+                    <div>
+                      <div className={styles.infoLabel}>Email</div>
+                      <a href={`mailto:${siteInfo.email}`} className={styles.infoValue}>{siteInfo.email}</a>
+                    </div>
                   </div>
-                </div>
-                <div className={styles.infoItem}>
-                  <span className={`${styles.infoIcon} text-primary-glow`}>📞</span>
-                  <div>
-                    <div className={styles.infoLabel}>Phone</div>
-                    <div className={styles.infoValue}>{clubInfo.phone}</div>
+                )}
+                {siteInfo?.phone && (
+                  <div className={styles.infoItem}>
+                    <span className={`${styles.infoIcon} text-primary-glow`}>📞</span>
+                    <div>
+                      <div className={styles.infoLabel}>Phone</div>
+                      <div className={styles.infoValue}>{siteInfo.phone}</div>
+                    </div>
                   </div>
-                </div>
+                )}
                 <div className={styles.infoItem}>
                   <span className={`${styles.infoIcon} text-primary-glow`}>📍</span>
                   <div>
@@ -78,23 +84,27 @@ export default function Contact() {
                 </div>
               </div>
 
-              <h3 className={styles.socialsHeading}>Our Socials</h3>
-              <div className={styles.socialTree}>
-                {SOCIAL_LINKS.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={styles.socialTreeLink}
-                  >
-                    <span className={styles.socialTreeLabel}>
-                      {link.icon} {link.label}
-                    </span>
-                    <span aria-hidden="true">↗</span>
-                  </a>
-                ))}
-              </div>
+              {socialLinks.length > 0 && (
+                <>
+                  <h3 className={styles.socialsHeading}>Our Socials</h3>
+                  <div className={styles.socialTree}>
+                    {socialLinks.map((link) => (
+                      <a
+                        key={link.label}
+                        href={link.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={styles.socialTreeLink}
+                      >
+                        <span className={styles.socialTreeLabel}>
+                          {link.icon} {link.label}
+                        </span>
+                        <span aria-hidden="true">↗</span>
+                      </a>
+                    ))}
+                  </div>
+                </>
+              )}
             </Glasscard>
 
             {/* Form */}
