@@ -6,14 +6,10 @@ const RECENT_LIMIT = 3;
 const statsApi = { getAdmin: () => request('/api/admin/stats') };
 
 const ZERO_STATS = {
-  activeMembers: 0,
-  currentYearMembers: 0,
-  currentYearKey: null,
-  eventsConducted: 0,
   totalEvents: 0,
-  studentProjects: 0,
-  achievedProjects: 0,
-  workshops: 0,
+  totalProjects: 0,
+  newContactMessages: 0,
+  totalMembers: 0,
 };
 
 export const dashboardApi = {
@@ -22,14 +18,10 @@ export const dashboardApi = {
 
 function normalizeStats(raw) {
   return {
-    activeMembers: Number(raw?.activeMembers) || 0,
-    currentYearMembers: Number(raw?.currentYearMembers) || 0,
-    currentYearKey: raw?.currentYearKey ?? null,
-    eventsConducted: Number(raw?.eventsConducted) || 0,
     totalEvents: Number(raw?.totalEvents) || 0,
-    studentProjects: Number(raw?.studentProjects) || 0,
-    achievedProjects: Number(raw?.achievedProjects) || 0,
-    workshops: Number(raw?.workshops) || 0,
+    totalProjects: Number(raw?.totalProjects) || 0,
+    newContactMessages: Number(raw?.newContactMessages) || 0,
+    totalMembers: Number(raw?.totalMembers) || 0,
   };
 }
 

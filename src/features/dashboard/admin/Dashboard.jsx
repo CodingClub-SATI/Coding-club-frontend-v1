@@ -1,5 +1,5 @@
 import { Link, useLoaderData } from 'react-router';
-import { Users, Calendar, FolderGit2, GraduationCap, AlertTriangle, Mail } from 'lucide-react';
+import { Users, Calendar, FolderGit2, AlertTriangle, Mail } from 'lucide-react';
 import AdminTitle from '@/components/admin/AdminTitle';
 import EmptyState from '@/components/shared/EmptyState';
 import tableStyles from '@/components/admin/Table.module.css';
@@ -15,32 +15,32 @@ export default function Dashboard() {
 
   const statCards = [
     {
-      label: 'Active Members',
-      sub: stats.currentYearKey ? `Year ${stats.currentYearKey}` : null,
-      value: stats.currentYearMembers,
-      icon: Users,
-      tone: styles.toneAccent,
-    },
-    {
-      label: 'Events Conducted',
-      sub: `${stats.totalEvents} total (incl. upcoming)`,
-      value: stats.eventsConducted,
+      label: 'Total Events',
+      sub: null,
+      value: stats.totalEvents,
       icon: Calendar,
       tone: styles.toneSecondary,
     },
     {
-      label: 'Student Projects',
-      sub: `${stats.achievedProjects} achieved`,
-      value: stats.studentProjects,
+      label: 'Total Projects',
+      sub: null,
+      value: stats.totalProjects,
       icon: FolderGit2,
       tone: styles.tonePrimary,
     },
     {
-      label: 'Workshops',
-      sub: 'Category: Workshop',
-      value: stats.workshops,
-      icon: GraduationCap,
+      label: 'New Contact Messages',
+      sub: null,
+      value: stats.newContactMessages,
+      icon: Mail,
       tone: styles.toneGold,
+    },
+    {
+      label: 'Total Member Count',
+      sub: null,
+      value: stats.totalMembers,
+      icon: Users,
+      tone: styles.toneAccent,
     },
   ];
 

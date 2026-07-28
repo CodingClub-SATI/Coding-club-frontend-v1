@@ -19,7 +19,7 @@ export default function InboxDetailPanel({ contact, onClose, onChanged, onDelete
     setIsUpdating(true);
     setActionError(null);
     try {
-      const updated = await contactApi.updateStatus(contact.id, isNew ? 'Responded' : 'New');
+      const updated = await contactApi.updateStatus(contact.id, isNew ? 'Read' : 'New');
       onChanged(updated);
     } catch (err) {
       console.error('Failed to update contact status:', err);

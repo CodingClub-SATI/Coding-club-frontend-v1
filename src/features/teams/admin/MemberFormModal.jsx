@@ -41,7 +41,18 @@ export default function MemberFormModal({ mode, year, group, member, onClose, on
     setIsSaving(true);
     setError(null);
     try {
-      const payload = { ...form, name: form.name.trim() };
+      const payload = {
+        name: form.name.trim(),
+        role: form.role,
+        designation: form.designation,
+        shortDescription: form.shortDescription,
+        skills: form.skills,
+        github: form.github,
+        linkedin: form.linkedin,
+        instagram: form.instagram,
+        twitter: form.twitter,
+        image: form.image,
+      };
       const saved = mode === 'new'
         ? await teamApi.addMember(year, group, payload)
         : await teamApi.updateMember(year, group, member.id, payload);

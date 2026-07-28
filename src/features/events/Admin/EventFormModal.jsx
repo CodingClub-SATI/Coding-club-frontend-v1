@@ -18,14 +18,31 @@ const EMPTY_FORM = {
   description: '',
   type: EVENT_CATEGORIES[0],
   tags: [],
-  image: null,
+  bannerUrl: null,
   featured: false,
   registrationLink: '',
   status: 'upcoming',
 };
 
+function toFormState(event) {
+  if (!event) return EMPTY_FORM;
+  return {
+    title: event.title || '',
+    date: event.date || '',
+    time: event.time || '',
+    venue: event.venue || '',
+    description: event.description || '',
+    type: event.type || EVENT_CATEGORIES[0],
+    tags: event.tags || [],
+    bannerUrl: event.bannerUrl || null,
+    featured: !!event.featured,
+    registrationLink: event.registrationLink || '',
+    status: event.status || 'upcoming',
+  };
+}
+
 export default function EventFormModal({ mode, event, onClose, onSaved }) {
-  const [form, setForm] = useState(() => (mode === 'edit' && event ? { ...EMPTY_FORM, ...event } : EMPTY_FORM));
+  const [form, setForm] = useState(() => toFormState(mode === 'edit' ? event : null));
   const [isSaving, setIsSaving] = useState(false);
   const [isImageUploading, setIsImageUploading] = useState(false);
   const [error, setError] = useState(null);
@@ -42,7 +59,19 @@ export default function EventFormModal({ mode, event, onClose, onSaved }) {
     setIsSaving(true);
     setError(null);
     try {
-      const payload = { ...form, title: form.title.trim() };
+      const payload = {
+        title: form.title.trim(),
+        date: form.date,
+        time: form.time,
+        venue: form.venue,
+        description: form.description,
+        type: form.type,
+        tags: form.tags,
+        bannerUrl: form.bannerUrl,
+        featured: form.featured,
+        registrationLink: form.registrationLink,
+        status: form.status,
+      };
       const saved = mode === 'new' ? await eventsApi.create(payload) : await eventsApi.update(event.id, payload);
       onSaved(saved);
     } catch (err) {
@@ -145,8 +174,8 @@ export default function EventFormModal({ mode, event, onClose, onSaved }) {
           <div className={formStyles.row}>
             <span className={formStyles.label}>Poster Image</span>
             <ImageDrop
-              value={form.image}
-              onChange={(image) => updateField('image', image)}
+              value={form.bannerUrl}
+              onChange={(bannerUrl) => updateField('bannerUrl', bannerUrl)}
               onUploadingChange={setIsImageUploading}
             />
           </div>

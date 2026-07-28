@@ -41,8 +41,8 @@ export default function EventDetailPanel({ event, onClose, onEdit, onChanged, on
 
   return (
     <Modal title={event.title} onClose={onClose} size="lg" variant="glow">
-      {event.image ? (
-        <img className={detailStyles.poster} src={event.image} alt={event.title} />
+      {event.bannerUrl ? (
+        <img className={detailStyles.poster} src={event.bannerUrl} alt={event.title} />
       ) : (
         <div className={`${detailStyles.poster} ${styles.posterPlaceholder}`}>No poster uploaded</div>
       )}
