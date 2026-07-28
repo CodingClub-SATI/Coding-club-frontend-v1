@@ -25,8 +25,8 @@ export default function PhotoEditModal({ photo, featuredLimitReached, onClose, o
   };
 
   return (
-    <Modal title="Edit Photo Details" onClose={onClose} size="sm">
-      <form onSubmit={handleSubmit}>
+    <Modal title="Edit Photo Details" onClose={onClose} size="sm" variant="glow">
+      <form onSubmit={handleSubmit} noValidate>
         <div className={formStyles.row}>
           <label className={formStyles.label} htmlFor="photo-caption">Caption</label>
           <textarea

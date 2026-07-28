@@ -22,8 +22,13 @@ export default function AlbumFormModal({ mode, initialTitle = '', onClose, onSub
   };
 
   return (
-    <Modal title={mode === 'create' ? 'Create Album' : 'Rename Album'} onClose={onClose} size="sm">
-      <form onSubmit={handleSubmit}>
+    <Modal 
+     title={mode === 'create' ? 'Create Album' : 'Rename Album'} 
+     onClose={onClose} 
+     size="sm" 
+     variant="glow"
+    >
+      <form onSubmit={handleSubmit} noValidate>
         <div className={formStyles.row}>
           <label className={formStyles.label} htmlFor="album-title">Album Title</label>
           <input
