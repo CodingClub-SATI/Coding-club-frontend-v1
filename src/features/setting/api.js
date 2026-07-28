@@ -9,3 +9,20 @@ export const settingsApi = {
   updatePassword: ({ currentPassword, newPassword, otp }) =>
     request('/api/auth/password', { method: 'PUT', body: { currentPassword, newPassword, otp } }),
 };
+
+// Site info API endpoints
+export const siteInfoApi = {
+  get: () => request('/api/site-info'),
+  update: (payload) => request('/api/site-info', { method: 'PUT', body: payload }),
+};
+
+// Loader used by the router for both public and admin layouts
+export async function siteInfoLoader() {
+  try {
+    const siteInfo = await siteInfoApi.get();
+    return { siteInfo, error: null };
+  } catch (err) {
+    console.error('Failed to load site info:', err);
+    return { siteInfo: null, error: 'Could not load site info right now.' };
+  }
+}

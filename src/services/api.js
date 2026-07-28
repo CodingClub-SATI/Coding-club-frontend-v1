@@ -1,4 +1,4 @@
-import { clearSession } from './authToken';
+import { clearSession, getToken } from './authToken';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
@@ -12,16 +12,15 @@ export class ApiError extends Error {
 }
 
 export async function request(path, { body, headers = {}, ...options } = {}) {
-  // File uploads (e.g. gallery photos) pass a FormData body. Let the browser
-  // set its own multipart Content-Type (with boundary) and send it as-is —
-  // only plain objects get JSON-encoded.
   const isFormData = typeof FormData !== 'undefined' && body instanceof FormData;
+  const token = getToken();
 
   const res = await fetch(`${API_BASE_URL}${path}`, {
     ...options,
     credentials: 'include',
     headers: {
       ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
       ...headers,
     },
     body: isFormData ? body : body !== undefined ? JSON.stringify(body) : undefined,
@@ -46,5 +45,6 @@ export async function request(path, { body, headers = {}, ...options } = {}) {
     const message = (data && data.message) || `Request to ${path} failed with status ${res.status}`;
     throw new ApiError(message, res.status, data);
   }
+
   return data;
 }

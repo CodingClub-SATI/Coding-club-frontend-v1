@@ -11,10 +11,6 @@ const PLATFORMS = [
   { key: 'youtube', label: 'YouTube', Icon: YoutubeIcon },
 ];
 
-// Builds the icon-link list shown in the Footer/SocialSidebar/Contact page
-// from the site's social URLs, skipping any platform that hasn't been
-// filled in yet (used to be a static array — now derived from admin-edited
-// data, so an empty field just means that icon doesn't render).
 export function getSocialLinks(socials, size = 16) {
   if (!socials) return [];
   return PLATFORMS
