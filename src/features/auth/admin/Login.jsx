@@ -29,8 +29,8 @@ export default function Login() {
     setSubmitting(true);
 
     try {
-      const { token } = await authApi.login(username.trim(), password);
-      setSession(token, username.trim());
+      await authApi.login(username.trim(), password);
+      setSession(username.trim());
       navigate('/admin', { replace: true });
     } catch (err) {
       if (err instanceof ApiError && err.status === 401) {

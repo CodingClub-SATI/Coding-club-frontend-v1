@@ -1,5 +1,5 @@
-import { ApiError } from './api';
-import { clearSession, getToken } from './authToken';
+import { ApiError, request } from './api';
+import { clearSession } from './authToken';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 const UPLOAD_PATH = '/api/upload';
@@ -7,15 +7,10 @@ const UPLOAD_PATH = '/api/upload';
 export async function uploadImage(file) {
   const formData = new FormData();
   formData.append('image', file);
-  
-  const token = getToken();
 
   const res = await fetch(`${API_BASE_URL}${UPLOAD_PATH}`, {
     method: 'POST',
-    credentials: 'include',
-    headers: {
-      ...(token ? { 'Authorization': `Bearer ${token}` } : {})
-    },
+    credentials: 'include', // Automatically sends the HttpOnly JWT cookie
     body: formData,
   });
 
@@ -44,4 +39,13 @@ export async function uploadImage(file) {
   }
 
   return data.url;
+}
+
+export async function deleteImage(url) {
+  if (!url) return;
+  
+  return request(UPLOAD_PATH, {
+    method: 'DELETE',
+    body: { url }
+  });
 }

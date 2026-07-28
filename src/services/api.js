@@ -1,4 +1,4 @@
-import { clearSession, getToken } from './authToken';
+import { clearSession } from './authToken';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
@@ -13,14 +13,12 @@ export class ApiError extends Error {
 
 export async function request(path, { body, headers = {}, ...options } = {}) {
   const isFormData = typeof FormData !== 'undefined' && body instanceof FormData;
-  const token = getToken();
 
   const res = await fetch(`${API_BASE_URL}${path}`, {
     ...options,
     credentials: 'include',
     headers: {
       ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
-      ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
       ...headers,
     },
     body: isFormData ? body : body !== undefined ? JSON.stringify(body) : undefined,
