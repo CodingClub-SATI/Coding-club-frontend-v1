@@ -6,7 +6,7 @@ import { homeLoader } from '@/features/home/api';
 import { eventsLoader, eventsAdminLoader } from '@/features/events/api';
 import { galleryLoader, galleryAdminLoader } from '@/features/gallery/api';
 import { teamAdminLoader, teamPublicLoader } from '@/features/teams/api';
-import { projectsLoader } from '@/features/projects/api';
+import { projectsLoader, projectsAdminLoader } from '@/features/projects/api';
 
 import ErrorScreen from '@/components/error/ErrorScreen';
 import NotFound from '@/components/error/NotFound';
@@ -63,7 +63,7 @@ const router = createBrowserRouter([
           { path: 'events', lazy: lazyLoad(() => import('@/features/events/admin/Events')), loader: eventsAdminLoader },
           { path: 'gallery', lazy: lazyLoad(() => import('@/features/gallery/admin/Gallery')), loader: galleryAdminLoader },
           { path: 'teams', lazy: lazyLoad(() => import('@/features/teams/admin/Teams')), loader: teamAdminLoader },
-          { path: 'projects', lazy: lazyLoad(() => import('@/features/projects/admin/Projects')), loader: projectsLoader },
+          { path: 'projects', lazy: lazyLoad(() => import('@/features/projects/admin/Projects')), loader: projectsAdminLoader },
           { path: 'inbox', lazy: lazyLoad(() => import('@/features/contact/admin/Inbox')), loader: inboxLoader },
           { path: 'settings', lazy: lazyLoad(() => import('@/features/setting/admin/Settings')), loader: siteInfoLoader },
           { path: '*', element: <NotFound /> }

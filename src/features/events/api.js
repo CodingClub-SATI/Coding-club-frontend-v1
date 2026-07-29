@@ -1,12 +1,16 @@
 import { request } from '@/services/api';
 
+export const EVENTS_PAGE_SIZE = 9;
+
 export const eventsApi = {
-  list: ({ includeArchived = false, limit, status, type, featured } = {}) => {
+  list: ({ includeArchived = false, limit, status, type, featured, page, pageSize } = {}) => {
     const params = new URLSearchParams({ includeArchived: includeArchived ? 'true' : 'false' });
     if (limit) params.set('limit', String(limit));
     if (status) params.set('status', status);
     if (type) params.set('type', type);
     if (featured) params.set('featured', 'true');
+    if (page) params.set('page', String(page));
+    if (pageSize) params.set('pageSize', String(pageSize));
     return request(`/api/events?${params.toString()}`);
   },
   create: (payload) => request('/api/events', { method: 'POST', body: payload }),
@@ -14,33 +18,33 @@ export const eventsApi = {
   remove: (id) => request(`/api/events/${id}`, { method: 'DELETE' }),
 };
 
-// Reads the public Events page's tab ('upcoming' | 'completed' | 'all') and
-// type-select ('All' | 'Workshop' | ...) straight from the URL's search
-// params and asks the backend for exactly that slice via ?status=/?type=,
-// instead of fetching every event and filtering it in the browser. The
-// featured carousel is fetched separately via ?featured=true so it always
-// shows every featured event regardless of which tab/type is selected.
 export async function eventsLoader({ request: req }) {
   const url = new URL(req.url);
   const tab = url.searchParams.get('status') || 'upcoming';
   const type = url.searchParams.get('type') || 'All';
+  const page = Math.max(1, parseInt(url.searchParams.get('page'), 10) || 1);
 
   const status = tab === 'all' ? undefined : tab;
   const typeFilter = type === 'All' ? undefined : type;
 
   try {
-    const [events, featuredEvents] = await Promise.all([
-      eventsApi.list({ status, type: typeFilter }),
+    const [eventsResult, featuredEvents] = await Promise.all([
+      eventsApi.list({ status, type: typeFilter, page, pageSize: EVENTS_PAGE_SIZE }),
       eventsApi.list({ featured: true }),
     ]);
+
+    const events = Array.isArray(eventsResult) ? eventsResult : eventsResult.data;
+
     return {
       events: Array.isArray(events) ? events : [],
       featuredEvents: Array.isArray(featuredEvents) ? featuredEvents : [],
+      page: eventsResult.page || 1,
+      totalPages: eventsResult.totalPages || 1,
       error: null,
     };
   } catch (err) {
     console.error('Failed to load events:', err);
-    return { events: [], featuredEvents: [], error: 'Could not load events right now.' };
+    return { events: [], featuredEvents: [], page: 1, totalPages: 1, error: 'Could not load events right now.' };
   }
 }
 

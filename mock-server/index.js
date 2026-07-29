@@ -25,7 +25,7 @@ const server = http.createServer((req, res) => {
     req.on('data', chunk => body += chunk.toString());
     req.on('end', () => {
       try { resolve(body ? JSON.parse(body) : {}) }
-      catch(e) { resolve({}) }
+      catch { resolve({}) }
     });
   });
 
@@ -108,7 +108,7 @@ const server = http.createServer((req, res) => {
         if (leadershipMapping.convenors.includes(member.id)) position = "Convenor";
         else if (leadershipMapping.coConvenors.includes(member.id)) position = "Co-Convenor";
         else {
-          const deptEntry = Object.entries(leadershipMapping.departmentHeads).find(([_, id]) => id === member.id);
+          const deptEntry = Object.entries(leadershipMapping.departmentHeads).find(([, id]) => id === member.id);
           if (deptEntry) position = `Department Lead - ${deptEntry[0]}`;
         }
 

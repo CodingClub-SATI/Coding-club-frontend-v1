@@ -1,8 +1,17 @@
 import { request } from '@/services/api';
 import { uploadImage } from '@/services/upload'; 
 
+export const GALLERY_PAGE_SIZE = 9;
+
 export const galleryApi = {
-  list: () => request('/api/gallery'),
+  list: ({ search, page, pageSize } = {}) => {
+    const params = new URLSearchParams();
+    if (search) params.set('search', search);
+    if (page) params.set('page', String(page));
+    if (pageSize) params.set('pageSize', String(pageSize));
+    const qs = params.toString();
+    return request(`/api/gallery${qs ? `?${qs}` : ''}`);
+  },
   getHighlights: () => request('/api/gallery/highlights'),
 
   // ---- Admin: albums ----
@@ -47,9 +56,14 @@ export async function galleryAdminLoader() {
   }
 }
 
-export async function galleryLoader() {
+// Public Gallery page loader 
+export async function galleryLoader({ request: req } = {}) {
+  const url = req ? new URL(req.url) : null;
+  const search = url?.searchParams.get('search') || '';
+  const page = Math.max(1, parseInt(url?.searchParams.get('page'), 10) || 1);
+
   const [albumsResult, highlightsResult] = await Promise.allSettled([
-    galleryApi.list(),
+    galleryApi.list({ search, page, pageSize: GALLERY_PAGE_SIZE }),
     galleryApi.getHighlights(),
   ]);
 
@@ -59,15 +73,18 @@ export async function galleryLoader() {
 
   if (albumsResult.status === 'rejected') {
     console.error('Failed to load gallery:', albumsResult.reason);
-    return { albums: [], highlights: [], error: 'Could not load the gallery right now.' };
+    return { albums: [], highlights: [], page: 1, totalPages: 1, error: 'Could not load the gallery right now.' };
   }
 
-  const albums = albumsResult.value;
+  const result = albumsResult.value;
+  const albums = Array.isArray(result) ? result : result.data;
   const highlights = highlightsResult.status === 'fulfilled' ? highlightsResult.value : [];
 
   return {
     albums: Array.isArray(albums) ? albums : [],
     highlights: Array.isArray(highlights) ? highlights : [],
+    page: result.page || 1,
+    totalPages: result.totalPages || 1,
     error: null,
   };
 }

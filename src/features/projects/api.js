@@ -1,7 +1,18 @@
 import { request } from '@/services/api';
 
+export const PROJECTS_PAGE_SIZE = 6;
+
 export const projectsApi = {
-  list: () => request('/api/projects'),
+  list: ({ category, sort, limit, page, pageSize } = {}) => {
+    const params = new URLSearchParams();
+    if (category && category !== 'All') params.set('category', category);
+    if (sort) params.set('sort', sort);
+    if (limit) params.set('limit', String(limit));
+    if (page) params.set('page', String(page));
+    if (pageSize) params.set('pageSize', String(pageSize));
+    const qs = params.toString();
+    return request(`/api/projects${qs ? `?${qs}` : ''}`);
+  },
 
   // ---- Admin: CRUD ----
   create: (payload) => request('/api/projects', { method: 'POST', body: payload }),
@@ -9,11 +20,42 @@ export const projectsApi = {
   remove: (id) => request(`/api/projects/${id}`, { method: 'DELETE' }),
 };
 
-// Shared by both the public Projects page and the admin Projects page —
-// same full list either way; the admin page layers CRUD handlers on top
-// locally. Never throws — a failed fetch degrades to an empty list + error
-// message instead of taking the route down.
-export async function projectsLoader() {
+// Public Projects page loader
+export async function projectsLoader({ request: req } = {}) {
+  const url = req ? new URL(req.url) : null;
+  const category = url?.searchParams.get('category') || 'All';
+  const page = Math.max(1, parseInt(url?.searchParams.get('page'), 10) || 1);
+
+  try {
+    const [topThree, projectsResult] = await Promise.all([
+      projectsApi.list({ sort: 'stars', limit: 3 }),
+      projectsApi.list({ category, sort: 'stars', page, pageSize: PROJECTS_PAGE_SIZE }),
+    ]);
+
+    const projects = Array.isArray(projectsResult) ? projectsResult : projectsResult.data;
+
+    return {
+      projects: Array.isArray(projects) ? projects : [],
+      topThree: Array.isArray(topThree) ? topThree : [],
+      category,
+      page: projectsResult.page || 1,
+      totalPages: projectsResult.totalPages || 1,
+      error: null,
+    };
+  } catch (err) {
+    console.error('Failed to load projects:', err);
+    return {
+      projects: [],
+      topThree: [],
+      category: 'All',
+      page: 1,
+      totalPages: 1,
+      error: 'Could not load projects right now.',
+    };
+  }
+}
+
+export async function projectsAdminLoader() {
   try {
     const projects = await projectsApi.list();
     return { projects: Array.isArray(projects) ? projects : [], error: null };

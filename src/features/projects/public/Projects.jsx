@@ -1,23 +1,24 @@
-import { useMemo, useState } from 'react';
-import { Link, useLoaderData } from 'react-router';
+import { useMemo } from 'react';
+import { Link, useLoaderData, useSearchParams, useNavigation } from 'react-router';
 import { AlertTriangle, FolderGit2 } from 'lucide-react';
 import Reveal from '@/components/shared/Reveal';
 import Glasscard from '@/components/shared/Glasscard';
 import Button from '@/components/shared/Button';
 import EmptyState from '@/components/shared/EmptyState';
+import Pagination from '@/components/shared/Pagination';
 import ProjectCard from '@/features/projects/components/ProjectCard';
+import { CATEGORIES } from '@/features/projects/constants';
 import styles from './Projects.module.css';
 
-export default function Projects() {
-  const { projects, error } = useLoaderData();
-  const [category, setCategory] = useState('All');
+const CATEGORY_TABS = ['All', ...CATEGORIES];
 
-  const sorted = useMemo(
-    () => [...projects].sort((a, b) => b.stars - a.stars),
-    [projects]
-  );
-  
-  const topThree = sorted.slice(0, 3);
+export default function Projects() {
+  const { projects, topThree, page, totalPages, error } = useLoaderData();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigation = useNavigation();
+  const isFiltering = navigation.state === 'loading';
+
+  const category = searchParams.get('category') || 'All';
 
   // Only the overall top 3 carry a podium badge, computed once so
   // ProjectCard doesn't need an O(n) lookup per render.
@@ -27,12 +28,24 @@ export default function Projects() {
     return map;
   }, [topThree]);
 
-  const categories = useMemo(
-    () => ['All', ...new Set(projects.map((p) => p.category).filter(Boolean))],
-    [projects]
-  );
+  const setCategory = (value) => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (value === 'All') next.delete('category');
+      else next.set('category', value);
+      next.delete('page'); // changing category starts back at page 1
+      return next;
+    }, { replace: true });
+  };
 
-  const filtered = category === 'All' ? sorted : sorted.filter((p) => p.category === category);
+  const setPage = (nextPage) => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (nextPage <= 1) next.delete('page');
+      else next.set('page', String(nextPage));
+      return next;
+    }, { replace: true });
+  };
 
   return (
     <div>
@@ -90,7 +103,7 @@ export default function Projects() {
               All <span className="text-secondary-glow">Projects</span>
             </h2>
             <div className={styles.categoryFilter} role="group" aria-label="Filter projects by category">
-              {categories.map((c) => (
+              {CATEGORY_TABS.map((c) => (
                 <button
                   key={c}
                   type="button"
@@ -112,22 +125,29 @@ export default function Projects() {
                 subtitle="Try refreshing the page in a moment."
               />
             </Glasscard>
-          ) : filtered.length === 0 ? (
+          ) : projects.length === 0 ? (
             <Glasscard className={styles.emptyState}>
               <EmptyState
                 icon={FolderGit2}
-                title={projects.length === 0 ? 'No projects yet' : 'No projects found'}
-                subtitle={projects.length === 0 ? 'Check back soon for member projects.' : 'Try a different category.'}
+                title={topThree.length === 0 ? 'No projects yet' : 'No projects found'}
+                subtitle={topThree.length === 0 ? 'Check back soon for member projects.' : 'Try a different category.'}
               />
             </Glasscard>
           ) : (
-            <div className={`grid-2 ${styles.projectsGrid}`}>
-              {filtered.map((project, i) => (
-                <Reveal key={project.id} delay={i * 60}>
-                  <ProjectCard project={project} rank={rankById.get(project.id)} />
-                </Reveal>
-              ))}
-            </div>
+            <>
+              <div
+                className={`grid-2 ${styles.projectsGrid}`}
+                aria-busy={isFiltering}
+                style={isFiltering ? { opacity: 0.5, transition: 'opacity 150ms ease' } : undefined}
+              >
+                {projects.map((project, i) => (
+                  <Reveal key={project.id} delay={i * 60}>
+                    <ProjectCard project={project} rank={rankById.get(project.id)} />
+                  </Reveal>
+                ))}
+              </div>
+              <Pagination page={page} totalPages={totalPages} onChange={setPage} />
+            </>
           )}
         </div>
       </section>

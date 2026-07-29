@@ -6,6 +6,7 @@ import Glasscard from '@/components/shared/Glasscard';
 import Tabs from '@/components/shared/Tabs';
 import Button from '@/components/shared/Button';
 import EmptyState from '@/components/shared/EmptyState';
+import Pagination from '@/components/shared/Pagination';
 import { BoltPath } from '@/components/shared/Icons';
 import EventCard from '@/features/events/components/EventCard';
 import FeaturedCarousel from '@/features/events/components/FeaturedCarousel';
@@ -21,7 +22,7 @@ const TAB_ITEMS = [
 const TYPES = ['All', 'Workshop', 'Hackathon', 'Competition', 'Seminar'];
 
 export default function Events() {
-  const { events, featuredEvents, error } = useLoaderData();
+  const { events, featuredEvents, page, totalPages, error } = useLoaderData();
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedEvent, setSelectedEvent] = useState(null);
   const navigation = useNavigation();
@@ -35,12 +36,22 @@ export default function Events() {
       const next = new URLSearchParams(prev);
       if (value === defaultValue) next.delete(key);
       else next.set(key, value);
+      next.delete('page'); // changing a filter starts back at page 1
       return next;
     }, { replace: true });
   };
 
   const setTab = (value) => updateParam('status', value, 'upcoming');
   const setFilter = (value) => updateParam('type', value, 'All');
+
+  const setPage = (nextPage) => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (nextPage <= 1) next.delete('page');
+      else next.set('page', String(nextPage));
+      return next;
+    }, { replace: true });
+  };
 
   return (
     <div>
@@ -125,17 +136,20 @@ export default function Events() {
               <EmptyState icon={CalendarX} title="No events found" subtitle="Try a different filter or check back later." />
             </Glasscard>
           ) : (
-            <div
-              className={`grid-3 ${styles.eventsGrid}`}
-              aria-busy={isFiltering}
-              style={isFiltering ? { opacity: 0.5, transition: 'opacity 150ms ease' } : undefined}
-            >
-              {events.map((event, i) => (
-                <Reveal key={event.id} delay={i * 80}>
-                  <EventCard event={event} onClick={setSelectedEvent} />
-                </Reveal>
-              ))}
-            </div>
+            <>
+              <div
+                className={`grid-3 ${styles.eventsGrid}`}
+                aria-busy={isFiltering}
+                style={isFiltering ? { opacity: 0.5, transition: 'opacity 150ms ease' } : undefined}
+              >
+                {events.map((event, i) => (
+                  <Reveal key={event.id} delay={i * 80}>
+                    <EventCard event={event} onClick={setSelectedEvent} />
+                  </Reveal>
+                ))}
+              </div>
+              <Pagination page={page} totalPages={totalPages} onChange={setPage} />
+            </>
           )}
         </div>
       </section>

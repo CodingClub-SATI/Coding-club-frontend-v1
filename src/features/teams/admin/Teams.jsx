@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState } from 'react';
 import { useLoaderData, useRevalidator } from 'react-router';
 import { AlertTriangle, Archive, ArchiveRestore, ArrowLeft, Plus, Trash2, Users, Shield } from 'lucide-react';
 import AdminTitle from '@/components/admin/AdminTitle';
@@ -22,11 +22,12 @@ export default function Teams() {
   const revalidator = useRevalidator();
   
   const [batches, setBatches] = useState(initialBatches);
-  
-  // Sync local state when the loader data changes (e.g. after LeadershipModal saves)
-  useEffect(() => {
+
+  const [prevInitialBatches, setPrevInitialBatches] = useState(initialBatches);
+  if (initialBatches !== prevInitialBatches) {
+    setPrevInitialBatches(initialBatches);
     setBatches(initialBatches);
-  }, [initialBatches]);
+  }
 
   const [openBatchName, setOpenBatchName] = useState(null);
   const [selectedMember, setSelectedMember] = useState(null);
@@ -46,9 +47,9 @@ export default function Teams() {
   );
   const availableBatches = useMemo(() => batches.map((b) => b.batch), [batches]);
 
-  // ============================================================
+  // ===============
   // Batches
-  // ============================================================
+  // ================
   const handleAddBatch = async (e) => {
     e.preventDefault();
     if (!batchInput.trim()) {
@@ -93,9 +94,9 @@ export default function Teams() {
     }
   };
 
-  // ============================================================
+  // =================
   // Members
-  // ============================================================
+  // =================
   const openNewMember = () => setEditingMember({ mode: 'new', member: null });
   const openEditMember = (member) => {
     setSelectedMember(null);
@@ -158,9 +159,9 @@ export default function Teams() {
     }
   };
 
-  // ============================================================
-  // Batch detail view - members within one batch
-  // ============================================================
+  // ==============
+  // Batch detail view
+  // ==================
   if (openBatch) {
     return (
       <div>
@@ -228,9 +229,9 @@ export default function Teams() {
     );
   }
 
-  // ============================================================
+  // =======================
   // Batch grid view
-  // ============================================================
+  // =======================
   return (
     <div>
       <AdminTitle

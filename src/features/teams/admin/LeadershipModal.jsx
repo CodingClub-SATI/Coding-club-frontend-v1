@@ -21,10 +21,8 @@ export default function LeadershipModal({ batches, onClose, onSaved }) {
 
   const [deptHeads, setDeptHeads] = useState([]);
 
-  // Only allow selecting from unarchived batches
   const unarchivedBatches = batches.filter(b => !b.archived);
 
-  // Helper to find which batch a specific member ID belongs to
   const getBatchForMember = (memberId) => {
     if (!memberId) return '';
     for (const b of batches) {
@@ -57,6 +55,7 @@ export default function LeadershipModal({ batches, onClose, onSaved }) {
       setDeptHeads(depts);
       setIsLoading(false);
     }).catch(err => {
+      console.error('Failed to load leadership configuration:', err);
       setError('Failed to load current leadership configuration.');
       setIsLoading(false);
     });
@@ -67,7 +66,6 @@ export default function LeadershipModal({ batches, onClose, onSaved }) {
     setIsSaving(true);
     setError(null);
 
-    // Format Department Heads back into an object mapping: { "Technical": "m1", "Management": "m2" }
     const deptMapping = {};
     deptHeads.forEach(d => {
       if (d.dept.trim() && d.memberId) {
@@ -85,6 +83,7 @@ export default function LeadershipModal({ batches, onClose, onSaved }) {
       await teamApi.updateLeadership(payload);
       onSaved(); // Triggers a revalidation in Teams.jsx to update the UI
     } catch (err) {
+      console.error('Failed to save leadership updates:', err);
       setError('Failed to save leadership updates.');
       setIsSaving(false);
     }
@@ -98,7 +97,6 @@ export default function LeadershipModal({ batches, onClose, onSaved }) {
     );
   }
 
-  // Helper to render the member dropdown options based on the selected batch
   const renderMemberOptions = (selectedBatch) => {
     const batchObj = batches.find(b => b.batch === selectedBatch);
     if (!batchObj || batchObj.members.length === 0) return <option value="" disabled>No members found</option>;
