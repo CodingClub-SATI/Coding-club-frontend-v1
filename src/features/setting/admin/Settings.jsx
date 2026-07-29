@@ -1,18 +1,17 @@
 import { useState } from 'react';
-import { useLoaderData, useRevalidator } from 'react-router';
 import { KeyRound } from 'lucide-react';
+import { useLoaderData, useRevalidator } from 'react-router';
 import AdminTitle from '@/components/admin/AdminTitle';
 import Button from '@/components/shared/Button';
 import { getUsername } from '@/services/authToken';
-import SiteInfoSection from './SiteInfoSection';
 import UpdatePasswordModal from './UpdatePasswordModal';
+import SiteInfoSection from './SiteInfoSection';
 import formStyles from '@/components/admin/AdminForm.module.css';
 import styles from './Settings.module.css';
 
 export default function Settings() {
   const { siteInfo, error } = useLoaderData();
   const revalidator = useRevalidator();
-  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [confirmation, setConfirmation] = useState(null);
 
@@ -41,10 +40,12 @@ export default function Settings() {
 
         <section className={styles.card}>
           <h2 className={styles.cardTitle}>Profile</h2>
+
           <div className={formStyles.row}>
             <span className={formStyles.label}>Username</span>
-            <div>{getUsername() || ' '}</div>
+            <div>{getUsername() || '—'}</div>
           </div>
+
           <div className={formStyles.row}>
             <span className={formStyles.label}>Password</span>
             <div className={styles.passwordRow}>
@@ -54,6 +55,7 @@ export default function Settings() {
               </Button>
             </div>
           </div>
+
           {confirmation && <p className={styles.successMsg} role="status">{confirmation}</p>}
         </section>
       </div>

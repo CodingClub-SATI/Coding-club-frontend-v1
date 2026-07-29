@@ -9,16 +9,21 @@ export default function PhotoEditModal({ photo, featuredLimitReached, onClose, o
   const [caption, setCaption] = useState(photo.caption || '');
   const [featured, setFeatured] = useState(photo.featured || false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
   // If it isn't currently featured and the limit is reached, disable the toggle
   const isToggleDisabled = !photo.featured && featuredLimitReached;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     setIsSubmitting(true);
     try {
       await onSubmit({ caption: caption.trim(), featured });
       onClose();
+    } catch (err) {
+      console.error('Failed to update photo:', err);
+      setError(err?.message || 'Something went wrong. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -51,6 +56,7 @@ export default function PhotoEditModal({ photo, featuredLimitReached, onClose, o
             </p>
           )}
         </div>
+        {error && <p className={formStyles.error} role="alert">{error}</p>}
         <div className={formStyles.actions}>
           <Button variant="ghost" onClick={onClose} type="button" disabled={isSubmitting}>
             Cancel

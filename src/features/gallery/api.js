@@ -3,12 +3,12 @@ import { uploadImage } from '@/services/upload';
 
 export const galleryApi = {
   list: () => request('/api/gallery'),
-  
+
   // ---- Admin: albums ----
   createAlbum: (payload) => request('/api/gallery', { method: 'POST', body: payload }),
   updateAlbum: (albumId, payload) => request(`/api/gallery/${albumId}`, { method: 'PUT', body: payload }),
   removeAlbum: (albumId) => request(`/api/gallery/${albumId}`, { method: 'DELETE' }),
-  
+
   // ---- Admin: photos within an album ----
   addPhotos: async (albumId, files) => {
     const uploadedUrls = await Promise.all(

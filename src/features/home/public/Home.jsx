@@ -11,7 +11,7 @@ const STATS_CONFIG = [
   { label: "Active Members", icon: "👥", dataKey: "activeMembers" },
   { label: "Events", icon: "📅", dataKey: "totalEvents" },
   { label: "Projects", icon: "🚀", dataKey: "studentProjects" },
-  { label: "Workshop", icon: "🏆", dataKey: "workshops"},
+  { label: "Workshop", icon: "🏆", dataKey: "workshops" },
 ];
 
 function ClubMascot() {

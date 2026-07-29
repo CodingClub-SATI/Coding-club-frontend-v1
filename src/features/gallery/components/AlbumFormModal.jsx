@@ -7,15 +7,20 @@ import controlStyles from '@/components/admin/FormControl.module.css';
 export default function AlbumFormModal({ mode, initialTitle = '', onClose, onSubmit }) {
   const [title, setTitle] = useState(initialTitle);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title.trim()) return;
-    
+
+    setError('');
     setIsSubmitting(true);
     try {
       await onSubmit({ title: title.trim() });
       onClose();
+    } catch (err) {
+      console.error(`Failed to ${mode === 'create' ? 'create' : 'rename'} album:`, err);
+      setError(err?.message || 'Something went wrong. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -36,6 +41,9 @@ export default function AlbumFormModal({ mode, initialTitle = '', onClose, onSub
             disabled={isSubmitting}
           />
         </div>
+
+        {error && <p className={formStyles.error} role="alert">{error}</p>}
+
         <div className={formStyles.actions}>
           <Button variant="ghost" onClick={onClose} type="button" disabled={isSubmitting}>
             Cancel

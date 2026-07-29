@@ -1,3 +1,9 @@
+.sectionsStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
 .card {
   background: var(--bg-secondary);
   border: 1px solid var(--border-dim);
@@ -6,10 +12,59 @@
   max-width: 32rem;
 }
 
+.cardWide {
+  max-width: 46rem;
+}
+
 .cardTitle {
   font-family: var(--font-display);
   font-size: var(--text-lg);
   margin-bottom: var(--space-lg);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-base);
+  margin-bottom: var(--space-lg);
+}
+
+.cardHeader .cardTitle {
+  margin-bottom: 0;
+}
+
+.description {
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.socialList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.socialItem {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.socialLabel {
+  min-width: 90px;
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.socialValue {
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  word-break: break-all;
 }
 
 .passwordRow {
@@ -102,55 +157,3 @@
 .strengthLabel.weak { color: var(--brand-destructive); }
 .strengthLabel.fair { color: var(--brand-accent); }
 .strengthLabel.strong { color: var(--brand-primary); }
-
-/* =========================================
-   Site Info Section Specifics
-========================================= */
-
-.cardWide {
-  max-width: 48rem;
-}
-
-.cardHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-lg);
-}
-
-.cardHeader .cardTitle {
-  margin-bottom: 0;
-}
-
-.description {
-  color: var(--text-muted);
-  font-size: var(--text-sm);
-  line-height: 1.6;
-  white-space: pre-wrap;
-}
-
-.socialList {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.socialItem {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-md);
-}
-
-.socialLabel {
-  font-family: var(--font-display);
-  font-size: var(--text-xs);
-  color: var(--brand-accent);
-  min-width: 90px;
-  padding-top: 2px;
-}
-
-.socialValue {
-  color: var(--text-muted);
-  font-size: var(--text-sm);
-  word-break: break-all;
-}

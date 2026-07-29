@@ -138,7 +138,6 @@
   border-color: var(--brand-secondary);
   color: var(--brand-secondary);
 }
-
 .outline.secondary:hover:not(:disabled) {
   border-color: var(--brand-secondary);
   background-color: var(--brand-secondary);
@@ -151,7 +150,6 @@
   border-color: var(--brand-destructive);
   color: var(--brand-destructive);
 }
-
 .outline.danger:hover:not(:disabled) {
   border-color: var(--brand-destructive);
   color: var(--brand-destructive);

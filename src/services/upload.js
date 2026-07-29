@@ -10,7 +10,7 @@ export async function uploadImage(file) {
 
   const res = await fetch(`${API_BASE_URL}${UPLOAD_PATH}`, {
     method: 'POST',
-    credentials: 'include', // Automatically sends the HttpOnly JWT cookie
+    credentials: 'include',
     body: formData,
   });
 

@@ -3,9 +3,9 @@ import styles from './Toggle.module.css';
 export function Toggle({ checked, onChange, label, disabled = false }) {
   return (
     <label className={`${styles.toggle} ${disabled ? styles.disabled : ''}`.trim()}>
-      <input 
-        type="checkbox" 
-        checked={checked} 
+      <input
+        type="checkbox"
+        checked={checked}
         disabled={disabled}
         aria-disabled={disabled}
         onChange={(e) => {
