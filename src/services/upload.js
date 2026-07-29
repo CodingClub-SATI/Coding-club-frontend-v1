@@ -17,6 +17,7 @@ export async function uploadImage(file) {
   if (res.status === 401) {
     await clearSession();
     window.location.assign('/admin/login');
+    return new Promise(() => {});
   }
 
   const text = await res.text();

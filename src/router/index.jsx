@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet as ProtectedRoute } from 'react-router';
+import { createBrowserRouter, Outlet } from 'react-router';
 
 import PublicLayout from '@/layouts/PublicLayout';
 import Home from '@/features/home/public/Home';
@@ -7,20 +7,17 @@ import { eventsLoader, eventsAdminLoader } from '@/features/events/api';
 import { galleryLoader, galleryAdminLoader } from '@/features/gallery/api';
 import { teamAdminLoader, teamPublicLoader } from '@/features/teams/api';
 import { projectsLoader, projectsAdminLoader } from '@/features/projects/api';
+import { dashboardLoader } from '@/features/dashboard/api';
+import { inboxLoader } from '@/features/contact/api';
+import { updatesAdminLoader } from '@/features/updates/api';
 
 import ErrorScreen from '@/components/error/ErrorScreen';
 import NotFound from '@/components/error/NotFound';
+import RouteLoader from '@/components/shared/RouteLoader';
+import { lazyLoad } from '@/router/lazyLoad';
 import { requireAuthLoader } from '@/features/auth/api';
-import { dashboardLoader } from '@/features/dashboard/api';
-import { inboxLoader } from '@/features/contact/api';
 import { siteInfoLoader } from '@/features/setting/api';
 
-const lazyLoad = (importFn) => {
-  return async () => {
-    const module = await importFn();
-    return { Component: module.default };
-  };
-};
 
 const router = createBrowserRouter([
   {
@@ -29,7 +26,7 @@ const router = createBrowserRouter([
     loader: siteInfoLoader,
     shouldRevalidate: () => false,
     errorElement: <ErrorScreen />,
-    hydrateFallbackElement: <div>Loading...</div>,
+    hydrateFallbackElement: <RouteLoader />,
     children: [
       { index: true, element: <Home />, loader: homeLoader },
       { path: 'events', lazy: lazyLoad(() => import('@/features/events/public/Events')), loader: eventsLoader },
@@ -44,16 +41,16 @@ const router = createBrowserRouter([
   {
     path:'/admin/login', lazy: lazyLoad(() => import('@/features/auth/admin/Login')),
     errorElement: <ErrorScreen />,
-    hydrateFallbackElement: <div>Loading Login...</div>
+    hydrateFallbackElement: <RouteLoader />,
   },
   {
     path: '/admin',
-    element: <ProtectedRoute />,
+    element: <Outlet />,
     loader: requireAuthLoader,
     shouldRevalidate: ({ currentUrl }) =>
       currentUrl.pathname === '/admin/login' || !currentUrl.pathname.startsWith('/admin'),
     errorElement: <ErrorScreen />,
-    hydrateFallbackElement: <div>Verifying session...</div>,
+    hydrateFallbackElement: <RouteLoader message="Verifying session..."/>,
     children: [
       {
         lazy: lazyLoad(() => import('@/layouts/AdminLayout')),
@@ -65,6 +62,7 @@ const router = createBrowserRouter([
           { path: 'teams', lazy: lazyLoad(() => import('@/features/teams/admin/Teams')), loader: teamAdminLoader },
           { path: 'projects', lazy: lazyLoad(() => import('@/features/projects/admin/Projects')), loader: projectsAdminLoader },
           { path: 'inbox', lazy: lazyLoad(() => import('@/features/contact/admin/Inbox')), loader: inboxLoader },
+          { path: 'updates', lazy: lazyLoad(() => import('@/features/updates/admin/Updates')), loader: updatesAdminLoader },
           { path: 'settings', lazy: lazyLoad(() => import('@/features/setting/admin/Settings')), loader: siteInfoLoader },
           { path: '*', element: <NotFound /> }
         ],

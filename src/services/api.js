@@ -27,6 +27,7 @@ export async function request(path, { body, headers = {}, ...options } = {}) {
   if (res.status === 401 && !path.startsWith('/api/auth/')) {
     await clearSession();
     window.location.assign('/admin/login');
+    return new Promise(() => {});
   }
 
   const text = await res.text();
