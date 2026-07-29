@@ -12,6 +12,13 @@ import tableStyles from '@/components/admin/Table.module.css';
 import badgeStyles from '@/components/admin/Badge.module.css';
 import styles from './Inbox.module.css';
 
+function formatSubmittedAt(submittedAt) {
+  if (!submittedAt) return '—';
+  return new Date(submittedAt).toLocaleDateString('en-US', {
+    month: 'short', day: 'numeric', year: 'numeric',
+  });
+}
+
 export default function Inbox() {
   const { contacts, error } = useLoaderData();
   const revalidator = useRevalidator();
@@ -103,7 +110,7 @@ export default function Inbox() {
                     <div className={styles.emailMeta}>{contact.email}</div>
                   </td>
                   <td className={tableStyles.td}>{contact.requestType}</td>
-                  <td className={tableStyles.td}>{contact.date}</td>
+                  <td className={tableStyles.td}>{formatSubmittedAt(contact.submittedAt)}</td>
                   <td className={tableStyles.td}>
                     <span className={`${badgeStyles.badge} ${contact.status === 'New' ? badgeStyles.new : badgeStyles.responded}`}>
                       {contact.status}

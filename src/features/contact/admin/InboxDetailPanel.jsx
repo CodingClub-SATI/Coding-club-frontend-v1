@@ -9,6 +9,13 @@ import badgeStyles from '@/components/admin/Badge.module.css';
 import detailStyles from '@/components/admin/DetailPanel.module.css';
 import styles from './Inbox.module.css';
 
+function formatSubmittedAt(submittedAt) {
+  if (!submittedAt) return '—';
+  return new Date(submittedAt).toLocaleDateString('en-US', {
+    month: 'short', day: 'numeric', year: 'numeric',
+  });
+}
+
 export default function InboxDetailPanel({ contact, onClose, onChanged, onDeleted }) {
   const [actionError, setActionError] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -59,7 +66,7 @@ export default function InboxDetailPanel({ contact, onClose, onChanged, onDelete
         </div>
         <div className={formStyles.row}>
           <span className={formStyles.label}>Date</span>
-          <div>{contact.date}</div>
+          <div>{formatSubmittedAt(contact.submittedAt)}</div>
         </div>
       </div>
 
