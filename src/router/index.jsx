@@ -4,7 +4,7 @@ import PublicLayout from '@/layouts/PublicLayout';
 import Home from '@/features/home/public/Home';
 import { homeLoader } from '@/features/home/api'; 
 import { eventsLoader, eventsAdminLoader } from '@/features/events/api';
-import { galleryLoader } from '@/features/gallery/api';
+import { galleryLoader, galleryAdminLoader } from '@/features/gallery/api';
 import { teamAdminLoader, teamPublicLoader } from '@/features/teams/api';
 import { projectsLoader } from '@/features/projects/api';
 
@@ -61,7 +61,7 @@ const router = createBrowserRouter([
         children: [
           { index: true, lazy: lazyLoad(() => import('@/features/dashboard/admin/Dashboard')), loader: dashboardLoader },
           { path: 'events', lazy: lazyLoad(() => import('@/features/events/admin/Events')), loader: eventsAdminLoader },
-          { path: 'gallery', lazy: lazyLoad(() => import('@/features/gallery/admin/Gallery')), loader: galleryLoader },
+          { path: 'gallery', lazy: lazyLoad(() => import('@/features/gallery/admin/Gallery')), loader: galleryAdminLoader },
           { path: 'teams', lazy: lazyLoad(() => import('@/features/teams/admin/Teams')), loader: teamAdminLoader },
           { path: 'projects', lazy: lazyLoad(() => import('@/features/projects/admin/Projects')), loader: projectsLoader },
           { path: 'inbox', lazy: lazyLoad(() => import('@/features/contact/admin/Inbox')), loader: inboxLoader },

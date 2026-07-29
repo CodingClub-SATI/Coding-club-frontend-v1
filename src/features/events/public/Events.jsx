@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useLoaderData } from 'react-router';
+import { Link, useLoaderData, useSearchParams, useNavigation } from 'react-router';
 import { CalendarX, AlertTriangle } from 'lucide-react';
 import Reveal from '@/components/shared/Reveal';
 import Glasscard from '@/components/shared/Glasscard';
@@ -21,17 +21,26 @@ const TAB_ITEMS = [
 const TYPES = ['All', 'Workshop', 'Hackathon', 'Competition', 'Seminar'];
 
 export default function Events() {
-  const { events, error } = useLoaderData();
-  const [tab, setTab] = useState('upcoming');
-  const [filter, setFilter] = useState('All');
+  const { events, featuredEvents, error } = useLoaderData();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const navigation = useNavigation();
+  const isFiltering = navigation.state === 'loading';
 
-  const featured = events.filter((e) => e.featured);
-  const filtered = events.filter((e) => {
-    if (tab !== 'all' && e.status !== tab) return false;
-    if (filter !== 'All' && e.type !== filter) return false;
-    return true;
-  });
+  const tab = searchParams.get('status') || 'upcoming';
+  const filter = searchParams.get('type') || 'All';
+
+  const updateParam = (key, value, defaultValue) => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (value === defaultValue) next.delete(key);
+      else next.set(key, value);
+      return next;
+    }, { replace: true });
+  };
+
+  const setTab = (value) => updateParam('status', value, 'upcoming');
+  const setFilter = (value) => updateParam('type', value, 'All');
 
   return (
     <div>
@@ -80,11 +89,11 @@ export default function Events() {
       </section>
 
       {/* Featured carousel */}
-      {!error && featured.length > 0 && (
+      {!error && featuredEvents.length > 0 && (
         <section className="section">
           <div className="container">
             <h2 className="section-title">Featured <span className="text-secondary-glow">Events</span></h2>
-            <FeaturedCarousel items={featured} onSelect={setSelectedEvent} />
+            <FeaturedCarousel items={featuredEvents} onSelect={setSelectedEvent} />
           </div>
         </section>
       )}
@@ -111,13 +120,17 @@ export default function Events() {
             <Glasscard className={styles.emptyState}>
               <EmptyState icon={AlertTriangle} title={error} subtitle="Try refreshing the page in a moment." />
             </Glasscard>
-          ) : filtered.length === 0 ? (
+          ) : events.length === 0 ? (
             <Glasscard className={styles.emptyState}>
               <EmptyState icon={CalendarX} title="No events found" subtitle="Try a different filter or check back later." />
             </Glasscard>
           ) : (
-            <div className={`grid-3 ${styles.eventsGrid}`}>
-              {filtered.map((event, i) => (
+            <div
+              className={`grid-3 ${styles.eventsGrid}`}
+              aria-busy={isFiltering}
+              style={isFiltering ? { opacity: 0.5, transition: 'opacity 150ms ease' } : undefined}
+            >
+              {events.map((event, i) => (
                 <Reveal key={event.id} delay={i * 80}>
                   <EventCard event={event} onClick={setSelectedEvent} />
                 </Reveal>

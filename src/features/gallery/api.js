@@ -3,6 +3,7 @@ import { uploadImage } from '@/services/upload';
 
 export const galleryApi = {
   list: () => request('/api/gallery'),
+  getHighlights: () => request('/api/gallery/highlights'),
 
   // ---- Admin: albums ----
   createAlbum: (payload) => request('/api/gallery', { method: 'POST', body: payload }),
@@ -35,8 +36,8 @@ export const galleryApi = {
     request(`/api/gallery/${albumId}/photos/${photoId}`, { method: 'DELETE' }),
 };
 
-// Route loader
-export async function galleryLoader() {
+// Admin panel loader
+export async function galleryAdminLoader() {
   try {
     const albums = await galleryApi.list();
     return { albums: Array.isArray(albums) ? albums : [], error: null };
@@ -44,4 +45,29 @@ export async function galleryLoader() {
     console.error('Failed to load gallery:', err);
     return { albums: [], error: 'Could not load the gallery right now.' };
   }
+}
+
+export async function galleryLoader() {
+  const [albumsResult, highlightsResult] = await Promise.allSettled([
+    galleryApi.list(),
+    galleryApi.getHighlights(),
+  ]);
+
+  if (highlightsResult.status === 'rejected') {
+    console.error('Failed to load gallery highlights:', highlightsResult.reason);
+  }
+
+  if (albumsResult.status === 'rejected') {
+    console.error('Failed to load gallery:', albumsResult.reason);
+    return { albums: [], highlights: [], error: 'Could not load the gallery right now.' };
+  }
+
+  const albums = albumsResult.value;
+  const highlights = highlightsResult.status === 'fulfilled' ? highlightsResult.value : [];
+
+  return {
+    albums: Array.isArray(albums) ? albums : [],
+    highlights: Array.isArray(highlights) ? highlights : [],
+    error: null,
+  };
 }
