@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react';
-import { useLoaderData } from 'react-router';
-import { AlertTriangle, Archive, ArchiveRestore, ArrowLeft, Plus, Trash2, Users } from 'lucide-react';
+import { useMemo, useState, useEffect } from 'react';
+import { useLoaderData, useRevalidator } from 'react-router';
+import { AlertTriangle, Archive, ArchiveRestore, ArrowLeft, Plus, Trash2, Users, Shield } from 'lucide-react';
 import AdminTitle from '@/components/admin/AdminTitle';
 import Button from '@/components/shared/Button';
 import EmptyState from '@/components/shared/EmptyState';
@@ -9,6 +9,7 @@ import { ConfirmButton } from '@/components/shared/ConfirmButton';
 import MemberAvatar from '@/features/teams/components/MemberAvatar';
 import MemberFormModal from './MemberFormModal';
 import MemberDetailPanel from './MemberDetailPanel';
+import LeadershipModal from './LeadershipModal';
 import { teamApi } from '@/features/teams/api';
 import formStyles from '@/components/admin/AdminForm.module.css';
 import controlStyles from '@/components/admin/FormControl.module.css';
@@ -18,11 +19,19 @@ import styles from './Teams.module.css';
 
 export default function Teams() {
   const { batches: initialBatches, error: loadError } = useLoaderData();
-
+  const revalidator = useRevalidator();
+  
   const [batches, setBatches] = useState(initialBatches);
+  
+  // Sync local state when the loader data changes (e.g. after LeadershipModal saves)
+  useEffect(() => {
+    setBatches(initialBatches);
+  }, [initialBatches]);
+
   const [openBatchName, setOpenBatchName] = useState(null);
   const [selectedMember, setSelectedMember] = useState(null);
-  const [editingMember, setEditingMember] = useState(null); // { mode: 'new' | 'edit', member }
+  const [editingMember, setEditingMember] = useState(null); 
+  const [managingLeadership, setManagingLeadership] = useState(false);
   const [addingBatch, setAddingBatch] = useState(false);
   const [batchInput, setBatchInput] = useState('');
   const [batchError, setBatchError] = useState(null);
@@ -46,7 +55,6 @@ export default function Teams() {
       setBatchError('Enter a batch (passing year), e.g. 2028.');
       return;
     }
-
     setIsSavingBatch(true);
     setBatchError(null);
     try {
@@ -101,7 +109,6 @@ export default function Teams() {
 
     setBatches((prev) => {
       if (wasEditing && previousBatch && previousBatch !== saved.batch) {
-        // Member moved to a different batch — remove from the old one, add to the new one.
         return prev.map((b) => {
           if (b.batch === previousBatch) {
             const members = b.members.filter((m) => m.id !== saved.id);
@@ -114,7 +121,6 @@ export default function Teams() {
           return b;
         });
       }
-
       if (wasEditing) {
         return prev.map((b) =>
           b.batch === saved.batch
@@ -122,8 +128,6 @@ export default function Teams() {
             : b
         );
       }
-
-      // New member
       return prev.map((b) =>
         b.batch === saved.batch
           ? { ...b, members: [...b.members, saved], memberCount: b.members.length + 1 }
@@ -155,7 +159,7 @@ export default function Teams() {
   };
 
   // ============================================================
-  // Batch detail view — members within one batch
+  // Batch detail view - members within one batch
   // ============================================================
   if (openBatch) {
     return (
@@ -163,16 +167,15 @@ export default function Teams() {
         <Button variant="ghost" size="sm" className={styles.backBtn} onClick={() => setOpenBatchName(null)}>
           <ArrowLeft size={16} /> Back to Batches
         </Button>
-
         <AdminTitle
           title={`Batch ${openBatch.batch}`}
-          subtitle={`${openBatch.members.length} member${openBatch.members.length === 1 ? '' : 's'}${openBatch.archived ? ' · Archived (hidden from public site)' : ''}`}
+          subtitle={`${openBatch.members.length} member${openBatch.members.length === 1 ? '' : 's'}${openBatch.archived ? ' • Archived (hidden from public site)' : ''}`}
         >
           <Button onClick={openNewMember}><Plus size={16} aria-hidden="true" /> Add Member</Button>
         </AdminTitle>
-
+        
         {actionError && <p className={formStyles.error} role="alert">{actionError}</p>}
-
+        
         {openBatch.members.length === 0 ? (
           <EmptyState icon={Users} title="No members yet" subtitle='Use "Add Member" to add someone to this batch.' />
         ) : (
@@ -232,13 +235,20 @@ export default function Teams() {
     <div>
       <AdminTitle
         title="Team"
-        subtitle={`${batches.length} batch${batches.length === 1 ? '' : 'es'} · ${totalMembers} member${totalMembers === 1 ? '' : 's'} total`}
+        subtitle={`${batches.length} batch${batches.length === 1 ? '' : 'es'} • ${totalMembers} member${totalMembers === 1 ? '' : 's'} total`}
       >
-        <Button onClick={() => setAddingBatch(true)}><Plus size={16} aria-hidden="true" /> Add Batch</Button>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <Button variant="outline" tone="secondary" onClick={() => setManagingLeadership(true)}>
+            <Shield size={16} aria-hidden="true" /> Manage Leadership
+          </Button>
+          <Button onClick={() => setAddingBatch(true)}>
+            <Plus size={16} aria-hidden="true" /> Add Batch
+          </Button>
+        </div>
       </AdminTitle>
-
+      
       {actionError && <p className={formStyles.error} role="alert">{actionError}</p>}
-
+      
       {loadError ? (
         <EmptyState icon={AlertTriangle} title={loadError} subtitle="Try refreshing the page in a moment." />
       ) : batches.length === 0 ? (
@@ -266,7 +276,6 @@ export default function Teams() {
                     <div className={tileStyles.tileSub}>{count} member{count === 1 ? '' : 's'}</div>
                   </div>
                 </button>
-
                 <div className={styles.tileActions}>
                   <Button variant="ghost" size="sm" onClick={() => handleToggleArchive(batch)}>
                     {batch.archived ? <><ArchiveRestore size={12} aria-hidden="true" /> Unarchive</> : <><Archive size={12} aria-hidden="true" /> Archive</>}
@@ -305,6 +314,17 @@ export default function Teams() {
             </div>
           </form>
         </Modal>
+      )}
+
+      {managingLeadership && (
+        <LeadershipModal 
+           batches={batches} 
+           onClose={() => setManagingLeadership(false)} 
+           onSaved={() => {
+              setManagingLeadership(false);
+              revalidator.revalidate(); // Re-fetch all batch/leadership data
+           }} 
+        />
       )}
     </div>
   );

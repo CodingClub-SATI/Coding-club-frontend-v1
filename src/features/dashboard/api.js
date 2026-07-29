@@ -28,8 +28,8 @@ function normalizeStats(raw) {
 export async function dashboardLoader() {
   const [statsResult, eventsResult, contactsResult] = await Promise.allSettled([
     dashboardApi.getStats(),
-    eventsApi.list(),
-    contactApi.getAll(),
+    eventsApi.list({ limit: RECENT_LIMIT }),
+    contactApi.getAll({ limit: RECENT_LIMIT }),
   ]);
 
   if (statsResult.status === 'rejected') {
@@ -47,12 +47,12 @@ export async function dashboardLoader() {
     statsError: statsResult.status === 'rejected',
 
     recentEvents: eventsResult.status === 'fulfilled' && Array.isArray(eventsResult.value)
-      ? eventsResult.value.slice(0, RECENT_LIMIT)
+      ? eventsResult.value
       : [],
     eventsError: eventsResult.status === 'rejected',
 
     recentContacts: contactsResult.status === 'fulfilled' && Array.isArray(contactsResult.value)
-      ? contactsResult.value.slice(0, RECENT_LIMIT)
+      ? contactsResult.value
       : [],
     contactsError: contactsResult.status === 'rejected',
   };

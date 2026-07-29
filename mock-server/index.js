@@ -1,7 +1,7 @@
 import http from 'http';
 import {
   siteInfo, publicStats, adminStats, updates, events, 
-  gallery, projects, teamsPublic, teamsAdmin, contacts
+  gallery, projects, allMembers, leadershipMapping, contacts
 } from './data.js';
 
 const PORT = 3000;
@@ -20,7 +20,6 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // Safely parse JSON or return an empty object for things like multipart Form-Data 
   const getBody = () => new Promise(resolve => {
     let body = '';
     req.on('data', chunk => body += chunk.toString());
@@ -35,7 +34,6 @@ const server = http.createServer((req, res) => {
     res.end(JSON.stringify(data));
   };
 
-  // Ensure robust route matching ignoring query parameters
   const url = new URL(req.url, `http://${req.headers.host}`);
   const path = url.pathname;
 
@@ -48,38 +46,110 @@ const server = http.createServer((req, res) => {
     if (path === '/api/events') return sendJSON(200, events);
     if (path === '/api/gallery') return sendJSON(200, gallery);
     if (path === '/api/projects') return sendJSON(200, projects);
-    if (path === '/api/team/public') return sendJSON(200, teamsPublic);
-    if (path === '/api/team/admin/batches') return sendJSON(200, teamsAdmin);
     if (path === '/api/contacts') return sendJSON(200, contacts);
     
-    // Auth Validation (let the admin dashboard open)
+    // Auth Validation
     if (path === '/api/auth/verify') return sendJSON(200, { ok: true });
+
+    // --- NEW: LEADERSHIP MAPPING DATA ---
+    if (path === '/api/team/admin/leadership') {
+      return sendJSON(200, leadershipMapping);
+    }
+
+    // --- STITCHING LOGIC FOR PUBLIC TEAMS ---
+    if (path === '/api/team/public') {
+      const getMember = (id) => allMembers.find(m => m.id === id);
+      const validConvenors = leadershipMapping.convenors.filter(Boolean);
+      const validCoConvenors = leadershipMapping.coConvenors.filter(Boolean);
+      
+      const leadershipIds = new Set([
+        ...validConvenors,
+        ...validCoConvenors,
+        ...Object.values(leadershipMapping.departmentHeads)
+      ]);
+
+      const leadership = {
+        convenors: validConvenors.map(id => ({ ...getMember(id), clubPosition: "Convenor" })),
+        coConvenors: validCoConvenors.map(id => ({ ...getMember(id), clubPosition: "Co-Convenor" })),
+        departmentLeads: Object.entries(leadershipMapping.departmentHeads).map(([dept, id]) => ({
+          ...getMember(id),
+          clubPosition: `Department Lead - ${dept}`
+        }))
+      };
+
+      const batchMap = {};
+      allMembers.forEach(member => {
+        if (!leadershipIds.has(member.id)) {
+          if (!batchMap[member.batch]) batchMap[member.batch] = [];
+          batchMap[member.batch].push({ ...member, clubPosition: "Member" });
+        }
+      });
+
+      const batches = Object.keys(batchMap)
+        .sort((a, b) => b.localeCompare(a)) 
+        .map(batch => ({ batch, members: batchMap[batch] }));
+
+      return sendJSON(200, { leadership, batches });
+    }
+
+    // --- STITCHING LOGIC FOR ADMIN TEAMS ---
+    if (path === '/api/team/admin/batches') {
+      const leadershipIds = new Set([
+        ...leadershipMapping.convenors.filter(Boolean),
+        ...leadershipMapping.coConvenors.filter(Boolean),
+        ...Object.values(leadershipMapping.departmentHeads)
+      ]);
+
+      const adminBatchMap = {};
+      allMembers.forEach(member => {
+        if (!adminBatchMap[member.batch]) adminBatchMap[member.batch] = [];
+        
+        let position = "Member";
+        if (leadershipMapping.convenors.includes(member.id)) position = "Convenor";
+        else if (leadershipMapping.coConvenors.includes(member.id)) position = "Co-Convenor";
+        else {
+          const deptEntry = Object.entries(leadershipMapping.departmentHeads).find(([_, id]) => id === member.id);
+          if (deptEntry) position = `Department Lead - ${deptEntry[0]}`;
+        }
+
+        adminBatchMap[member.batch].push({
+          ...member,
+          clubPosition: position,
+          isLeadership: leadershipIds.has(member.id)
+        });
+      });
+
+      const batches = Object.keys(adminBatchMap).sort((a,b) => b.localeCompare(a)).map(batch => ({
+        batch, archived: false, memberCount: adminBatchMap[batch].length, members: adminBatchMap[batch]
+      }));
+
+      return sendJSON(200, { batches });
+    }
   }
 
   // --- POST ENDPOINTS ---
   if (req.method === 'POST') {
-    // Auth & Actions
     if (path === '/api/auth/login') return getBody().then(() => sendJSON(200, { token: 'mock-token' }));
     if (path === '/api/auth/logout') return sendJSON(200, { message: 'Logged out' });
     if (path === '/api/auth/password/otp') return sendJSON(200, { message: 'OTP Sent' });
-    
-    // Mock image upload
-    if (path === '/api/upload') {
-        return sendJSON(200, { url: 'https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?w=800&q=80' });
-    }
+    if (path === '/api/upload') return sendJSON(200, { url: 'https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?w=800&q=80' });
+    if (path.match(/\/api\/gallery\/.*\/photos/)) return sendJSON(200, gallery[0]); 
 
-    // Photo uploads expect the updated *album* returned to re-render properly
-    if (path.match(/\/api\/gallery\/.*\/photos/)) {
-      return sendJSON(200, gallery[0]); 
-    }
-
-    // Generic fallback to catch create actions in the admin panel
+    // Generic fallback to catch member/batch creation
     return getBody().then(body => sendJSON(200, { id: `new_${Date.now()}`, ...body }));
   }
 
   // --- PUT / PATCH ENDPOINTS ---
   if (req.method === 'PUT' || req.method === 'PATCH') {
-    // Supply back a merged copy of an actual object so the frontend state doesn't crash from missing fields
+    // --- NEW: UPDATE LEADERSHIP MAPPING ---
+    if (path === '/api/team/admin/leadership') {
+      return getBody().then(body => {
+        Object.assign(leadershipMapping, body);
+        return sendJSON(200, leadershipMapping);
+      });
+    }
+
+    // Supply back a merged copy for partial updates
     return getBody().then(body => {
       if (path.includes('/events/')) return sendJSON(200, { ...events[0], ...body });
       if (path.includes('/gallery/')) return sendJSON(200, { ...gallery[0], ...body });

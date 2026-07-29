@@ -1,8 +1,11 @@
 import { request } from '@/services/api';
 
 export const eventsApi = {
-  list: ({ includeArchived = false } = {}) =>
-    request(includeArchived ? '/api/events?includeArchived=true' : '/api/events?includeArchived=false'),
+  list: ({ includeArchived = false, limit } = {}) => {
+    const params = new URLSearchParams({ includeArchived: includeArchived ? 'true' : 'false' });
+    if (limit) params.set('limit', String(limit));
+    return request(`/api/events?${params.toString()}`);
+  },
   create: (payload) => request('/api/events', { method: 'POST', body: payload }),
   update: (id, payload) => request(`/api/events/${id}`, { method: 'PUT', body: payload }),
   remove: (id) => request(`/api/events/${id}`, { method: 'DELETE' }),
