@@ -21,6 +21,12 @@
   color: var(--brand-accent);
 }
 
+.specialization {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-top: calc(var(--space-xs) * -0.5);
+}
+
 .viewBtn {
   margin-top: var(--space-xs);
   pointer-events: none;

@@ -1,13 +1,44 @@
-.groupHeader {
+/* ---------- Batch grid (album-style) ---------- */
+.batchGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-lg);
+}
+
+.backBtn {
+  margin-bottom: var(--space-base);
+  padding-left: 0;
+}
+
+/* Resets the batch card's clickable area back to plain text/box styling —
+   this is a real <button>, not the whole card, so archive/delete (also real
+   buttons) never end up nested inside another interactive element. */
+.tileOpenBtn {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.tileActions {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  gap: var(--space-sm);
+  padding: 0 14px var(--space-md);
+  margin-top: -4px;
 }
 
-.groupHeader h3 {
-  margin: 0;
+.batchBadge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
 }
 
+/* ---------- Member grid (inside a batch) ---------- */
 .tileGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -17,15 +48,43 @@
 
 .squareThumb {
   aspect-ratio: 1/1;
+  position: relative;
 }
 
-.emptyGroup {
-  color: var(--text-muted);
+.leadershipBadge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  font-size: 10px;
+  padding: 2px 8px;
+}
+
+/* ---------- Member form ---------- */
+.positionBlock {
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-md);
+  padding: var(--space-base);
+  margin-bottom: var(--space-base);
+}
+
+.deptLeadToggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
   font-size: var(--text-sm);
-  margin-bottom: var(--space-lg);
+  color: var(--text-primary);
+  margin-bottom: var(--space-sm);
+  cursor: pointer;
 }
 
+/* ---------- Member detail panel ---------- */
 .detailAvatar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-base);
+}
+
+.leadershipRow {
   display: flex;
   justify-content: center;
   margin-bottom: var(--space-base);

@@ -1,7 +1,7 @@
 import styles from './MemberAvatar.module.css';
 
-function getInitials(name) {
-  return name
+function getInitials(fullName) {
+  return fullName
     .split(' ')
     .filter(Boolean)
     .map((part) => part[0])
@@ -12,24 +12,24 @@ function getInitials(name) {
 
 // Deterministic color derived from the member's name, so the same person
 // always gets the same placeholder color instead of a random one on every render.
-function getHue(name) {
-  return (name.charCodeAt(0) * 7) % 360;
+function getHue(fullName) {
+  return (fullName.charCodeAt(0) * 7) % 360;
 }
 
 export default function MemberAvatar({ member, size = 60 }) {
-  if (member.image) {
+  if (member.avatarUrl) {
     return (
       <img
         className={styles.image}
         style={{ width: size, height: size }}
-        src={member.image}
+        src={member.avatarUrl}
         alt=""
         loading="lazy"
       />
     );
   }
 
-  const hue = getHue(member.name);
+  const hue = getHue(member.fullName);
 
   return (
     <div
@@ -44,7 +44,7 @@ export default function MemberAvatar({ member, size = 60 }) {
       }}
       aria-hidden="true"
     >
-      {getInitials(member.name)}
+      {getInitials(member.fullName)}
     </div>
   );
 }

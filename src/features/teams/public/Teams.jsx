@@ -6,17 +6,33 @@ import Tabs from '@/components/shared/Tabs';
 import Glasscard from '@/components/shared/Glasscard';
 import EmptyState from '@/components/shared/EmptyState';
 import TeamSection from '@/features/teams/components/TeamSection';
+import MemberCard from '@/features/teams/components/MemberCard';
 import MemberProfileModal from '@/features/teams/components/MemberProfileModal';
-import { TEAM_GROUPS } from '@/features/teams/constants';
+import { LEADERSHIP_SECTIONS } from '@/features/teams/constants';
 import styles from './Teams.module.css';
 
 export default function Teams() {
-  const { years, byYear, currentYear, error } = useLoaderData();
-  const [activeYear, setActiveYear] = useState(currentYear ?? years[0] ?? null);
+  const { leadership, batches, error } = useLoaderData();
+  const [activeBatch, setActiveBatch] = useState(batches[0]?.batch ?? null);
   const [selectedMember, setSelectedMember] = useState(null);
 
-  const safeActiveYear = years.includes(activeYear) ? activeYear : years[0];
-  const yearGroups = safeActiveYear ? byYear[safeActiveYear] : null;
+  // The backend is expected to return batches newest-first with archived
+  // batches already excluded — we just render whatever comes back.
+  const safeActiveBatch = batches.some((b) => b.batch === activeBatch) ? activeBatch : batches[0]?.batch ?? null;
+  const currentBatch = batches.find((b) => b.batch === safeActiveBatch) ?? null;
+
+  // Leadership sections: the API groups these for us (leadership.convenor,
+  // leadership.coConvenor, leadership.departmentLeads) — we only turn that
+  // into the { title, members[] } shape TeamSection expects.
+  const leadershipGroups = LEADERSHIP_SECTIONS.map(({ key, label }) => ({
+    key,
+    label,
+    members: key === 'departmentLeads'
+      ? leadership?.departmentLeads || []
+      : leadership?.[key]
+        ? [leadership[key]]
+        : [],
+  })).filter((group) => group.members.length > 0);
 
   return (
     <div>
@@ -29,55 +45,60 @@ export default function Teams() {
         </div>
       </section>
 
+      {leadershipGroups.length > 0 && (
+        <section className={`section ${styles.leadershipSection}`}>
+          <div className="container">
+            {leadershipGroups.map((group) => (
+              <TeamSection
+                key={group.key}
+                title={group.label}
+                members={group.members}
+                onSelectMember={setSelectedMember}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
       <section className={`section ${styles.rosterSection}`}>
         <div className="container">
-          {years.length > 1 && (
+          {batches.length > 1 && (
             <Tabs
-              className={styles.yearTabs}
-              items={years.map((year) => ({
-                value: year,
-                label: year === currentYear ? `${year} (Current)` : year,
-              }))}
-              value={safeActiveYear}
-              onChange={setActiveYear}
+              className={styles.batchTabs}
+              items={batches.map((batch) => ({ value: batch.batch, label: batch.batch }))}
+              value={safeActiveBatch}
+              onChange={setActiveBatch}
             />
           )}
 
           {error ? (
             <Glasscard className={styles.emptyState}>
-              <EmptyState 
-                icon={AlertTriangle} 
-                title={error} 
-                subtitle="Try refreshing the page in a moment." 
+              <EmptyState
+                icon={AlertTriangle}
+                title={error}
+                subtitle="Try refreshing the page in a moment."
               />
             </Glasscard>
-          ) : years.length === 0 ? (
+          ) : batches.length === 0 ? (
             <Glasscard className={styles.emptyState}>
-              <EmptyState 
-                icon={Users} 
-                title="No team roster yet" 
-                subtitle="Check back soon to meet the team." 
+              <EmptyState
+                icon={Users}
+                title="No team roster yet"
+                subtitle="Check back soon to meet the team."
               />
             </Glasscard>
-          ) : !yearGroups ? (
+          ) : !currentBatch || currentBatch.members.length === 0 ? (
             <Glasscard className={styles.emptyState}>
-              <EmptyState 
-                icon={Users} 
-                title="No roster available" 
-                subtitle={`No roster data found for ${safeActiveYear}.`} 
+              <EmptyState
+                icon={Users}
+                title="No members yet"
+                subtitle={`No members found for batch ${safeActiveBatch}.`}
               />
             </Glasscard>
           ) : (
-            <div>
-              {TEAM_GROUPS.map(({ key, label }) => (
-                yearGroups[key]?.length > 0 && (
-                  <TeamSection
-                    key={key}
-                    title={label}
-                    members={yearGroups[key]}
-                    onSelectMember={setSelectedMember}
-                  />
-                )
+            <div className={styles.memberGrid}>
+              {currentBatch.members.map((member) => (
+                <MemberCard key={member.id} member={member} onClick={setSelectedMember} />
               ))}
             </div>
           )}
