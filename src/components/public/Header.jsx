@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, NavLink } from 'react-router';
 import useScrollProgress from '@/hooks/useScrollProgress.js';
 import Button from '@/components/shared/Button';
-import Updates from '@/features/updates/public/Updates';
+import Updates from '@/components/public/Updates';
 import styles from './Header.module.css';
 
 const NAV_LINKS = [
