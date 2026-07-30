@@ -81,8 +81,8 @@
   /* =========================================
       Typography Scale
     ========================================= */
-  --font-display: 'Orbitron', 'Exo 2', sans-serif;
-  --font-body: 'Inter', 'Poppins', sans-serif;
+  --font-display: sans-serif;
+  --font-body: sans-serif;
 
   --text-xs:   0.75rem;     /* 12px - Tags, badges */
   --text-sm:   0.875rem;    /* 14px - Secondary text */
