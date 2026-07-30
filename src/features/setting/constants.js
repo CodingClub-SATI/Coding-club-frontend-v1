@@ -1,8 +1,6 @@
 export const PASSWORD_MIN_LENGTH = 8;
 export const OTP_LENGTH = 6;
 export const OTP_RESEND_SECONDS = 60;
-// Minimum strength score (see getPasswordStrength) required before a new
-// password can be submitted.
 export const MIN_STRENGTH_SCORE = 3;
 
 const STRENGTH_LEVELS = [
@@ -14,8 +12,6 @@ const STRENGTH_LEVELS = [
   { label: 'Very Strong', tone: 'strong' },
 ];
 
-// Simple heuristic scorer (0-5): length, case variety, digits, symbols.
-// Not a replacement for server-side validation — just live UX feedback.
 export function getPasswordStrength(password) {
   if (!password) return { score: 0, ...STRENGTH_LEVELS[0] };
 
