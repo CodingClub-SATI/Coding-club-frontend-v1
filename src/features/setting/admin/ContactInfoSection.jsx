@@ -1,54 +1,42 @@
 import { useState } from 'react';
 import { Pencil } from 'lucide-react';
 import Button from '@/components/shared/Button';
-import { siteInfoApi } from '@/features/setting/api';
+import { contactInfoApi } from '@/features/setting/api';
+import { PLATFORMS } from '@/data/socialLinks';
 import formStyles from '@/components/admin/AdminForm.module.css';
 import controlStyles from '@/components/admin/FormControl.module.css';
 import detailStyles from '@/components/admin/DetailPanel.module.css';
 import styles from './Settings.module.css';
 
-const SOCIAL_FIELDS = [
-  { key: 'github', label: 'GitHub' },
-  { key: 'instagram', label: 'Instagram' },
-  { key: 'linkedin', label: 'LinkedIn' },
-  { key: 'x', label: 'X (Twitter)' },
-  { key: 'discord', label: 'Discord' },
-  { key: 'youtube', label: 'YouTube' },
-];
-
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const URL_PATTERN = /^https?:\/\/.+/i;
 
-function buildForm(siteInfo) {
+function buildForm(contactInfo) {
   return {
-    email: siteInfo?.email || '',
-    phone: siteInfo?.phone || '',
-    tagline: siteInfo?.tagline || '',
-    description: siteInfo?.description || '',
-    socials: SOCIAL_FIELDS.reduce((acc, { key }) => {
-      acc[key] = siteInfo?.socials?.[key] || '';
+    email: contactInfo?.email || '',
+    phone: contactInfo?.phone || '',
+    ...PLATFORMS.reduce((acc, { key }) => {
+      acc[key] = contactInfo?.[key] || '';
       return acc;
     }, {}),
   };
 }
 
-export default function SiteInfoSection({ siteInfo, error, onUpdated }) {
+export default function ContactInfoSection({ contactInfo, error, onUpdated }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [form, setForm] = useState(() => buildForm(siteInfo));
+  const [form, setForm] = useState(() => buildForm(contactInfo));
   const [fieldErrors, setFieldErrors] = useState({});
   const [formError, setFormError] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
 
   const handleEdit = () => {
-    setForm(buildForm(siteInfo));
+    setForm(buildForm(contactInfo));
     setFieldErrors({});
     setFormError(null);
     setIsEditing(true);
   };
 
   const updateField = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
-  const updateSocial = (key) => (e) =>
-    setForm((f) => ({ ...f, socials: { ...f.socials, [key]: e.target.value } }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,10 +46,10 @@ export default function SiteInfoSection({ siteInfo, error, onUpdated }) {
     if (!EMAIL_PATTERN.test(form.email.trim())) {
       nextErrors.email = 'Enter a valid email address.';
     }
-    SOCIAL_FIELDS.forEach(({ key }) => {
-      const value = form.socials[key].trim();
+    PLATFORMS.forEach(({ key }) => {
+      const value = form[key].trim();
       if (value && !URL_PATTERN.test(value)) {
-        nextErrors[`socials.${key}`] = 'Must start with http:// or https://';
+        nextErrors[key] = 'Must start with http:// or https://';
       }
     });
     if (Object.keys(nextErrors).length > 0) {
@@ -75,18 +63,16 @@ export default function SiteInfoSection({ siteInfo, error, onUpdated }) {
       const payload = {
         email: form.email.trim(),
         phone: form.phone.trim(),
-        tagline: form.tagline.trim(),
-        description: form.description.trim(),
-        socials: SOCIAL_FIELDS.reduce((acc, { key }) => {
-          acc[key] = form.socials[key].trim();
+        ...PLATFORMS.reduce((acc, { key }) => {
+          acc[key] = form[key].trim();
           return acc;
         }, {}),
       };
-      await siteInfoApi.update(payload);
+      await contactInfoApi.update(payload);
       setIsEditing(false);
       onUpdated();
     } catch (err) {
-      console.error('Failed to update site info:', err);
+      console.error('Failed to update contact info:', err);
       setFormError('Could not save your changes. Please try again.');
     } finally {
       setIsSaving(false);
@@ -96,7 +82,7 @@ export default function SiteInfoSection({ siteInfo, error, onUpdated }) {
   if (error) {
     return (
       <section className={`${styles.card} ${styles.cardWide}`}>
-        <h2 className={styles.cardTitle}>Site Info</h2>
+        <h2 className={styles.cardTitle}>Contact Info</h2>
         <p className={styles.formError}>{error}</p>
       </section>
     );
@@ -106,34 +92,26 @@ export default function SiteInfoSection({ siteInfo, error, onUpdated }) {
     return (
       <section className={`${styles.card} ${styles.cardWide}`}>
         <div className={styles.cardHeader}>
-          <h2 className={styles.cardTitle}>Site Info</h2>
+          <h2 className={styles.cardTitle}>Contact Info</h2>
           <Button variant="outline" size="sm" onClick={handleEdit}>
             <Pencil size={14} aria-hidden="true" /> Edit
           </Button>
         </div>
         <div className={formStyles.row}>
           <span className={formStyles.label}>Email</span>
-          <div>{siteInfo?.email || '—'}</div>
+          <div>{contactInfo?.email || '—'}</div>
         </div>
         <div className={formStyles.row}>
           <span className={formStyles.label}>Phone</span>
-          <div>{siteInfo?.phone || '—'}</div>
-        </div>
-        <div className={formStyles.row}>
-          <span className={formStyles.label}>Tagline</span>
-          <div>{siteInfo?.tagline || '—'}</div>
-        </div>
-        <div className={formStyles.row}>
-          <span className={formStyles.label}>Description</span>
-          <p className={styles.description}>{siteInfo?.description || '—'}</p>
+          <div>{contactInfo?.phone || '—'}</div>
         </div>
         <div className={formStyles.row}>
           <span className={formStyles.label}>Social Links</span>
           <div className={styles.socialList}>
-            {SOCIAL_FIELDS.map(({ key, label }) => (
+            {PLATFORMS.map(({ key, label }) => (
               <div key={key} className={styles.socialItem}>
                 <span className={styles.socialLabel}>{label}</span>
-                <span className={styles.socialValue}>{siteInfo?.socials?.[key] || '—'}</span>
+                <span className={styles.socialValue}>{contactInfo?.[key] || '—'}</span>
               </div>
             ))}
           </div>
@@ -144,13 +122,13 @@ export default function SiteInfoSection({ siteInfo, error, onUpdated }) {
 
   return (
     <section className={`${styles.card} ${styles.cardWide}`}>
-      <h2 className={styles.cardTitle}>Site Info</h2>
+      <h2 className={styles.cardTitle}>Contact Info</h2>
       <form onSubmit={handleSubmit} noValidate>
         <div className={formStyles.grid}>
           <div className={formStyles.row}>
-            <label className={formStyles.label} htmlFor="site-email">Email</label>
+            <label className={formStyles.label} htmlFor="contact-email">Email</label>
             <input
-              id="site-email"
+              id="contact-email"
               type="email"
               className={`${controlStyles.input} ${controlStyles.fullWidth}`}
               value={form.email}
@@ -161,9 +139,9 @@ export default function SiteInfoSection({ siteInfo, error, onUpdated }) {
             {fieldErrors.email && <p className={styles.fieldError} role="alert">{fieldErrors.email}</p>}
           </div>
           <div className={formStyles.row}>
-            <label className={formStyles.label} htmlFor="site-phone">Phone</label>
+            <label className={formStyles.label} htmlFor="contact-phone">Phone</label>
             <input
-              id="site-phone"
+              id="contact-phone"
               type="tel"
               className={`${controlStyles.input} ${controlStyles.fullWidth}`}
               value={form.phone}
@@ -172,43 +150,21 @@ export default function SiteInfoSection({ siteInfo, error, onUpdated }) {
             />
           </div>
         </div>
-        <div className={formStyles.row}>
-          <label className={formStyles.label} htmlFor="site-tagline">Tagline</label>
-          <input
-            id="site-tagline"
-            type="text"
-            className={`${controlStyles.input} ${controlStyles.fullWidth}`}
-            value={form.tagline}
-            onChange={updateField('tagline')}
-            disabled={isSaving}
-          />
-        </div>
-        <div className={formStyles.row}>
-          <label className={formStyles.label} htmlFor="site-description">Description</label>
-          <textarea
-            id="site-description"
-            className={controlStyles.textarea}
-            rows={3}
-            value={form.description}
-            onChange={updateField('description')}
-            disabled={isSaving}
-          />
-        </div>
         <div className={formStyles.grid}>
-          {SOCIAL_FIELDS.map(({ key, label }) => (
+          {PLATFORMS.map(({ key, label }) => (
             <div key={key} className={formStyles.row}>
-              <label className={formStyles.label} htmlFor={`site-social-${key}`}>{label}</label>
+              <label className={formStyles.label} htmlFor={`contact-social-${key}`}>{label}</label>
               <input
-                id={`site-social-${key}`}
+                id={`contact-social-${key}`}
                 type="url"
                 placeholder="https://"
                 className={`${controlStyles.input} ${controlStyles.fullWidth}`}
-                value={form.socials[key]}
-                onChange={updateSocial(key)}
+                value={form[key]}
+                onChange={updateField(key)}
                 disabled={isSaving}
               />
-              {fieldErrors[`socials.${key}`] && (
-                <p className={styles.fieldError} role="alert">{fieldErrors[`socials.${key}`]}</p>
+              {fieldErrors[key] && (
+                <p className={styles.fieldError} role="alert">{fieldErrors[key]}</p>
               )}
             </div>
           ))}

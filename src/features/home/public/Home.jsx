@@ -20,13 +20,9 @@ function ClubMascot() {
       <div className={styles.mascotGlowRing} />
       <div className={styles.mascotInner}>
         <svg aria-hidden="true" width="140" height="140" viewBox="0 0 140 140" fill="none">
-          {/* Outer dashed tech ring */}
+
           <circle cx="70" cy="70" r="64" stroke="var(--brand-accent)" strokeWidth="1.5" strokeDasharray="8 6" opacity="0.5" />
-          
-          {/* Inner solid ring */}
           <circle cx="70" cy="70" r="48" stroke="var(--brand-secondary)" strokeWidth="1" opacity="0.7" />
-          
-          {/* Perfectly Centered & Scaled Coffee Mug Vector */}
           <g transform="translate(46, 42)">
             {/* Mug Body */}
             <path 
@@ -72,7 +68,7 @@ function ClubMascot() {
 
 export default function Home() {
   const liveStats = useLoaderData();
-  const { siteInfo } = useOutletContext();
+  const { contactInfo } = useOutletContext();
 
   const displayStats = STATS_CONFIG.map((stat) => {
     const value = liveStats[stat.dataKey] || 0;
@@ -98,7 +94,7 @@ export default function Home() {
               </span>
             </h1>
             
-            {siteInfo?.description && <p className={styles.heroDesc}>{siteInfo.description}</p>}
+            <p className={styles.heroDesc}>"A futuristic community of developers, innovators, cybersecurity enthusiasts, and tech learners building impactful solutions beyond classrooms."</p>
             
             <div className={styles.heroCtas}>
               <Button Component={Link} to="/learning" variant="filled">

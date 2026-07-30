@@ -11,8 +11,8 @@ import styles from './Contact.module.css';
 const EMPTY_FORM = { name: '', email: '', requestType: REQUEST_TYPES[0], message: '' };
 
 export default function Contact() {
-  const { siteInfo } = useOutletContext();
-  const socialLinks = getSocialLinks(siteInfo?.socials);
+  const { contactInfo } = useOutletContext();
+  const socialLinks = getSocialLinks(contactInfo);
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [status, setStatus] = useState('idle'); // idle | sending | success | error
 
@@ -54,21 +54,21 @@ export default function Contact() {
               <h2 className={styles.infoHeading}>Let&apos;s Connect 🚀</h2>
 
               <div className={styles.infoList}>
-                {siteInfo?.email && (
+                {contactInfo?.email && (
                   <div className={styles.infoItem}>
                     <span className={`${styles.infoIcon} text-primary-glow`}>✉</span>
                     <div>
                       <div className={styles.infoLabel}>Email</div>
-                      <a href={`mailto:${siteInfo.email}`} className={styles.infoValue}>{siteInfo.email}</a>
+                      <a href={`mailto:${contactInfo.email}`} className={styles.infoValue}>{contactInfo.email}</a>
                     </div>
                   </div>
                 )}
-                {siteInfo?.phone && (
+                {contactInfo?.phone && (
                   <div className={styles.infoItem}>
                     <span className={`${styles.infoIcon} text-primary-glow`}>📞</span>
                     <div>
                       <div className={styles.infoLabel}>Phone</div>
-                      <div className={styles.infoValue}>{siteInfo.phone}</div>
+                      <div className={styles.infoValue}>{contactInfo.phone}</div>
                     </div>
                   </div>
                 )}
