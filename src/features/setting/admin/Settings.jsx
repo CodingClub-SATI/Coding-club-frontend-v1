@@ -5,12 +5,12 @@ import AdminTitle from '@/components/admin/AdminTitle';
 import Button from '@/components/shared/Button';
 import { getUsername } from '@/services/authToken';
 import UpdatePasswordModal from './UpdatePasswordModal';
-import SiteInfoSection from './SiteInfoSection';
+import ContactInfoSection from './ContactInfoSection';
 import formStyles from '@/components/admin/AdminForm.module.css';
 import styles from './Settings.module.css';
 
 export default function Settings() {
-  const { siteInfo, error } = useLoaderData();
+  const { ContactInfo, error } = useLoaderData();
   const revalidator = useRevalidator();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [confirmation, setConfirmation] = useState(null);
@@ -21,7 +21,7 @@ export default function Settings() {
     setTimeout(() => setConfirmation(null), 5000);
   };
 
-  const handleSiteInfoUpdated = () => {
+  const handleContactInfoUpdated = () => {
     // Re-fetch the data to reflect the latest saved changes
     revalidator.revalidate();
   };
@@ -31,11 +31,10 @@ export default function Settings() {
       <AdminTitle title="Settings" subtitle="Manage your admin account and site details." />
       
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xl)' }}>
-        {/* Render the SiteInfoSection with the loader data */}
-        <SiteInfoSection 
-          siteInfo={siteInfo} 
+        <ContactInfoSection 
+          ContactInfo={ContactInfo} 
           error={error} 
-          onUpdated={handleSiteInfoUpdated} 
+          onUpdated={handleContactInfoUpdated} 
         />
 
         <section className={styles.card}>
