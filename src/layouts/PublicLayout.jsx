@@ -12,7 +12,7 @@ export default function PublicLayout() {
     <div className={styles.container}>
       <a href="#main-content" className={styles.skipLink}>Skip to main content</a>
       <ParticleBackground />
-      <ScrollRestoration />
+      <ScrollRestoration getKey={(location) => location.pathname} />
       <Header />
       <main className={styles.main} id="main-content">
         <Outlet context={{ siteInfo }} />
