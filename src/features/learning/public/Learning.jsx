@@ -55,6 +55,8 @@ export default function Learning() {
         </div>
       </section>
 
+      <div className="section-divider" />
+
       {/* Roadmaps */}
       <section className="section">
         <div className="container">

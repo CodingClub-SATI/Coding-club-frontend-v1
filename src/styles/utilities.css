@@ -47,21 +47,14 @@
     text-shadow: var(--text-glow-secondary);
 }
 
-.section + .section {
-  position: relative;
-}
-
-.section + .section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+.section-divider {
+  position:absolute;
   width: var(--container-main);
   max-width: 100%;
   height: 2px;
   background: linear-gradient(to right, transparent, var(--brand-primary), var(--brand-secondary), transparent);
-  opacity: 0.4;
+  margin: 0;
+  opacity: 0.5;
 }
 
 /* =========================================

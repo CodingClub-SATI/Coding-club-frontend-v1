@@ -116,6 +116,8 @@ export default function Events() {
         </section>
       )}
 
+      <div className="section-divider" />
+
       {/* All events */}
       <section className="section" id="all-events">
         <div className="container">
@@ -160,6 +162,8 @@ export default function Events() {
           )}
         </div>
       </section>
+
+      <div className="section-divider" />
 
       {/* Host CTA */}
       <section className="section">

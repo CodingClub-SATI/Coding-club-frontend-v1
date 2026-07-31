@@ -116,6 +116,8 @@ export default function Home() {
         </div>
       </section>
 
+      <div className="section-divider" />
+
       {/* About */}
       <section className={`section ${styles.aboutSection}`}>
         <div className="container">
@@ -163,6 +165,8 @@ export default function Home() {
         </div>
       </section>
 
+      <div className="section-divider" />
+
       {/* Director Quote */}
       <section className="section">
         <div className="container">
@@ -195,6 +199,8 @@ export default function Home() {
           </Reveal>
         </div>
       </section>
+
+      <div className="section-divider" />
 
       {/* Stats */}
       <section className={`section ${styles.statsSection}`}>
@@ -229,6 +235,8 @@ export default function Home() {
           </Reveal>
         </div>
       </section>
+
+      <div className="section-divider" />
 
       {/* Bottom CTA */}
       <section className="section">

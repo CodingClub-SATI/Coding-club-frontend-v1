@@ -20,8 +20,6 @@ export default function Projects() {
 
   const category = searchParams.get('category') || 'All';
 
-  // Only the overall top 3 carry a podium badge, computed once so
-  // ProjectCard doesn't need an O(n) lookup per render.
   const rankById = useMemo(() => {
     const map = new Map();
     topThree.forEach((p, i) => map.set(p.id, i + 1));
@@ -33,7 +31,7 @@ export default function Projects() {
       const next = new URLSearchParams(prev);
       if (value === 'All') next.delete('category');
       else next.set('category', value);
-      next.delete('page'); // changing category starts back at page 1
+      next.delete('page');
       return next;
     }, { replace: true, preventScrollReset: true });
   };
@@ -95,6 +93,8 @@ export default function Projects() {
         </div>
       </section>
 
+      <div className="section-divider" />
+
       {/* All projects */}
       <section className="section" id="all-projects">
         <div className="container">
@@ -151,6 +151,8 @@ export default function Projects() {
           )}
         </div>
       </section>
+
+      <div className="section-divider" />
 
       {/* Submit CTA */}
       <section className="section">

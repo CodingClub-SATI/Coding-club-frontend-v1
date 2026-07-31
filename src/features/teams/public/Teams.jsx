@@ -60,6 +60,8 @@ export default function Teams() {
         </section>
       )}
 
+      <div className="section-divider" />
+
       <section className={`section ${styles.rosterSection}`}>
         <div className="container">
           {batches.length > 1 && (

@@ -75,6 +75,8 @@ export default function Gallery() {
         </section>
       )}
 
+      <div className="section-divider" />
+
       {/* Albums */}
       <section className="section" id="albums">
         <div className="container">
