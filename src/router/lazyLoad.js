@@ -1,6 +1,6 @@
 export const lazyLoad = (importFn) => {
   return async () => {
-    const module = await importFn();
-    return { Component: module.default };
+    const { default: Component, ...rest } = await importFn();
+    return { Component, ...rest };
   };
 };
