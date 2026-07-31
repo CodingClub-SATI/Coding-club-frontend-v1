@@ -8,7 +8,7 @@ export default function Footer({ siteInfo }) {
 
   return (
     <footer className={styles.footer}>
-      <div className="section-divider" />
+      <div className={styles.topBorder} />
       <div className="container">
         <div className={styles.grid}>
           {/* Brand */}

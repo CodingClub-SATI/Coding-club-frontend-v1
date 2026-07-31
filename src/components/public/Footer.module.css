@@ -17,6 +17,13 @@
   margin-bottom: var(--space-2xl);
 }
 
+.topBorder {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--brand-primary), var(--brand-secondary), transparent);
+  margin: var(--space-xl);
+  opacity: 0.4;
+}
+
 /* =========================================
    Column Structures
 ========================================= */
