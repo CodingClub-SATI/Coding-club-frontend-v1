@@ -35,7 +35,7 @@ export default function Projects() {
       else next.set('category', value);
       next.delete('page'); // changing category starts back at page 1
       return next;
-    }, { replace: true });
+    }, { replace: true, preventScrollReset: true });
   };
 
   const setPage = (nextPage) => {
@@ -44,7 +44,7 @@ export default function Projects() {
       if (nextPage <= 1) next.delete('page');
       else next.set('page', String(nextPage));
       return next;
-    }, { replace: true });
+    }, { replace: true, preventScrollReset: true });
   };
 
   return (

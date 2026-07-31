@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useLoaderData, useSearchParams, useNavigation } from 'react-router';
+import { useEffect, useState } from 'react';
+import { Link, useLoaderData, useLocation, useSearchParams, useNavigation } from 'react-router';
 import { CalendarX, AlertTriangle } from 'lucide-react';
 import Reveal from '@/components/shared/Reveal';
 import Glasscard from '@/components/shared/Glasscard';
@@ -26,6 +26,7 @@ export default function Events() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedEvent, setSelectedEvent] = useState(null);
   const navigation = useNavigation();
+  const location = useLocation();
   const isFiltering = navigation.state === 'loading';
 
   const tab = searchParams.get('status') || 'upcoming';
@@ -36,9 +37,9 @@ export default function Events() {
       const next = new URLSearchParams(prev);
       if (value === defaultValue) next.delete(key);
       else next.set(key, value);
-      next.delete('page'); // changing a filter starts back at page 1
+      next.delete('page');
       return next;
-    }, { replace: true });
+    }, { replace: true, preventScrollReset: true });
   };
 
   const setTab = (value) => updateParam('status', value, 'upcoming');
@@ -50,8 +51,14 @@ export default function Events() {
       if (nextPage <= 1) next.delete('page');
       else next.set('page', String(nextPage));
       return next;
-    }, { replace: true });
+    }, { replace: true, preventScrollReset: true });
   };
+
+  useEffect(() => {
+    if (location.hash === '#all-events') {
+      document.getElementById('all-events')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, []);
 
   return (
     <div>
