@@ -7,6 +7,7 @@ import Spinner from '@/components/shared/Spinner';
 import { teamApi } from '@/features/teams/api';
 import formStyles from '@/components/admin/AdminForm.module.css';
 import controlStyles from '@/components/admin/FormControl.module.css';
+import styles from './LeadershipModal.module.css';
 
 export default function LeadershipModal({ batches, onClose, onSaved }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -33,22 +34,19 @@ export default function LeadershipModal({ batches, onClose, onSaved }) {
 
   useEffect(() => {
     teamApi.getLeadership().then(mapping => {
-      // Setup Convenors
       const c1 = mapping.convenors?.[0] || '';
       const c2 = mapping.convenors?.[1] || '';
       setConvenors([c1, c2]);
       setConvenorBatch(getBatchForMember(c1) || getBatchForMember(c2) || '');
 
-      // Setup Co-Convenors
       const cc1 = mapping.coConvenors?.[0] || '';
       const cc2 = mapping.coConvenors?.[1] || '';
       setCoConvenors([cc1, cc2]);
       setCoConvenorBatch(getBatchForMember(cc1) || getBatchForMember(cc2) || '');
 
-      // Setup Department Heads
       const depts = [];
-      if (mapping.departmentHeads) {
-        Object.entries(mapping.departmentHeads).forEach(([dept, memberId]) => {
+      if (mapping.departmentLeads) {
+        Object.entries(mapping.departmentLeads).forEach(([dept, memberId]) => {
           depts.push({ id: crypto.randomUUID(), dept, batch: getBatchForMember(memberId), memberId });
         });
       }
@@ -76,12 +74,12 @@ export default function LeadershipModal({ batches, onClose, onSaved }) {
     const payload = {
       convenors: convenors.filter(Boolean),
       coConvenors: coConvenors.filter(Boolean),
-      departmentHeads: deptMapping
+      departmentLeads: deptMapping
     };
 
     try {
       await teamApi.updateLeadership(payload);
-      onSaved(); // Triggers a revalidation in Teams.jsx to update the UI
+      onSaved();
     } catch (err) {
       console.error('Failed to save leadership updates:', err);
       setError('Failed to save leadership updates.');
@@ -92,7 +90,7 @@ export default function LeadershipModal({ batches, onClose, onSaved }) {
   if (isLoading) {
     return (
       <Modal title="Manage Leadership" onClose={onClose} size="lg" variant="glow">
-        <div style={{ padding: '40px', textAlign: 'center', color: 'var(--brand-primary)' }}><Spinner /></div>
+        <div className={styles.loadingWrap}><Spinner /></div>
       </Modal>
     );
   }
@@ -113,13 +111,12 @@ export default function LeadershipModal({ batches, onClose, onSaved }) {
   return (
     <Modal title="Manage Leadership" onClose={onClose} size="lg" variant="glow">
       <form onSubmit={handleSubmit}>
-        
-        {/* CONVENORS */}
-        <div className={formStyles.row} style={{ marginBottom: '24px' }}>
-          <label className={formStyles.label} style={{ color: 'var(--brand-primary)' }}>Convenors</label>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
-            <select 
-              className={controlStyles.select} 
+
+        <div className={`${formStyles.row} ${styles.section}`}>
+          <label className={`${formStyles.label} ${styles.sectionLabelPrimary}`}>Convenors</label>
+          <div className={styles.grid3}>
+            <select
+              className={controlStyles.select}
               value={convenorBatch}
               onChange={(e) => { setConvenorBatch(e.target.value); setConvenors(['', '']); }}
             >
@@ -135,12 +132,11 @@ export default function LeadershipModal({ batches, onClose, onSaved }) {
           </div>
         </div>
 
-        {/* CO-CONVENORS */}
-        <div className={formStyles.row} style={{ marginBottom: '32px' }}>
-          <label className={formStyles.label} style={{ color: 'var(--brand-primary)' }}>Co-Convenors</label>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
-            <select 
-              className={controlStyles.select} 
+        <div className={`${formStyles.row} ${styles.section}`}>
+          <label className={`${formStyles.label} ${styles.sectionLabelPrimary}`}>Co-Convenors</label>
+          <div className={styles.grid3}>
+            <select
+              className={controlStyles.select}
               value={coConvenorBatch}
               onChange={(e) => { setCoConvenorBatch(e.target.value); setCoConvenors(['', '']); }}
             >
@@ -156,23 +152,22 @@ export default function LeadershipModal({ batches, onClose, onSaved }) {
           </div>
         </div>
 
-        {/* DEPARTMENT HEADS */}
         <div className={formStyles.row}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', borderBottom: '1px solid var(--border-dim)', paddingBottom: '8px' }}>
-            <label className={formStyles.label} style={{ color: 'var(--brand-accent)', margin: 0 }}>Department Heads</label>
+          <div className={styles.deptHeader}>
+            <label className={`${formStyles.label} ${styles.sectionLabelAccent}`}>Department Heads</label>
             <Button type="button" variant="ghost" size="sm" onClick={() => setDeptHeads([...deptHeads, { id: crypto.randomUUID(), dept: '', batch: '', memberId: '' }])}>
               <Plus size={14} /> Add Department
             </Button>
           </div>
-          
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {deptHeads.length === 0 && <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)' }}>No department heads assigned.</p>}
-            
+
+          <div className={styles.deptList}>
+            {deptHeads.length === 0 && <p className={styles.emptyHint}>No department heads assigned.</p>}
+
             {deptHeads.map((deptItem, index) => (
-              <div key={deptItem.id} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr auto', gap: '12px', alignItems: 'center' }}>
-                <input 
-                  className={controlStyles.input} 
-                  placeholder="Department (e.g. Technical)" 
+              <div key={deptItem.id} className={styles.deptRow}>
+                <input
+                  className={controlStyles.input}
+                  placeholder="Department (e.g. Technical)"
                   value={deptItem.dept}
                   onChange={(e) => {
                     const next = [...deptHeads];
@@ -180,8 +175,8 @@ export default function LeadershipModal({ batches, onClose, onSaved }) {
                     setDeptHeads(next);
                   }}
                 />
-                <select 
-                  className={controlStyles.select} 
+                <select
+                  className={controlStyles.select}
                   value={deptItem.batch}
                   onChange={(e) => {
                     const next = [...deptHeads];
@@ -193,8 +188,8 @@ export default function LeadershipModal({ batches, onClose, onSaved }) {
                   <option value="">-- Batch --</option>
                   {unarchivedBatches.map(b => <option key={b.batch} value={b.batch}>{b.batch}</option>)}
                 </select>
-                <select 
-                  className={controlStyles.select} 
+                <select
+                  className={controlStyles.select}
                   value={deptItem.memberId}
                   disabled={!deptItem.batch}
                   onChange={(e) => {
@@ -205,7 +200,7 @@ export default function LeadershipModal({ batches, onClose, onSaved }) {
                 >
                   {renderMemberOptions(deptItem.batch)}
                 </select>
-                <IconButton onClick={() => setDeptHeads(deptHeads.filter(d => d.id !== deptItem.id))} style={{ color: 'var(--brand-destructive)' }}>
+                <IconButton className={styles.deleteBtn} onClick={() => setDeptHeads(deptHeads.filter(d => d.id !== deptItem.id))}>
                   <Trash2 size={16} />
                 </IconButton>
               </div>
@@ -213,9 +208,9 @@ export default function LeadershipModal({ batches, onClose, onSaved }) {
           </div>
         </div>
 
-        {error && <p style={{ color: 'var(--brand-destructive)', fontSize: 'var(--text-sm)', marginTop: '16px' }}>{error}</p>}
-        
-        <div className={formStyles.actions} style={{ marginTop: '32px' }}>
+        {error && <p className={styles.formError}>{error}</p>}
+
+        <div className={`${formStyles.actions} ${styles.actions}`}>
           <Button type="button" variant="ghost" onClick={onClose}>Cancel</Button>
           <Button type="submit" isLoading={isSaving}>Save Leadership</Button>
         </div>

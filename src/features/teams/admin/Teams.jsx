@@ -238,7 +238,7 @@ export default function Teams() {
         title="Team"
         subtitle={`${batches.length} batch${batches.length === 1 ? '' : 'es'} • ${totalMembers} member${totalMembers === 1 ? '' : 's'} total`}
       >
-        <div style={{ display: 'flex', gap: '8px' }}>
+        <div className={styles.headerActions}>
           <Button variant="outline" tone="secondary" onClick={() => setManagingLeadership(true)}>
             <Shield size={16} aria-hidden="true" /> Manage Leadership
           </Button>

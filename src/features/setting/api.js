@@ -6,17 +6,17 @@ export const settingsApi = {
     request('/api/auth/password', { method: 'PUT', body: { currentPassword, newPassword, otp } }),
 };
 
-export const siteInfoApi = {
-  get: () => request('/api/site-info'),
-  update: (payload) => request('/api/site-info', { method: 'PUT', body: payload }),
+export const contactInfoApi = {
+  get: () => request('/api/contact-info'),
+  update: (payload) => request('/api/contact-info', { method: 'PUT', body: payload }),
 };
 
-export async function siteInfoLoader() {
+export async function contactInfoLoader() {
   try {
-    const siteInfo = await siteInfoApi.get();
-    return { siteInfo, error: null };
+    const contactInfo = await contactInfoApi.get();
+    return { contactInfo, error: null };
   } catch (err) {
-    console.error('Failed to load site info:', err);
-    return { siteInfo: null, error: 'Could not load site info right now.' };
+    console.error('Failed to load contact info:', err);
+    return { contactInfo: null, error: 'Could not load contact info right now.' };
   }
 }

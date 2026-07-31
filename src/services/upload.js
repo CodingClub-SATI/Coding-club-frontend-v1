@@ -1,42 +1,21 @@
 import { ApiError, request } from './api';
-import { clearSession } from './authToken';
+import { validateImageFile } from '@/utils/imageValidation';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 const UPLOAD_PATH = '/api/upload';
 
 export async function uploadImage(file) {
+  const validationError = validateImageFile(file);
+  if (validationError) {
+    throw new ApiError(validationError, 400, null);
+  }
+
   const formData = new FormData();
   formData.append('image', file);
 
-  const res = await fetch(`${API_BASE_URL}${UPLOAD_PATH}`, {
-    method: 'POST',
-    credentials: 'include',
-    body: formData,
-  });
-
-  if (res.status === 401) {
-    await clearSession();
-    window.location.assign('/admin/login');
-    return new Promise(() => {});
-  }
-
-  const text = await res.text();
-  let data = null;
-  if (text) {
-    try {
-      data = JSON.parse(text);
-    } catch {
-      data = null;
-    }
-  }
-
-  if (!res.ok) {
-    const message = (data && data.message) || `Image upload failed with status ${res.status}`;
-    throw new ApiError(message, res.status, data);
-  }
+  const data = await request(UPLOAD_PATH, { method: 'POST', body: formData });
 
   if (!data?.url) {
-    throw new ApiError('Upload succeeded but no URL was returned.', res.status, data);
+    throw new ApiError('Upload succeeded but no URL was returned.', 200, data);
   }
 
   return data.url;

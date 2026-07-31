@@ -1,4 +1,4 @@
-import { useLoaderData, useOutletContext, Link } from 'react-router';
+import { useLoaderData, Link } from 'react-router';
 import AnimatedCounter from '@/features/home/components/AnimatedCounter';
 import TypingText from '@/features/home/components/TypingText';
 import Reveal from '@/components/shared/Reveal';
@@ -68,7 +68,6 @@ function ClubMascot() {
 
 export default function Home() {
   const liveStats = useLoaderData();
-  const { contactInfo } = useOutletContext();
 
   const displayStats = STATS_CONFIG.map((stat) => {
     const value = liveStats[stat.dataKey] || 0;
@@ -90,6 +89,7 @@ export default function Home() {
             <h1 className={styles.heroTitle}>
               <span className={`${styles.heroTitleMain} text-primary-glow`}>CODING CLUB</span>
               <span className={styles.heroTitleSub}>
+                <span className="sr-only">BUILD · INNOVATE</span>
                 <TypingText texts={['SATI VIDISHA', 'BUILD · INNOVATE', 'CODE · COFFEE', 'BEYOND CLASSROOMS', 'HELLO WORLD!']} />
               </span>
             </h1>
@@ -115,8 +115,6 @@ export default function Home() {
           <span className={styles.scrollDot} />
         </div>
       </section>
-
-      <div className="section-divider" />
 
       {/* About */}
       <section className={`section ${styles.aboutSection}`}>
@@ -165,8 +163,6 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="section-divider" />
-
       {/* Director Quote */}
       <section className="section">
         <div className="container">
@@ -199,8 +195,6 @@ export default function Home() {
           </Reveal>
         </div>
       </section>
-
-      <div className="section-divider" />
 
       {/* Stats */}
       <section className={`section ${styles.statsSection}`}>
@@ -236,8 +230,6 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="section-divider" />
-
       {/* Bottom CTA */}
       <section className="section">
         <div className="container">
@@ -245,7 +237,7 @@ export default function Home() {
             <div className={styles.ctaPulse} aria-hidden="true" />
             <h2>Ready to <span className="text-primary-glow">Level Up?</span></h2>
             <p>Join the community, participate in hackathons, and build your network.</p>
-            <Button Component={Link} to="/events?status=upcoming#all-events" preventScrollReset variant="filled">
+            <Button Component={Link} to="/events" variant="filled">
               View Upcoming Events
             </Button>
           </Reveal>

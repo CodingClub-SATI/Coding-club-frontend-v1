@@ -6,7 +6,7 @@ import SocialSidebar from '@/components/public/SocialSidebar';
 import styles from './PublicLayout.module.css';
 
 export default function PublicLayout() {
-  const { siteInfo } = useLoaderData();
+  const { contactInfo } = useLoaderData();
 
   return (
     <div className={styles.container}>
@@ -15,10 +15,10 @@ export default function PublicLayout() {
       <ScrollRestoration />
       <Header />
       <main className={styles.main} id="main-content">
-        <Outlet context={{ siteInfo }} />
+        <Outlet context={{ contactInfo }} />
       </main>
-      <SocialSidebar siteInfo={siteInfo} />
-      <Footer siteInfo={siteInfo} />
+      <SocialSidebar contactInfo={contactInfo} />
+      <Footer contactInfo={contactInfo} />
     </div>
   );
 }

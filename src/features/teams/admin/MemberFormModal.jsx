@@ -29,10 +29,10 @@ export default function MemberFormModal({ mode, batch, availableBatches, member,
         batch: member.batch || batch,
         skills: member.skills || [],
         avatarUrl: member.avatarUrl || null,
-        github: member.socials?.github || '',
-        linkedin: member.socials?.linkedin || '',
-        instagram: member.socials?.instagram || '',
-        x: member.socials?.x || '',
+        github: member.github || '',
+        linkedin: member.linkedin || '',
+        instagram: member.instagram || '',
+        x: member.x || '',
       };
     }
     return buildEmptyForm(batch);
@@ -65,12 +65,10 @@ export default function MemberFormModal({ mode, batch, availableBatches, member,
         batch: form.batch,
         skills: form.skills,
         avatarUrl: form.avatarUrl,
-        socials: {
-          github: form.github.trim(),
-          linkedin: form.linkedin.trim(),
-          instagram: form.instagram.trim(),
-          x: form.x.trim(),
-        },
+        github: form.github.trim(),
+        linkedin: form.linkedin.trim(),
+        instagram: form.instagram.trim(),
+        x: form.x.trim(),
       };
 
       const saved = mode === 'new'

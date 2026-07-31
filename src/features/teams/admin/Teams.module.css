@@ -1,4 +1,9 @@
 /* ---------- Batch grid (album-style) ---------- */
+.headerActions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
 .batchGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));

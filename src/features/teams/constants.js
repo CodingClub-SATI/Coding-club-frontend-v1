@@ -26,8 +26,8 @@ export const POSITION_SUGGESTIONS = [
 // Keys must match the `leadership` object the API returns from
 // GET /api/team/public.
 export const LEADERSHIP_SECTIONS = [
-  { key: 'convenor', label: 'Convenor' },
-  { key: 'coConvenor', label: 'Co-Convenor' },
+  { key: 'convenors', label: 'Convenor' },
+  { key: 'coConvenors', label: 'Co-Convenor' },
   { key: 'departmentLeads', label: 'Department Leads' },
 ];
 

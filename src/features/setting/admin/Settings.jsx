@@ -10,7 +10,7 @@ import formStyles from '@/components/admin/AdminForm.module.css';
 import styles from './Settings.module.css';
 
 export default function Settings() {
-  const { ContactInfo, error } = useLoaderData();
+  const { contactInfo, error } = useLoaderData();
   const revalidator = useRevalidator();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [confirmation, setConfirmation] = useState(null);
@@ -22,19 +22,18 @@ export default function Settings() {
   };
 
   const handleContactInfoUpdated = () => {
-    // Re-fetch the data to reflect the latest saved changes
     revalidator.revalidate();
   };
 
   return (
     <div>
       <AdminTitle title="Settings" subtitle="Manage your admin account and site details." />
-      
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xl)' }}>
-        <ContactInfoSection 
-          ContactInfo={ContactInfo} 
-          error={error} 
-          onUpdated={handleContactInfoUpdated} 
+
+      <div className={styles.sectionsStack}>
+        <ContactInfoSection
+          contactInfo={contactInfo}
+          error={error}
+          onUpdated={handleContactInfoUpdated}
         />
 
         <section className={styles.card}>

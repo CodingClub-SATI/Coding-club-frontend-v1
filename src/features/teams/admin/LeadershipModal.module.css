@@ -1,0 +1,71 @@
+.section {
+  margin-bottom: var(--space-2xl);
+}
+
+.sectionLabelPrimary {
+  color: var(--brand-primary);
+}
+
+.sectionLabelAccent {
+  color: var(--brand-accent);
+  margin: 0;
+}
+
+.grid3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.deptHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-md);
+  border-bottom: 1px solid var(--border-dim);
+  padding-bottom: var(--space-sm);
+}
+
+.deptList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.emptyHint {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.deptRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: var(--space-md);
+  align-items: center;
+}
+
+.deleteBtn {
+  color: var(--brand-destructive);
+}
+
+.formError {
+  color: var(--brand-destructive);
+  font-size: var(--text-sm);
+  margin-top: var(--space-base);
+}
+
+.actions {
+  margin-top: var(--space-2xl);
+}
+
+.loadingWrap {
+  padding: var(--space-2xl);
+  text-align: center;
+  color: var(--brand-primary);
+}
+
+@media (max-width: 720px) {
+  .grid3, .deptRow {
+    grid-template-columns: 1fr;
+  }
+}

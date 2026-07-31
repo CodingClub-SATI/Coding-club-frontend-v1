@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Pencil } from 'lucide-react';
 import Button from '@/components/shared/Button';
+import Tag from '@/components/shared/Tag';
+import { Toggle } from '@/components/shared/Toggle';
 import { contactInfoApi } from '@/features/setting/api';
 import { PLATFORMS } from '@/data/socialLinks';
 import formStyles from '@/components/admin/AdminForm.module.css';
@@ -15,8 +17,14 @@ function buildForm(contactInfo) {
   return {
     email: contactInfo?.email || '',
     phone: contactInfo?.phone || '',
+    youtube: contactInfo?.youtube || '',
     ...PLATFORMS.reduce((acc, { key }) => {
-      acc[key] = contactInfo?.[key] || '';
+      const entry = contactInfo?.[key] || {};
+      acc[key] = {
+        url: entry.url || '',
+        showOnSidebar: Boolean(entry.showOnSidebar),
+        showOnFooter: Boolean(entry.showOnFooter),
+      };
       return acc;
     }, {}),
   };
@@ -38,6 +46,12 @@ export default function ContactInfoSection({ contactInfo, error, onUpdated }) {
 
   const updateField = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
 
+  const updatePlatformUrl = (key) => (e) =>
+    setForm((f) => ({ ...f, [key]: { ...f[key], url: e.target.value } }));
+
+  const updatePlatformFlag = (key, flag) => (checked) =>
+    setForm((f) => ({ ...f, [key]: { ...f[key], [flag]: checked } }));
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormError(null);
@@ -46,8 +60,11 @@ export default function ContactInfoSection({ contactInfo, error, onUpdated }) {
     if (!EMAIL_PATTERN.test(form.email.trim())) {
       nextErrors.email = 'Enter a valid email address.';
     }
+    if (form.youtube.trim() && !URL_PATTERN.test(form.youtube.trim())) {
+      nextErrors.youtube = 'Must start with http:// or https://';
+    }
     PLATFORMS.forEach(({ key }) => {
-      const value = form[key].trim();
+      const value = form[key].url.trim();
       if (value && !URL_PATTERN.test(value)) {
         nextErrors[key] = 'Must start with http:// or https://';
       }
@@ -63,8 +80,13 @@ export default function ContactInfoSection({ contactInfo, error, onUpdated }) {
       const payload = {
         email: form.email.trim(),
         phone: form.phone.trim(),
+        youtube: form.youtube.trim(),
         ...PLATFORMS.reduce((acc, { key }) => {
-          acc[key] = form[key].trim();
+          acc[key] = {
+            url: form[key].url.trim(),
+            showOnSidebar: form[key].showOnSidebar,
+            showOnFooter: form[key].showOnFooter,
+          };
           return acc;
         }, {}),
       };
@@ -106,14 +128,27 @@ export default function ContactInfoSection({ contactInfo, error, onUpdated }) {
           <div>{contactInfo?.phone || '—'}</div>
         </div>
         <div className={formStyles.row}>
+          <span className={formStyles.label}>YouTube</span>
+          <div>{contactInfo?.youtube || '—'}</div>
+        </div>
+        <div className={formStyles.row}>
           <span className={formStyles.label}>Social Links</span>
           <div className={styles.socialList}>
-            {PLATFORMS.map(({ key, label }) => (
-              <div key={key} className={styles.socialItem}>
-                <span className={styles.socialLabel}>{label}</span>
-                <span className={styles.socialValue}>{contactInfo?.[key] || '—'}</span>
-              </div>
-            ))}
+            {PLATFORMS.map(({ key, label }) => {
+              const entry = contactInfo?.[key];
+              return (
+                <div key={key} className={styles.socialItem}>
+                  <span className={styles.socialLabel}>{label}</span>
+                  <span className={styles.socialValue}>{entry?.url || '—'}</span>
+                  {entry?.url && (
+                    <span className={styles.socialFlags}>
+                      {entry.showOnSidebar && <Tag tone="muted">Sidebar</Tag>}
+                      {entry.showOnFooter && <Tag tone="muted">Footer</Tag>}
+                    </span>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -149,26 +184,58 @@ export default function ContactInfoSection({ contactInfo, error, onUpdated }) {
               disabled={isSaving}
             />
           </div>
+          <div className={formStyles.row}>
+            <label className={formStyles.label} htmlFor="contact-youtube">YouTube</label>
+            <input
+              id="contact-youtube"
+              type="url"
+              placeholder="https://"
+              className={`${controlStyles.input} ${controlStyles.fullWidth}`}
+              value={form.youtube}
+              onChange={updateField('youtube')}
+              disabled={isSaving}
+            />
+            {fieldErrors.youtube && <p className={styles.fieldError} role="alert">{fieldErrors.youtube}</p>}
+          </div>
         </div>
-        <div className={formStyles.grid}>
-          {PLATFORMS.map(({ key, label }) => (
-            <div key={key} className={formStyles.row}>
-              <label className={formStyles.label} htmlFor={`contact-social-${key}`}>{label}</label>
-              <input
-                id={`contact-social-${key}`}
-                type="url"
-                placeholder="https://"
-                className={`${controlStyles.input} ${controlStyles.fullWidth}`}
-                value={form[key]}
-                onChange={updateField(key)}
-                disabled={isSaving}
-              />
-              {fieldErrors[key] && (
-                <p className={styles.fieldError} role="alert">{fieldErrors[key]}</p>
-              )}
-            </div>
-          ))}
+
+        <div className={formStyles.row}>
+          <span className={formStyles.label}>Social Platforms</span>
+          <div className={styles.socialList}>
+            {PLATFORMS.map(({ key, label }) => (
+              <div key={key} className={styles.platformRow}>
+                <label className={formStyles.label} htmlFor={`contact-social-${key}`}>{label}</label>
+                <input
+                  id={`contact-social-${key}`}
+                  type="url"
+                  placeholder="https://"
+                  className={`${controlStyles.input} ${controlStyles.fullWidth}`}
+                  value={form[key].url}
+                  onChange={updatePlatformUrl(key)}
+                  disabled={isSaving}
+                />
+                {fieldErrors[key] && (
+                  <p className={styles.fieldError} role="alert">{fieldErrors[key]}</p>
+                )}
+                <div className={styles.platformToggles}>
+                  <Toggle
+                    checked={form[key].showOnSidebar}
+                    onChange={updatePlatformFlag(key, 'showOnSidebar')}
+                    label="Show on sidebar"
+                    disabled={isSaving}
+                  />
+                  <Toggle
+                    checked={form[key].showOnFooter}
+                    onChange={updatePlatformFlag(key, 'showOnFooter')}
+                    label="Show on footer"
+                    disabled={isSaving}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
+
         {formError && <p className={styles.formError} role="alert">{formError}</p>}
         <div className={detailStyles.actions}>
           <Button type="button" variant="outline" size="sm" onClick={() => setIsEditing(false)} disabled={isSaving}>

@@ -7,15 +7,9 @@ import { ConfirmButton } from '@/components/shared/ConfirmButton';
 import EmptyState from '@/components/shared/EmptyState';
 import UpdateFormModal from '@/features/updates/admin/UpdateFormModal';
 import { updatesApi } from '@/features/updates/api';
+import { formatDate } from '@/utils/date';
 import formStyles from '@/components/admin/AdminForm.module.css';
 import styles from './Updates.module.css';
-
-function formatPublishDate(publishDate) {
-  if (!publishDate) return '—';
-  return new Date(publishDate).toLocaleDateString('en-US', {
-    month: 'short', day: 'numeric', year: 'numeric',
-  });
-}
 
 function sortByPublishDateDesc(list) {
   return [...list].sort((a, b) => new Date(b.publishDate) - new Date(a.publishDate));
@@ -24,7 +18,7 @@ function sortByPublishDateDesc(list) {
 export default function Updates() {
   const { updates: initialUpdates, error: loadError } = useLoaderData();
 
-  const [updates, setUpdates] = useState(initialUpdates);
+  const [updates, setUpdates] = useState(() => sortByPublishDateDesc(initialUpdates));
   const [modalOpen, setModalOpen] = useState(false);
   const [editingUpdate, setEditingUpdate] = useState(null); // null while modalOpen => "add new"
   const [actionError, setActionError] = useState('');
@@ -83,7 +77,7 @@ export default function Updates() {
             <li key={update.id} className={styles.item}>
               <div className={styles.itemBody}>
                 <p className={styles.message}>{update.message}</p>
-                <span className={styles.date}>{formatPublishDate(update.publishDate)}</span>
+                <span className={styles.date}>{formatDate(update.publishDate)}</span>
               </div>
               <div className={styles.itemActions}>
                 <Button variant="ghost" size="sm" onClick={() => openEdit(update)}>

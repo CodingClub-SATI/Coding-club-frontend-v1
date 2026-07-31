@@ -38,7 +38,7 @@ export default function Gallery() {
         else next.delete('search');
         next.delete('page'); 
         return next;
-      }, { replace: true, preventScrollReset: true });
+      }, { replace: true });
     }, SEARCH_DEBOUNCE_MS);
     return () => clearTimeout(handle);
   }, [searchInput]);
@@ -49,7 +49,7 @@ export default function Gallery() {
       if (nextPage <= 1) next.delete('page');
       else next.set('page', String(nextPage));
       return next;
-    }, { replace: true, preventScrollReset: true });
+    }, { replace: true });
   };
 
   return (
@@ -74,8 +74,6 @@ export default function Gallery() {
           </div>
         </section>
       )}
-
-      <div className="section-divider" />
 
       {/* Albums */}
       <section className="section" id="albums">

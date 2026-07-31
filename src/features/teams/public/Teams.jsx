@@ -21,17 +21,10 @@ export default function Teams() {
   const safeActiveBatch = batches.some((b) => b.batch === activeBatch) ? activeBatch : batches[0]?.batch ?? null;
   const currentBatch = batches.find((b) => b.batch === safeActiveBatch) ?? null;
 
-  // Leadership sections: the API groups these for us (leadership.convenor,
-  // leadership.coConvenor, leadership.departmentLeads) — we only turn that
-  // into the { title, members[] } shape TeamSection expects.
   const leadershipGroups = LEADERSHIP_SECTIONS.map(({ key, label }) => ({
     key,
     label,
-    members: key === 'departmentLeads'
-      ? leadership?.departmentLeads || []
-      : leadership?.[key]
-        ? [leadership[key]]
-        : [],
+    members: leadership?.[key] || [],
   })).filter((group) => group.members.length > 0);
 
   return (
@@ -59,8 +52,6 @@ export default function Teams() {
           </div>
         </section>
       )}
-
-      <div className="section-divider" />
 
       <section className={`section ${styles.rosterSection}`}>
         <div className="container">

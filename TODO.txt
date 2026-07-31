@@ -1,0 +1,36 @@
+TODO
+====
+
+1. prefers-reduced-motion is currently disabled
+   - The check is commented out in src/components/public/ParticleBackground.jsx
+   - The corresponding CSS rule is also commented out in src/styles/global.css
+   - Both were intentionally disabled during development. Re-enable both together
+     when ready - leaving only one enabled would be inconsistent (JS particles
+     would keep animating while other CSS transitions respect the OS setting,
+     or vice versa).
+
+2. Undocumented query params on list endpoints
+   - The frontend sends status/type/featured/page/pageSize/limit on GET /api/events,
+     category/sort/limit/page/pageSize on GET /api/projects, search/page/pageSize on
+     GET /api/gallery, and limit on GET /api/contacts.
+   - API_DOCS.md only documents ?includeArchived=true for GET /api/events and no
+     query params at all for the others.
+   - Left these calls as-is since removing them risks breaking real filtering/
+     pagination if the backend does support them, and dashboard/api.js now
+     defensively slices results client-side either way. Worth confirming against
+     the actual backend and updating API_DOCS.md (or the frontend) to match.
+
+3. DELETE /api/upload (services/upload.js -> deleteImage) is fully implemented
+   and matches the doc, but is never called anywhere. Replacing or removing an
+   event banner/logo, gallery photo, or member avatar does not clean up the old
+   file on Catbox, so orphaned images will accumulate over time. Needs deciding
+   where to wire this in (on replace in EventFormModal/MemberFormModal/ImageDrop
+   consumers generally, and on delete in Gallery photo/album removal, Events
+   removal, Teams member removal).
+
+4. Event viewCount / registerClickCount
+   - Both fields are displayed read-only in the admin panel but API_DOCS.md does
+     not document any endpoint to increment them (no GET /api/events/:id, no
+     POST .../view or .../register-click). Unclear how these are meant to be
+     incremented from the frontend - flagging rather than guessing at an
+     undocumented endpoint.

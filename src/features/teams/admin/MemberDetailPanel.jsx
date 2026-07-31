@@ -15,7 +15,7 @@ import styles from './Teams.module.css';
 
 export default function MemberDetailPanel({ member, onClose, onEdit, onDeleted }) {
   const [actionError, setActionError] = useState(null);
-  const socials = SOCIAL_FIELDS.filter(({ key }) => member.socials?.[key]);
+  const socials = SOCIAL_FIELDS.filter(({ key }) => member[key]);
 
   const handleDelete = async () => {
     setActionError(null);
@@ -65,7 +65,7 @@ export default function MemberDetailPanel({ member, onClose, onEdit, onDeleted }
       {socials.length > 0 && (
         <div className={styles.socialRow}>
           {socials.map(({ key, label, Icon }) => (
-            <SocialLink key={key} href={member.socials[key]} label={label}><Icon size={16} /></SocialLink>
+            <SocialLink key={key} href={member[key]} label={label}><Icon size={16} /></SocialLink>
           ))}
         </div>
       )}
