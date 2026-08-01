@@ -6,7 +6,7 @@
 
 .carousel {
   position: relative;
-  padding: var(--space-xl) var(--space-3xl);
+  padding: var(--space-xl);
   overflow: hidden;
   margin-top: var(--space-lg);
 }

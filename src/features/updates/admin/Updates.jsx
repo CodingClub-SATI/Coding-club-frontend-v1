@@ -22,6 +22,7 @@ export default function Updates() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingUpdate, setEditingUpdate] = useState(null); // null while modalOpen => "add new"
   const [actionError, setActionError] = useState('');
+  const [busyUpdateId, setBusyUpdateId] = useState(null);
 
   const openCreate = () => {
     setEditingUpdate(null);
@@ -45,12 +46,14 @@ export default function Updates() {
 
   const handleDelete = async (update) => {
     setActionError('');
+    setBusyUpdateId(update.id);
     try {
       await updatesApi.remove(update.id);
       setUpdates((prev) => prev.filter((u) => u.id !== update.id));
     } catch (err) {
       console.error('Failed to delete alert:', err);
       setActionError('Could not delete this alert. Please try again.');
+      setBusyUpdateId(null);
     }
   };
 
@@ -80,7 +83,7 @@ export default function Updates() {
                 <span className={styles.date}>{formatDate(update.publishDate)}</span>
               </div>
               <div className={styles.itemActions}>
-                <Button variant="ghost" size="sm" onClick={() => openEdit(update)}>
+                <Button variant="ghost" size="sm" disabled={busyUpdateId === update.id} onClick={() => openEdit(update)}>
                   <Pencil size={12} aria-hidden="true" /> Edit
                 </Button>
                 <ConfirmButton
@@ -88,6 +91,7 @@ export default function Updates() {
                   confirmLabel="Delete?"
                   danger
                   onConfirm={() => handleDelete(update)}
+                  disabled={busyUpdateId === update.id}
                 />
               </div>
             </li>

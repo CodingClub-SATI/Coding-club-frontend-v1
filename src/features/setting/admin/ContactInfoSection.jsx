@@ -5,19 +5,16 @@ import Tag from '@/components/shared/Tag';
 import { Toggle } from '@/components/shared/Toggle';
 import { contactInfoApi } from '@/features/setting/api';
 import { PLATFORMS } from '@/data/socialLinks';
+import { isValidEmail, isValidUrl } from '@/utils/validation';
 import formStyles from '@/components/admin/AdminForm.module.css';
 import controlStyles from '@/components/admin/FormControl.module.css';
 import detailStyles from '@/components/admin/DetailPanel.module.css';
 import styles from './Settings.module.css';
 
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const URL_PATTERN = /^https?:\/\/.+/i;
-
 function buildForm(contactInfo) {
   return {
     email: contactInfo?.email || '',
     phone: contactInfo?.phone || '',
-    youtube: contactInfo?.youtube || '',
     ...PLATFORMS.reduce((acc, { key }) => {
       const entry = contactInfo?.[key] || {};
       acc[key] = {
@@ -57,15 +54,12 @@ export default function ContactInfoSection({ contactInfo, error, onUpdated }) {
     setFormError(null);
 
     const nextErrors = {};
-    if (!EMAIL_PATTERN.test(form.email.trim())) {
+    if (!isValidEmail(form.email.trim())) {
       nextErrors.email = 'Enter a valid email address.';
-    }
-    if (form.youtube.trim() && !URL_PATTERN.test(form.youtube.trim())) {
-      nextErrors.youtube = 'Must start with http:// or https://';
     }
     PLATFORMS.forEach(({ key }) => {
       const value = form[key].url.trim();
-      if (value && !URL_PATTERN.test(value)) {
+      if (value && !isValidUrl(value)) {
         nextErrors[key] = 'Must start with http:// or https://';
       }
     });
@@ -80,7 +74,6 @@ export default function ContactInfoSection({ contactInfo, error, onUpdated }) {
       const payload = {
         email: form.email.trim(),
         phone: form.phone.trim(),
-        youtube: form.youtube.trim(),
         ...PLATFORMS.reduce((acc, { key }) => {
           acc[key] = {
             url: form[key].url.trim(),
@@ -126,10 +119,6 @@ export default function ContactInfoSection({ contactInfo, error, onUpdated }) {
         <div className={formStyles.row}>
           <span className={formStyles.label}>Phone</span>
           <div>{contactInfo?.phone || '—'}</div>
-        </div>
-        <div className={formStyles.row}>
-          <span className={formStyles.label}>YouTube</span>
-          <div>{contactInfo?.youtube || '—'}</div>
         </div>
         <div className={formStyles.row}>
           <span className={formStyles.label}>Social Links</span>
@@ -183,19 +172,6 @@ export default function ContactInfoSection({ contactInfo, error, onUpdated }) {
               onChange={updateField('phone')}
               disabled={isSaving}
             />
-          </div>
-          <div className={formStyles.row}>
-            <label className={formStyles.label} htmlFor="contact-youtube">YouTube</label>
-            <input
-              id="contact-youtube"
-              type="url"
-              placeholder="https://"
-              className={`${controlStyles.input} ${controlStyles.fullWidth}`}
-              value={form.youtube}
-              onChange={updateField('youtube')}
-              disabled={isSaving}
-            />
-            {fieldErrors.youtube && <p className={styles.fieldError} role="alert">{fieldErrors.youtube}</p>}
           </div>
         </div>
 

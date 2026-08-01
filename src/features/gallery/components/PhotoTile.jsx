@@ -1,7 +1,7 @@
 import { ConfirmButton } from '@/components/shared/ConfirmButton';
 import styles from './PhotoTile.module.css';
 
-export default function PhotoTile({ src, alt = '', isFeatured, onEdit, onDelete }) {
+export default function PhotoTile({ src, alt = '', isFeatured, isDeleting = false, onEdit, onDelete }) {
   return (
     <div className={styles.tile}>
       <img src={src} alt={alt} />
@@ -11,12 +11,13 @@ export default function PhotoTile({ src, alt = '', isFeatured, onEdit, onDelete 
       )}
 
       <div className={styles.actions}>
-        <button type="button" onClick={onEdit} aria-label={`Edit photo ${alt}`}>Edit</button>
+        <button type="button" onClick={onEdit} disabled={isDeleting} aria-label={`Edit photo ${alt}`}>Edit</button>
         <ConfirmButton
           label="Delete"
           confirmLabel="Delete?"
           danger
           onConfirm={onDelete}
+          disabled={isDeleting}
           aria-label={`Delete photo ${alt}`}
         />
       </div>

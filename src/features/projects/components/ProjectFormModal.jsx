@@ -4,6 +4,7 @@ import Button from '@/components/shared/Button';
 import { Toggle } from '@/components/shared/Toggle';
 import { TagInput } from '@/components/shared/TagInput';
 import { CATEGORIES } from '@/features/projects/constants';
+import { isValidUrl } from '@/utils/validation';
 import formStyles from '@/components/admin/AdminForm.module.css';
 import fieldStyles from '@/components/admin/FormControl.module.css';
 
@@ -55,10 +56,12 @@ export default function ProjectFormModal({ project, onClose, onSubmit }) {
   const demoId = useId();
   const starsId = useId();
   const forksId = useId();
+  const techId = useId();
 
   const [form, setForm] = useState(() => toFormState(project));
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [fieldErrors, setFieldErrors] = useState({});
 
   const setField = (field, value) => setForm((prev) => ({ ...prev, [field]: value }));
 
@@ -67,13 +70,26 @@ export default function ProjectFormModal({ project, onClose, onSubmit }) {
     const title = form.title.trim();
     const team = form.team.trim();
     const github = form.github.trim();
+    const demo = form.demo.trim();
+    const description = form.description.trim();
 
-    if (!title || !team || !github) {
-      setError('Title, team name, and GitHub link are all required.');
+    if (!title || !team || !description || !github) {
+      setError('Title, team name, description, and GitHub link are all required.');
+      return;
+    }
+
+    const nextFieldErrors = {};
+    if (!isValidUrl(github)) nextFieldErrors.github = 'Must start with http:// or https://';
+    if (demo && !isValidUrl(demo)) nextFieldErrors.demo = 'Must start with http:// or https://';
+
+    if (Object.keys(nextFieldErrors).length > 0) {
+      setFieldErrors(nextFieldErrors);
+      setError('Fix the highlighted fields before saving.');
       return;
     }
 
     setError('');
+    setFieldErrors({});
     setSubmitting(true);
     try {
       await onSubmit({
@@ -81,8 +97,8 @@ export default function ProjectFormModal({ project, onClose, onSubmit }) {
         title,
         team,
         github,
-        demo: form.demo.trim(),
-        description: form.description.trim(),
+        demo,
+        description,
         members: Math.max(1, Number(form.members) || 1),
         stars: Math.max(0, Number(form.stars) || 0),
         forks: Math.max(0, Number(form.forks) || 0),
@@ -164,8 +180,8 @@ export default function ProjectFormModal({ project, onClose, onSubmit }) {
         </div>
 
         <div className={formStyles.row}>
-          <span className={formStyles.label}>Tech Stack</span>
-          <TagInput value={form.tech} onChange={(tech) => setField('tech', tech)} placeholder="Add a technology & press Enter" />
+          <label htmlFor={techId} className={formStyles.label}>Tech Stack</label>
+          <TagInput id={techId} value={form.tech} onChange={(tech) => setField('tech', tech)} placeholder="Add a technology & press Enter" />
         </div>
 
         <div className={formStyles.grid}>
@@ -179,6 +195,7 @@ export default function ProjectFormModal({ project, onClose, onSubmit }) {
               placeholder="https://github.com/..."
               disabled={submitting}
             />
+            {fieldErrors.github && <p className={formStyles.error} role="alert">{fieldErrors.github}</p>}
           </div>
           <div className={formStyles.row}>
             <label htmlFor={demoId} className={formStyles.label}>Demo Link (optional)</label>
@@ -190,6 +207,7 @@ export default function ProjectFormModal({ project, onClose, onSubmit }) {
               placeholder="https://..."
               disabled={submitting}
             />
+            {fieldErrors.demo && <p className={formStyles.error} role="alert">{fieldErrors.demo}</p>}
           </div>
         </div>
 

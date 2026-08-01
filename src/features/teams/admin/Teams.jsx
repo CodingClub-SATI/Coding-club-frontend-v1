@@ -38,6 +38,7 @@ export default function Teams() {
   const [batchError, setBatchError] = useState(null);
   const [isSavingBatch, setIsSavingBatch] = useState(false);
   const [actionError, setActionError] = useState('');
+  const [busyBatch, setBusyBatch] = useState(null);
 
   const openBatch = batches.find((b) => b.batch === openBatchName) || null;
 
@@ -73,17 +74,21 @@ export default function Teams() {
 
   const handleToggleArchive = async (batch) => {
     setActionError('');
+    setBusyBatch(batch.batch);
     try {
       const updated = await teamApi.setBatchArchived(batch.batch, !batch.archived);
       setBatches((prev) => prev.map((b) => (b.batch === batch.batch ? { ...b, ...updated } : b)));
     } catch (err) {
       console.error('Failed to update batch:', err);
       setActionError('Could not update this batch. Please try again.');
+    } finally {
+      setBusyBatch(null);
     }
   };
 
   const handleDeleteBatch = async (batch) => {
     setActionError('');
+    setBusyBatch(batch.batch);
     try {
       await teamApi.removeBatch(batch.batch);
       setBatches((prev) => prev.filter((b) => b.batch !== batch.batch));
@@ -91,6 +96,7 @@ export default function Teams() {
     } catch (err) {
       console.error('Failed to delete batch:', err);
       setActionError(err.message || 'Could not delete this batch. It may still have members in it.');
+      setBusyBatch(null);
     }
   };
 
@@ -278,7 +284,7 @@ export default function Teams() {
                   </div>
                 </button>
                 <div className={styles.tileActions}>
-                  <Button variant="ghost" size="sm" onClick={() => handleToggleArchive(batch)}>
+                  <Button variant="ghost" size="sm" disabled={busyBatch === batch.batch} onClick={() => handleToggleArchive(batch)}>
                     {batch.archived ? <><ArchiveRestore size={12} aria-hidden="true" /> Unarchive</> : <><Archive size={12} aria-hidden="true" /> Archive</>}
                   </Button>
                   <ConfirmButton
@@ -286,6 +292,7 @@ export default function Teams() {
                     confirmLabel="Delete batch?"
                     danger
                     onConfirm={() => handleDeleteBatch(batch)}
+                    disabled={busyBatch === batch.batch}
                   />
                 </div>
               </div>

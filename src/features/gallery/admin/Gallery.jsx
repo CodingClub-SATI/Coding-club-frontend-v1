@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useLoaderData } from 'react-router';
 import { AlertTriangle, ArrowLeft, Image as ImageIcon, Pencil, Plus, Trash2 } from 'lucide-react';
 import AdminTitle from '@/components/admin/AdminTitle';
-import MultiImageAdd from '@/components/admin/MultiImageAdd';
-import PhotoTile from '@/components/admin/PhotoTile';
+import MultiImageAdd from '@/features/gallery/components/MultiImageAdd';
+import PhotoTile from '@/features/gallery/components/PhotoTile';
 import EmptyState from '@/components/shared/EmptyState';
 import Button from '@/components/shared/Button';
 import { ConfirmButton } from '@/components/shared/ConfirmButton';
@@ -24,6 +24,8 @@ export default function Gallery() {
   const [editingPhoto, setEditingPhoto] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [actionError, setActionError] = useState('');
+  const [deletingAlbumId, setDeletingAlbumId] = useState(null);
+  const [deletingPhotoId, setDeletingPhotoId] = useState(null);
 
   const openAlbum = albums.find((a) => a.id === openAlbumId) || null;
 
@@ -34,12 +36,13 @@ export default function Gallery() {
   };
 
   const handleRenameAlbum = async (album, values) => {
-    const updated = await galleryApi.updateAlbum(album.id, { title: values.title });
+    const updated = await galleryApi.updateAlbum(album.id, values);
     setAlbums((prev) => prev.map((a) => (a.id === album.id ? updated : a)));
   };
 
   const handleDeleteAlbum = async (album) => {
     setActionError('');
+    setDeletingAlbumId(album.id);
     try {
       await galleryApi.removeAlbum(album.id);
       setAlbums((prev) => prev.filter((a) => a.id !== album.id));
@@ -47,6 +50,8 @@ export default function Gallery() {
     } catch (err) {
       console.error('Failed to delete album:', err);
       setActionError('Could not delete this album. Please try again.');
+    } finally {
+      setDeletingAlbumId(null);
     }
   };
 
@@ -56,8 +61,11 @@ export default function Gallery() {
     setUploading(true);
     setActionError('');
     try {
-      const updatedAlbum = await galleryApi.addPhotos(openAlbum.id, files);
+      const { album: updatedAlbum, failedCount } = await galleryApi.addPhotos(openAlbum.id, files);
       setAlbums((prev) => prev.map((a) => (a.id === openAlbum.id ? updatedAlbum : a)));
+      if (failedCount > 0) {
+        setActionError(`${failedCount} photo${failedCount === 1 ? '' : 's'} failed to upload. The rest were added.`);
+      }
     } catch (err) {
       console.error('Failed to upload photos:', err);
       setActionError('Could not upload photos. Please try again.');
@@ -78,8 +86,8 @@ export default function Gallery() {
   };
 
   const handleDeletePhoto = async (photo) => {
-    if (!window.confirm('Delete this photo? This cannot be undone.')) return;
     setActionError('');
+    setDeletingPhotoId(photo.id);
     try {
       await galleryApi.removePhoto(openAlbum.id, photo.id);
       setAlbums((prev) =>
@@ -96,6 +104,8 @@ export default function Gallery() {
     } catch (err) {
       console.error('Failed to delete photo:', err);
       setActionError('Could not delete this photo. Please try again.');
+    } finally {
+      setDeletingPhotoId(null);
     }
   };
 
@@ -130,6 +140,7 @@ export default function Gallery() {
                 src={photo.src}
                 alt={photo.caption || openAlbum.title}
                 isFeatured={photo.featured}
+                isDeleting={deletingPhotoId === photo.id}
                 onEdit={() => setEditingPhoto(photo)}
                 onDelete={() => handleDeletePhoto(photo)}
               />
@@ -200,15 +211,17 @@ export default function Gallery() {
                   <Button
                     variant="ghost"
                     size="sm"
+                    disabled={deletingAlbumId === album.id}
                     onClick={() => setFormModal({ mode: 'rename', album })}
                   >
-                    <Pencil size={12} /> Rename
+                    <Pencil size={12} /> Edit
                   </Button>
                   <ConfirmButton
                     label={<><Trash2 size={12} /> Delete</>}
                     confirmLabel="Delete album?"
                     danger
                     onConfirm={() => handleDeleteAlbum(album)}
+                    disabled={deletingAlbumId === album.id}
                   />
                 </div>
               </div>
@@ -225,6 +238,8 @@ export default function Gallery() {
         <AlbumFormModal
           mode="rename"
           initialTitle={formModal.album.title}
+          initialDate={formModal.album.date || ''}
+          initialCover={formModal.album.cover || ''}
           onClose={() => setFormModal(null)}
           onSubmit={(values) => handleRenameAlbum(formModal.album, values)}
         />

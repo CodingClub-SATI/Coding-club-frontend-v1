@@ -6,6 +6,7 @@ import ImageDrop from '@/components/shared/ImageDrop';
 import { Toggle } from '@/components/shared/Toggle';
 import { eventsApi } from '@/features/events/api';
 import { EVENT_CATEGORIES, EVENT_STATUSES } from '@/features/events/constants';
+import { isValidUrl } from '@/utils/validation';
 import formStyles from '@/components/admin/AdminForm.module.css';
 import controlStyles from '@/components/admin/FormControl.module.css';
 import styles from './Events.module.css';
@@ -14,11 +15,13 @@ const EMPTY_FORM = {
   title: '',
   date: '',
   time: '',
+  reportingTime: '',
   venue: '',
   description: '',
   type: EVENT_CATEGORIES[0],
   tags: [],
   bannerUrl: null,
+  logoUrl: null,
   featured: false,
   registrationLink: '',
   status: 'upcoming',
@@ -30,11 +33,13 @@ function toFormState(event) {
     title: event.title || '',
     date: event.date || '',
     time: event.time || '',
+    reportingTime: event.reportingTime || '',
     venue: event.venue || '',
     description: event.description || '',
     type: event.type || EVENT_CATEGORIES[0],
     tags: event.tags || [],
     bannerUrl: event.bannerUrl || null,
+    logoUrl: event.logoUrl || null,
     featured: !!event.featured,
     registrationLink: event.registrationLink || '',
     status: event.status || 'upcoming',
@@ -46,6 +51,7 @@ export default function EventFormModal({ mode, event, onClose, onSaved }) {
   const [isSaving, setIsSaving] = useState(false);
   const [isImageUploading, setIsImageUploading] = useState(false);
   const [error, setError] = useState(null);
+  const [fieldErrors, setFieldErrors] = useState({});
 
   const updateField = (field, fieldValue) => setForm((prev) => ({ ...prev, [field]: fieldValue }));
 
@@ -55,19 +61,27 @@ export default function EventFormModal({ mode, event, onClose, onSaved }) {
       setError('Event name is required.');
       return;
     }
+    if (form.registrationLink.trim() && !isValidUrl(form.registrationLink.trim())) {
+      setFieldErrors({ registrationLink: 'Must start with http:// or https://' });
+      setError('Fix the highlighted fields before saving.');
+      return;
+    }
 
     setIsSaving(true);
     setError(null);
+    setFieldErrors({});
     try {
       const payload = {
         title: form.title.trim(),
         date: form.date,
         time: form.time,
+        reportingTime: form.reportingTime,
         venue: form.venue,
         description: form.description,
         type: form.type,
         tags: form.tags,
         bannerUrl: form.bannerUrl,
+        logoUrl: form.logoUrl,
         featured: form.featured,
         registrationLink: form.registrationLink,
         status: form.status,
@@ -133,6 +147,17 @@ export default function EventFormModal({ mode, event, onClose, onSaved }) {
           </div>
 
           <div className={formStyles.row}>
+            <label className={formStyles.label} htmlFor="event-reporting-time">Reporting Time</label>
+            <input
+              id="event-reporting-time"
+              className={`${controlStyles.input} ${controlStyles.fullWidth}`}
+              value={form.reportingTime}
+              onChange={(e) => updateField('reportingTime', e.target.value)}
+              placeholder="e.g. 9:30 AM"
+            />
+          </div>
+
+          <div className={formStyles.row}>
             <label className={formStyles.label} htmlFor="event-venue">Venue</label>
             <input
               id="event-venue"
@@ -166,8 +191,8 @@ export default function EventFormModal({ mode, event, onClose, onSaved }) {
         </div>
 
         <div className={formStyles.row}>
-          <span className={formStyles.label}>Tags</span>
-          <TagInput value={form.tags} onChange={(tags) => updateField('tags', tags)} placeholder="Add a tag & press Enter" />
+          <label className={formStyles.label} htmlFor="event-tags">Tags</label>
+          <TagInput id="event-tags" value={form.tags} onChange={(tags) => updateField('tags', tags)} placeholder="Add a tag & press Enter" />
         </div>
 
         <div className={formStyles.grid}>
@@ -179,33 +204,44 @@ export default function EventFormModal({ mode, event, onClose, onSaved }) {
               onUploadingChange={setIsImageUploading}
             />
           </div>
-          <div>
-            <div className={formStyles.row}>
-              <label className={formStyles.label} htmlFor="event-reg-link">Registration Form Link</label>
-              <input
-                id="event-reg-link"
-                type="url"
-                className={`${controlStyles.input} ${controlStyles.fullWidth}`}
-                value={form.registrationLink}
-                onChange={(e) => updateField('registrationLink', e.target.value)}
-                placeholder="https://..."
-              />
-            </div>
-            <div className={formStyles.row}>
-              <Toggle
-                checked={!!form.featured}
-                onChange={(featured) => updateField('featured', featured)}
-                label="Feature this event on the homepage"
-                disabled={isSaving || isImageUploading}
-              />
-            </div>
+          <div className={formStyles.row}>
+            <span className={formStyles.label}>Event Logo</span>
+            <ImageDrop
+              value={form.logoUrl}
+              onChange={(logoUrl) => updateField('logoUrl', logoUrl)}
+              aspect="1/1"
+              onUploadingChange={setIsImageUploading}
+            />
+          </div>
+        </div>
+
+        <div className={formStyles.grid}>
+          <div className={formStyles.row}>
+            <label className={formStyles.label} htmlFor="event-reg-link">Registration Form Link</label>
+            <input
+              id="event-reg-link"
+              type="url"
+              className={`${controlStyles.input} ${controlStyles.fullWidth}`}
+              value={form.registrationLink}
+              onChange={(e) => updateField('registrationLink', e.target.value)}
+              placeholder="https://..."
+            />
+            {fieldErrors.registrationLink && <p className={styles.formError} role="alert">{fieldErrors.registrationLink}</p>}
+          </div>
+          <div className={formStyles.row}>
+            <Toggle
+              checked={!!form.featured}
+              onChange={(featured) => updateField('featured', featured)}
+              label="Feature this event on the homepage"
+              disabled={isSaving || isImageUploading}
+            />
           </div>
         </div>
 
         {error && <p className={styles.formError} role="alert">{error}</p>}
 
         <div className={formStyles.actions}>
-          <Button type="button" variant="ghost" onClick={onClose}>Cancel</Button>
+          <Button type="button" variant="ghost" onClick={onClose} disabled={isSaving}>Cancel</Button>
           <Button type="submit" isLoading={isSaving} disabled={isImageUploading}>
             {mode === 'new' ? 'Add Event' : 'Save Changes'}
           </Button>

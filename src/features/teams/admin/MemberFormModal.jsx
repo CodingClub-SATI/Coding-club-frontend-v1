@@ -1,15 +1,18 @@
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { Modal } from '@/components/shared/Modal';
 import Button from '@/components/shared/Button';
 import { TagInput } from '@/components/shared/TagInput';
 import ImageDrop from '@/components/shared/ImageDrop';
 import { teamApi } from '@/features/teams/api';
+import { DEFAULT_CLUB_POSITION, POSITION_SUGGESTIONS } from '@/features/teams/constants';
+import { isValidUrl } from '@/utils/validation';
 import formStyles from '@/components/admin/AdminForm.module.css';
 import controlStyles from '@/components/admin/FormControl.module.css';
 import styles from './Teams.module.css';
 
 const buildEmptyForm = (batch) => ({
   fullName: '',
+  clubPosition: DEFAULT_CLUB_POSITION,
   specialization: '',
   batch,
   skills: [],
@@ -25,6 +28,7 @@ export default function MemberFormModal({ mode, batch, availableBatches, member,
     if (mode === 'edit' && member) {
       return {
         fullName: member.fullName || '',
+        clubPosition: member.clubPosition || DEFAULT_CLUB_POSITION,
         specialization: member.specialization || '',
         batch: member.batch || batch,
         skills: member.skills || [],
@@ -41,6 +45,8 @@ export default function MemberFormModal({ mode, batch, availableBatches, member,
   const [isSaving, setIsSaving] = useState(false);
   const [isImageUploading, setIsImageUploading] = useState(false);
   const [error, setError] = useState(null);
+  const [fieldErrors, setFieldErrors] = useState({});
+  const uid = useId();
 
   const updateField = (field, fieldValue) => setForm((prev) => ({ ...prev, [field]: fieldValue }));
 
@@ -55,12 +61,28 @@ export default function MemberFormModal({ mode, batch, availableBatches, member,
       return;
     }
 
+    const nextFieldErrors = {};
+    [['github', form.github], ['linkedin', form.linkedin], ['instagram', form.instagram], ['x', form.x]]
+      .forEach(([key, value]) => {
+        if (value.trim() && !isValidUrl(value.trim())) {
+          nextFieldErrors[key] = 'Must start with http:// or https://';
+        }
+      });
+
+    if (Object.keys(nextFieldErrors).length > 0) {
+      setFieldErrors(nextFieldErrors);
+      setError('Fix the highlighted fields before saving.');
+      return;
+    }
+
     setIsSaving(true);
     setError(null);
+    setFieldErrors({});
 
     try {
       const payload = {
         fullName: form.fullName.trim(),
+        clubPosition: form.clubPosition.trim() || DEFAULT_CLUB_POSITION,
         specialization: form.specialization.trim(),
         batch: form.batch,
         skills: form.skills,
@@ -94,8 +116,9 @@ export default function MemberFormModal({ mode, batch, availableBatches, member,
       <form onSubmit={handleSubmit} noValidate>
         <div className={formStyles.grid}>
           <div className={formStyles.row}>
-            <label className={formStyles.label}>Full Name</label>
+            <label className={formStyles.label} htmlFor={`${uid}-fullName`}>Full Name</label>
             <input
+              id={`${uid}-fullName`}
               className={`${controlStyles.input} ${controlStyles.fullWidth}`}
               value={form.fullName}
               onChange={(e) => updateField('fullName', e.target.value)}
@@ -103,8 +126,9 @@ export default function MemberFormModal({ mode, batch, availableBatches, member,
             />
           </div>
           <div className={formStyles.row}>
-            <label className={formStyles.label}>Batch (Passing Year)</label>
+            <label className={formStyles.label} htmlFor={`${uid}-batch`}>Batch (Passing Year)</label>
             <select
+              id={`${uid}-batch`}
               className={`${controlStyles.select} ${controlStyles.fullWidth}`}
               value={form.batch}
               onChange={(e) => updateField('batch', e.target.value)}
@@ -116,8 +140,25 @@ export default function MemberFormModal({ mode, batch, availableBatches, member,
             </select>
           </div>
           <div className={formStyles.row}>
-            <label className={formStyles.label}>Specialization</label>
+            <label className={formStyles.label} htmlFor={`${uid}-position`}>Position</label>
             <input
+              id={`${uid}-position`}
+              list={`${uid}-position-suggestions`}
+              className={`${controlStyles.input} ${controlStyles.fullWidth}`}
+              value={form.clubPosition}
+              onChange={(e) => updateField('clubPosition', e.target.value)}
+              placeholder={DEFAULT_CLUB_POSITION}
+            />
+            <datalist id={`${uid}-position-suggestions`}>
+              {POSITION_SUGGESTIONS.map((suggestion) => (
+                <option key={suggestion} value={suggestion} />
+              ))}
+            </datalist>
+          </div>
+          <div className={formStyles.row}>
+            <label className={formStyles.label} htmlFor={`${uid}-specialization`}>Specialization</label>
+            <input
+              id={`${uid}-specialization`}
               className={`${controlStyles.input} ${controlStyles.fullWidth}`}
               value={form.specialization}
               onChange={(e) => updateField('specialization', e.target.value)}
@@ -136,33 +177,42 @@ export default function MemberFormModal({ mode, batch, availableBatches, member,
         </div>
 
         <div className={formStyles.row}>
-          <span className={formStyles.label}>Skills</span>
-          <TagInput value={form.skills} onChange={(skills) => updateField('skills', skills)} placeholder="Add a skill & press Enter" />
+          <label className={formStyles.label} htmlFor={`${uid}-skills`}>Skills</label>
+          <TagInput
+            id={`${uid}-skills`}
+            value={form.skills}
+            onChange={(skills) => updateField('skills', skills)}
+            placeholder="Add a skill & press Enter"
+          />
         </div>
 
         <div className={formStyles.grid}>
           <div className={formStyles.row}>
-            <label className={formStyles.label}>GitHub</label>
-            <input type="url" className={`${controlStyles.input} ${controlStyles.fullWidth}`} value={form.github} onChange={(e) => updateField('github', e.target.value)} placeholder="https://github.com/..." />
+            <label className={formStyles.label} htmlFor={`${uid}-github`}>GitHub</label>
+            <input id={`${uid}-github`} type="url" className={`${controlStyles.input} ${controlStyles.fullWidth}`} value={form.github} onChange={(e) => updateField('github', e.target.value)} placeholder="https://github.com/..." />
+            {fieldErrors.github && <p className={styles.formError} role="alert">{fieldErrors.github}</p>}
           </div>
           <div className={formStyles.row}>
-            <label className={formStyles.label}>LinkedIn</label>
-            <input type="url" className={`${controlStyles.input} ${controlStyles.fullWidth}`} value={form.linkedin} onChange={(e) => updateField('linkedin', e.target.value)} placeholder="https://linkedin.com/in/..." />
+            <label className={formStyles.label} htmlFor={`${uid}-linkedin`}>LinkedIn</label>
+            <input id={`${uid}-linkedin`} type="url" className={`${controlStyles.input} ${controlStyles.fullWidth}`} value={form.linkedin} onChange={(e) => updateField('linkedin', e.target.value)} placeholder="https://linkedin.com/in/..." />
+            {fieldErrors.linkedin && <p className={styles.formError} role="alert">{fieldErrors.linkedin}</p>}
           </div>
           <div className={formStyles.row}>
-            <label className={formStyles.label}>Instagram</label>
-            <input type="url" className={`${controlStyles.input} ${controlStyles.fullWidth}`} value={form.instagram} onChange={(e) => updateField('instagram', e.target.value)} placeholder="https://instagram.com/..." />
+            <label className={formStyles.label} htmlFor={`${uid}-instagram`}>Instagram</label>
+            <input id={`${uid}-instagram`} type="url" className={`${controlStyles.input} ${controlStyles.fullWidth}`} value={form.instagram} onChange={(e) => updateField('instagram', e.target.value)} placeholder="https://instagram.com/..." />
+            {fieldErrors.instagram && <p className={styles.formError} role="alert">{fieldErrors.instagram}</p>}
           </div>
           <div className={formStyles.row}>
-            <label className={formStyles.label}>X (Twitter)</label>
-            <input type="url" className={`${controlStyles.input} ${controlStyles.fullWidth}`} value={form.x} onChange={(e) => updateField('x', e.target.value)} placeholder="https://x.com/..." />
+            <label className={formStyles.label} htmlFor={`${uid}-x`}>X (Twitter)</label>
+            <input id={`${uid}-x`} type="url" className={`${controlStyles.input} ${controlStyles.fullWidth}`} value={form.x} onChange={(e) => updateField('x', e.target.value)} placeholder="https://x.com/..." />
+            {fieldErrors.x && <p className={styles.formError} role="alert">{fieldErrors.x}</p>}
           </div>
         </div>
 
         {error && <p className={styles.formError} role="alert">{error}</p>}
         
         <div className={formStyles.actions}>
-          <Button type="button" variant="ghost" onClick={onClose}>Cancel</Button>
+          <Button type="button" variant="ghost" onClick={onClose} disabled={isSaving}>Cancel</Button>
           <Button type="submit" isLoading={isSaving} disabled={isImageUploading}>
             {mode === 'new' ? 'Add Member' : 'Save Changes'}
           </Button>

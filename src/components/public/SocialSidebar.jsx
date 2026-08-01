@@ -2,8 +2,8 @@ import SocialLink from '@/components/shared/SocialLink';
 import { getSocialLinks } from '@/data/socialLinks';
 import styles from './SocialSidebar.module.css';
 
-export default function SocialSidebar({ siteInfo }) {
-  const socialLinks = getSocialLinks(siteInfo?.socials);
+export default function SocialSidebar({ contactInfo }) {
+  const socialLinks = getSocialLinks(contactInfo, 'showOnSidebar');
   if (socialLinks.length === 0) return null;
 
   return (

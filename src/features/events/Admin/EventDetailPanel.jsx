@@ -30,12 +30,14 @@ export default function EventDetailPanel({ event, onClose, onEdit, onChanged, on
 
   const handleDelete = async () => {
     setActionError(null);
+    setIsToggling(true);
     try {
       await eventsApi.remove(event.id);
       onDeleted(event.id);
     } catch (err) {
       console.error('Failed to delete event:', err);
       setActionError('Could not delete the event. Please try again.');
+      setIsToggling(false);
     }
   };
 
@@ -45,6 +47,10 @@ export default function EventDetailPanel({ event, onClose, onEdit, onChanged, on
         <img className={detailStyles.poster} src={event.bannerUrl} alt={event.title} />
       ) : (
         <div className={`${detailStyles.poster} ${styles.posterPlaceholder}`}>No poster uploaded</div>
+      )}
+
+      {event.logoUrl && (
+        <img className={styles.eventLogo} src={event.logoUrl} alt={`${event.title} logo`} />
       )}
 
       <div className={styles.badgeRow}>
@@ -66,6 +72,12 @@ export default function EventDetailPanel({ event, onClose, onEdit, onChanged, on
           <span className={formStyles.label}>Time</span>
           <div>{event.time}</div>
         </div>
+        {event.reportingTime && (
+          <div className={formStyles.row}>
+            <span className={formStyles.label}>Reporting Time</span>
+            <div>{event.reportingTime}</div>
+          </div>
+        )}
         <div className={formStyles.row}>
           <span className={formStyles.label}>Venue</span>
           <div>{event.venue}</div>
@@ -113,7 +125,7 @@ export default function EventDetailPanel({ event, onClose, onEdit, onChanged, on
         <Button variant="outline" size="sm" disabled={isToggling} onClick={() => toggleField('featured')}>
           <Star size={14} aria-hidden="true" /> {event.featured ? 'Unfeature' : 'Mark as Featured'}
         </Button>
-        <Button variant="outline" size="sm" onClick={onEdit}>
+        <Button variant="outline" size="sm" disabled={isToggling} onClick={onEdit}>
           <Pencil size={14} aria-hidden="true" /> Edit Info
         </Button>
         <Button variant="outline" size="sm" disabled={isToggling} onClick={() => toggleField('archived')}>
@@ -123,7 +135,7 @@ export default function EventDetailPanel({ event, onClose, onEdit, onChanged, on
             <><Archive size={14} aria-hidden="true" /> Archive Event</>
           )}
         </Button>
-        <ConfirmButton label="Delete" confirmLabel="Delete for good?" danger onConfirm={handleDelete} />
+        <ConfirmButton label="Delete" confirmLabel="Delete for good?" danger onConfirm={handleDelete} disabled={isToggling} />
       </div>
     </Modal>
   );

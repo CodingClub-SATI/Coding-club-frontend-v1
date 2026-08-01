@@ -3,8 +3,10 @@ import { useLoaderData, useRevalidator } from 'react-router';
 import { AlertTriangle, Mail } from 'lucide-react';
 import AdminTitle from '@/components/admin/AdminTitle';
 import EmptyState from '@/components/shared/EmptyState';
+import { Toggle } from '@/components/shared/Toggle';
 import InboxDetailPanel from '@/features/contact/admin/InboxDetailPanel';
 import { REQUEST_TYPES } from '@/features/contact/constants';
+import { formatDate } from '@/utils/date';
 import statStripStyles from '@/components/admin/StatStrip.module.css';
 import filterBarStyles from '@/components/admin/FilterBar.module.css';
 import controlStyles from '@/components/admin/FormControl.module.css';
@@ -12,30 +14,30 @@ import tableStyles from '@/components/admin/Table.module.css';
 import badgeStyles from '@/components/admin/Badge.module.css';
 import styles from './Inbox.module.css';
 
-function formatSubmittedAt(submittedAt) {
-  if (!submittedAt) return '—';
-  return new Date(submittedAt).toLocaleDateString('en-US', {
-    month: 'short', day: 'numeric', year: 'numeric',
-  });
-}
-
 export default function Inbox() {
   const { contacts, error } = useLoaderData();
   const revalidator = useRevalidator();
 
   const [typeFilter, setTypeFilter] = useState('all');
+  const [showArchived, setShowArchived] = useState(false);
   const [selected, setSelected] = useState(null);
 
   const breakdown = useMemo(() => {
     const counts = {};
     REQUEST_TYPES.forEach((t) => { counts[t] = 0; });
-    contacts.forEach((c) => { counts[c.requestType] = (counts[c.requestType] || 0) + 1; });
+    contacts.forEach((c) => {
+      if (c.status !== 'Archived') counts[c.requestType] = (counts[c.requestType] || 0) + 1;
+    });
     return counts;
   }, [contacts]);
 
   const newCount = contacts.filter((c) => c.status === 'New').length;
 
-  const filtered = contacts.filter((c) => typeFilter === 'all' || c.requestType === typeFilter);
+  const filtered = contacts.filter((c) => {
+    if (!showArchived && c.status === 'Archived') return false;
+    if (typeFilter !== 'all' && c.requestType !== typeFilter) return false;
+    return true;
+  });
 
   const handleChanged = (updated) => {
     setSelected(updated);
@@ -77,6 +79,7 @@ export default function Inbox() {
           <option value="all">All Types</option>
           {REQUEST_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
         </select>
+        <Toggle checked={showArchived} onChange={setShowArchived} label="Show archived" />
       </div>
 
       {error ? (
@@ -110,9 +113,9 @@ export default function Inbox() {
                     <div className={styles.emailMeta}>{contact.email}</div>
                   </td>
                   <td className={tableStyles.td}>{contact.requestType}</td>
-                  <td className={tableStyles.td}>{formatSubmittedAt(contact.submittedAt)}</td>
+                  <td className={tableStyles.td}>{formatDate(contact.submittedAt)}</td>
                   <td className={tableStyles.td}>
-                    <span className={`${badgeStyles.badge} ${contact.status === 'New' ? badgeStyles.new : badgeStyles.responded}`}>
+                    <span className={`${badgeStyles.badge} ${badgeStyles[contact.status.toLowerCase()] || ''}`}>
                       {contact.status}
                     </span>
                   </td>

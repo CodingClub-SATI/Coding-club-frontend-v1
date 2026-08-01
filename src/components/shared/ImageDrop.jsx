@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Upload, AlertCircle } from 'lucide-react';
 import { uploadImage } from '@/services/upload';
+import { ALLOWED_IMAGE_ACCEPT } from '@/utils/imageValidation';
 import Spinner from './Spinner';
 import styles from './ImageDrop.module.css';
 
@@ -42,7 +43,11 @@ export default function ImageDrop({ value, onChange, label, aspect, onUploadingC
       onChange(hostedUrl);
     } catch (err) {
       console.error('Image upload failed:', err);
-      setError('Upload failed. Try a different image.');
+      setError(err.message || 'Upload failed. Try a different image.');
+      if (createdUrlRef.current) {
+        URL.revokeObjectURL(createdUrlRef.current);
+        createdUrlRef.current = null;
+      }
       setPreviewUrl(null);
     } finally {
       setIsUploading(false);
@@ -60,7 +65,7 @@ export default function ImageDrop({ value, onChange, label, aspect, onUploadingC
       >
         <input
           type="file"
-          accept="image/*"
+          accept={ALLOWED_IMAGE_ACCEPT}
           hidden
           disabled={isUploading}
           onChange={(e) => {

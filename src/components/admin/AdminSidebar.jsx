@@ -24,8 +24,8 @@ export default function AdminSidebar() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    clearSession();
+  const handleLogout = async () => {
+    await clearSession();
     navigate('/admin/login', { replace: true });
   };
 

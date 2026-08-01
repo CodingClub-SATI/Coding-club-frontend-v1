@@ -19,4 +19,3 @@ export const projectsApi = {
   update: (id, payload) => request(`/api/projects/${id}`, { method: 'PUT', body: payload }),
   remove: (id) => request(`/api/projects/${id}`, { method: 'DELETE' }),
 };
-

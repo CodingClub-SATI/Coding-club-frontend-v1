@@ -15,16 +15,19 @@ import styles from './Teams.module.css';
 
 export default function MemberDetailPanel({ member, onClose, onEdit, onDeleted }) {
   const [actionError, setActionError] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const socials = SOCIAL_FIELDS.filter(({ key }) => member[key]);
 
   const handleDelete = async () => {
     setActionError(null);
+    setIsDeleting(true);
     try {
       await teamApi.removeMember(member.id);
       onDeleted(member);
     } catch (err) {
       console.error('Failed to delete team member:', err);
       setActionError('Could not delete this member. Please try again.');
+      setIsDeleting(false);
     }
   };
 
@@ -73,10 +76,10 @@ export default function MemberDetailPanel({ member, onClose, onEdit, onDeleted }
       {actionError && <p className={styles.formError} role="alert">{actionError}</p>}
 
       <div className={detailStyles.actions}>
-        <Button variant="outline" size="sm" onClick={onEdit}>
+        <Button variant="outline" size="sm" disabled={isDeleting} onClick={onEdit}>
           <Pencil size={14} aria-hidden="true" /> Update Info
         </Button>
-        <ConfirmButton label="Delete Member" confirmLabel="Remove member?" danger onConfirm={handleDelete} />
+        <ConfirmButton label="Delete Member" confirmLabel="Remove member?" danger onConfirm={handleDelete} disabled={isDeleting} />
       </div>
     </Modal>
   );

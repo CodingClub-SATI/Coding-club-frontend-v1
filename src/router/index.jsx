@@ -1,15 +1,6 @@
 import { createBrowserRouter, Outlet } from 'react-router';
 
 import PublicLayout from '@/layouts/PublicLayout';
-import Home from '@/features/home/public/Home';
-import { homeLoader } from '@/features/home/api'; 
-import { eventsLoader, eventsAdminLoader } from '@/features/events/api';
-import { galleryLoader, galleryAdminLoader } from '@/features/gallery/api';
-import { teamAdminLoader, teamPublicLoader } from '@/features/teams/api';
-import { projectsLoader, projectsAdminLoader } from '@/features/projects/api';
-import { dashboardLoader } from '@/features/dashboard/api';
-import { inboxLoader } from '@/features/contact/api';
-import { updatesAdminLoader } from '@/features/updates/api';
 
 import ErrorScreen from '@/components/error/ErrorScreen';
 import NotFound from '@/components/error/NotFound';
@@ -20,25 +11,26 @@ import { contactInfoLoader } from '@/features/setting/api';
 
 const router = createBrowserRouter([
   {
-    path:'/',
+    path: '/',
     element: <PublicLayout />,
     loader: contactInfoLoader,
     shouldRevalidate: () => false,
     errorElement: <ErrorScreen />,
     hydrateFallbackElement: <RouteLoader />,
     children: [
-      { index: true, element: <Home />, loader: homeLoader },
-      { path: 'events', lazy: lazyLoad(() => import('@/features/events/public/Events')), loader: eventsLoader },
-      { path: 'gallery', lazy: lazyLoad(() => import('@/features/gallery/public/Gallery')), loader: galleryLoader },
-      { path: 'teams', lazy: lazyLoad(() => import('@/features/teams/public/Teams')), loader: teamPublicLoader },
-      { path: 'projects', lazy: lazyLoad(() => import('@/features/projects/public/Projects')), loader: projectsLoader },
-      { path: 'learning', lazy: lazyLoad(() => import('@/features/learning/public/Learning')) },
-      { path: 'contact', lazy: lazyLoad(() => import('@/features/contact/public/Contact')) },
+      { index: true, lazy: lazyLoad(() => import('@/features/home/public/route')) },
+      { path: 'events', lazy: lazyLoad(() => import('@/features/events/public/route')) },
+      { path: 'gallery', lazy: lazyLoad(() => import('@/features/gallery/public/route')) },
+      { path: 'teams', lazy: lazyLoad(() => import('@/features/teams/public/route')) },
+      { path: 'projects', lazy: lazyLoad(() => import('@/features/projects/public/route')) },
+      { path: 'learning', lazy: lazyLoad(() => import('@/features/learning/public/route')) },
+      { path: 'contact', lazy: lazyLoad(() => import('@/features/contact/public/route')) },
       { path: '*', element: <NotFound /> },
     ],
   },
   {
-    path:'/admin/login', lazy: lazyLoad(() => import('@/features/auth/admin/Login')),
+    path: '/admin/login',
+    lazy: lazyLoad(() => import('@/features/auth/admin/route')),
     errorElement: <ErrorScreen />,
     hydrateFallbackElement: <RouteLoader />,
   },
@@ -49,21 +41,21 @@ const router = createBrowserRouter([
     shouldRevalidate: ({ currentUrl }) =>
       currentUrl.pathname === '/admin/login' || !currentUrl.pathname.startsWith('/admin'),
     errorElement: <ErrorScreen />,
-    hydrateFallbackElement: <RouteLoader message="Verifying session..."/>,
+    hydrateFallbackElement: <RouteLoader message="Verifying session..." />,
     children: [
       {
         lazy: lazyLoad(() => import('@/layouts/AdminLayout')),
         hydrateFallbackElement: <RouteLoader message="Loading Admin Dashboard..." />,
         children: [
-          { index: true, lazy: lazyLoad(() => import('@/features/dashboard/admin/Dashboard')), loader: dashboardLoader },
-          { path: 'events', lazy: lazyLoad(() => import('@/features/events/admin/Events')), loader: eventsAdminLoader },
-          { path: 'gallery', lazy: lazyLoad(() => import('@/features/gallery/admin/Gallery')), loader: galleryAdminLoader },
-          { path: 'teams', lazy: lazyLoad(() => import('@/features/teams/admin/Teams')), loader: teamAdminLoader },
-          { path: 'projects', lazy: lazyLoad(() => import('@/features/projects/admin/Projects')), loader: projectsAdminLoader },
-          { path: 'inbox', lazy: lazyLoad(() => import('@/features/contact/admin/Inbox')), loader: inboxLoader },
-          { path: 'updates', lazy: lazyLoad(() => import('@/features/updates/admin/Updates')), loader: updatesAdminLoader },
-          { path: 'settings', lazy: lazyLoad(() => import('@/features/setting/admin/Settings')), loader: contactInfoLoader },
-          { path: '*', element: <NotFound /> }
+          { index: true, lazy: lazyLoad(() => import('@/features/dashboard/admin/route')) },
+          { path: 'events', lazy: lazyLoad(() => import('@/features/events/admin/route')) },
+          { path: 'gallery', lazy: lazyLoad(() => import('@/features/gallery/admin/route')) },
+          { path: 'teams', lazy: lazyLoad(() => import('@/features/teams/admin/route')) },
+          { path: 'projects', lazy: lazyLoad(() => import('@/features/projects/admin/route')) },
+          { path: 'inbox', lazy: lazyLoad(() => import('@/features/contact/admin/route')) },
+          { path: 'updates', lazy: lazyLoad(() => import('@/features/updates/admin/route')) },
+          { path: 'settings', lazy: lazyLoad(() => import('@/features/setting/admin/route')) },
+          { path: '*', element: <NotFound /> },
         ],
       },
     ],

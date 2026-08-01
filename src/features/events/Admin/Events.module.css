@@ -16,6 +16,15 @@
   margin-bottom: var(--space-base);
 }
 
+.eventLogo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+  background: rgba(var(--bg-primary-rgb), 0.4);
+  margin: var(--space-sm) 0;
+}
+
 .breakAll {
   word-break: break-all;
 }

@@ -47,7 +47,7 @@ export function Modal({
     };
     window.addEventListener('keydown', handleKeyDown);
 
-    const originalStyle = window.getComputedStyle(document.body).overflow;
+    const originalStyle = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     
     return () => {

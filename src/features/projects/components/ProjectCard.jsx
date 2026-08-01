@@ -1,4 +1,5 @@
 import { GithubIcon } from '@/components/shared/Icons';
+import { Trophy } from 'lucide-react';
 import Glasscard from '@/components/shared/Glasscard';
 import Tag from '@/components/shared/Tag';
 import Button from '@/components/shared/Button';
@@ -23,7 +24,14 @@ export default function ProjectCard({ project, rank }) {
           <h3 className={styles.title}>{project.title}</h3>
           <p className={styles.team}>{project.team} · {memberLabel}</p>
         </div>
-        <Tag tone={CATEGORY_TONES[project.category] || 'muted'}>{project.category}</Tag>
+        <div className={styles.headerTags}>
+          {project.achieved && (
+            <Tag tone="primary">
+              <Trophy size={12} aria-hidden="true" /> Achieved
+            </Tag>
+          )}
+          <Tag tone={CATEGORY_TONES[project.category] || 'muted'}>{project.category}</Tag>
+        </div>
       </div>
 
       <p className={styles.desc}>{project.description}</p>

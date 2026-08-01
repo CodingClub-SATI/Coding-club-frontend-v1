@@ -237,7 +237,7 @@ export default function Home() {
             <div className={styles.ctaPulse} aria-hidden="true" />
             <h2>Ready to <span className="text-primary-glow">Level Up?</span></h2>
             <p>Join the community, participate in hackathons, and build your network.</p>
-            <Button Component={Link} to="/events" variant="filled">
+            <Button Component={Link} to="/events?status=upcoming#all-events" preventScrollReset variant="filled">
               View Upcoming Events
             </Button>
           </Reveal>

@@ -11,6 +11,7 @@ import { BoltPath } from '@/components/shared/Icons';
 import EventCard from '@/features/events/components/EventCard';
 import FeaturedCarousel from '@/features/events/components/FeaturedCarousel';
 import EventDetailsModal from '@/features/events/components/EventDetailsModal';
+import { EVENT_CATEGORIES } from '@/features/events/constants';
 import styles from './Events.module.css';
 
 const TAB_ITEMS = [
@@ -19,7 +20,7 @@ const TAB_ITEMS = [
   { value: 'all', label: 'All Events' },
 ];
 
-const TYPES = ['All', 'Workshop', 'Hackathon', 'Competition', 'Seminar'];
+const TYPES = ['All', ...EVENT_CATEGORIES];
 
 export default function Events() {
   const { events, featuredEvents, page, totalPages, error } = useLoaderData();
@@ -37,7 +38,7 @@ export default function Events() {
       const next = new URLSearchParams(prev);
       if (value === defaultValue) next.delete(key);
       else next.set(key, value);
-      next.delete('page');
+      next.delete('page'); // changing a filter starts back at page 1
       return next;
     }, { replace: true, preventScrollReset: true });
   };
@@ -58,6 +59,7 @@ export default function Events() {
     if (location.hash === '#all-events') {
       document.getElementById('all-events')?.scrollIntoView({ behavior: 'smooth' });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -116,8 +118,6 @@ export default function Events() {
         </section>
       )}
 
-      <div className="section-divider" />
-
       {/* All events */}
       <section className="section" id="all-events">
         <div className="container">
@@ -162,8 +162,6 @@ export default function Events() {
           )}
         </div>
       </section>
-
-      <div className="section-divider" />
 
       {/* Host CTA */}
       <section className="section">

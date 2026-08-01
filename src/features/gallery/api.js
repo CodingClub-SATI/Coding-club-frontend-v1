@@ -21,22 +21,33 @@ export const galleryApi = {
 
   // ---- Admin: photos within an album ----
   addPhotos: async (albumId, files) => {
-    const uploadedUrls = await Promise.all(
+    const results = await Promise.allSettled(
       Array.from(files).map((file) => uploadImage(file))
     );
 
+    const uploadedUrls = results
+      .filter((result) => result.status === 'fulfilled')
+      .map((result) => result.value);
+    const failedCount = results.length - uploadedUrls.length;
+
+    if (uploadedUrls.length === 0) {
+      throw results[0].reason;
+    }
+
     const payload = {
-      photos: uploadedUrls.map((url) => ({ 
-        src: url, 
-        caption: '', 
-        featured: false 
-      }))
+      photos: uploadedUrls.map((url) => ({
+        src: url,
+        caption: '',
+        featured: false,
+      })),
     };
 
-    return request(`/api/gallery/${albumId}/photos`, { 
-      method: 'POST', 
-      body: payload 
+    const album = await request(`/api/gallery/${albumId}/photos`, {
+      method: 'POST',
+      body: payload,
     });
+
+    return { album, failedCount };
   },
 
   updatePhoto: (albumId, photoId, patch) =>
@@ -44,47 +55,3 @@ export const galleryApi = {
   removePhoto: (albumId, photoId) =>
     request(`/api/gallery/${albumId}/photos/${photoId}`, { method: 'DELETE' }),
 };
-
-// Admin panel loader
-export async function galleryAdminLoader() {
-  try {
-    const albums = await galleryApi.list();
-    return { albums: Array.isArray(albums) ? albums : [], error: null };
-  } catch (err) {
-    console.error('Failed to load gallery:', err);
-    return { albums: [], error: 'Could not load the gallery right now.' };
-  }
-}
-
-// Public Gallery page loader 
-export async function galleryLoader({ request: req } = {}) {
-  const url = req ? new URL(req.url) : null;
-  const search = url?.searchParams.get('search') || '';
-  const page = Math.max(1, parseInt(url?.searchParams.get('page'), 10) || 1);
-
-  const [albumsResult, highlightsResult] = await Promise.allSettled([
-    galleryApi.list({ search, page, pageSize: GALLERY_PAGE_SIZE }),
-    galleryApi.getHighlights(),
-  ]);
-
-  if (highlightsResult.status === 'rejected') {
-    console.error('Failed to load gallery highlights:', highlightsResult.reason);
-  }
-
-  if (albumsResult.status === 'rejected') {
-    console.error('Failed to load gallery:', albumsResult.reason);
-    return { albums: [], highlights: [], page: 1, totalPages: 1, error: 'Could not load the gallery right now.' };
-  }
-
-  const result = albumsResult.value;
-  const albums = Array.isArray(result) ? result : result.data;
-  const highlights = highlightsResult.status === 'fulfilled' ? highlightsResult.value : [];
-
-  return {
-    albums: Array.isArray(albums) ? albums : [],
-    highlights: Array.isArray(highlights) ? highlights : [],
-    page: result.page || 1,
-    totalPages: result.totalPages || 1,
-    error: null,
-  };
-}

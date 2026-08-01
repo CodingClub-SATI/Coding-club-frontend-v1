@@ -32,6 +32,7 @@ export default function Projects() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState(null); // null while modalOpen => "add new"
   const [actionError, setActionError] = useState('');
+  const [busyProjectId, setBusyProjectId] = useState(null);
 
   const achievedCount = useMemo(() => projects.filter((p) => p.achieved).length, [projects]);
 
@@ -63,23 +64,28 @@ export default function Projects() {
 
   const handleToggleAchieved = async (project) => {
     setActionError('');
+    setBusyProjectId(project.id);
     try {
       const updated = await projectsApi.update(project.id, { achieved: !project.achieved });
       setProjects((prev) => prev.map((p) => (p.id === project.id ? updated : p)));
     } catch (err) {
       console.error('Failed to update achieved status:', err);
       setActionError('Could not update this project. Please try again.');
+    } finally {
+      setBusyProjectId(null);
     }
   };
 
   const handleDelete = async (project) => {
     setActionError('');
+    setBusyProjectId(project.id);
     try {
       await projectsApi.remove(project.id);
       setProjects((prev) => prev.filter((p) => p.id !== project.id));
     } catch (err) {
       console.error('Failed to delete project:', err);
       setActionError('Could not delete this project. Please try again.');
+      setBusyProjectId(null);
     }
   };
 
@@ -178,10 +184,10 @@ export default function Projects() {
                     </td>
                     <td className={tableStyles.td}>
                       <div className={styles.rowActions} onClick={(e) => e.stopPropagation()}>
-                        <Button variant="ghost" size="sm" onClick={() => handleToggleAchieved(project)}>
+                        <Button variant="ghost" size="sm" disabled={busyProjectId === project.id} onClick={() => handleToggleAchieved(project)}>
                           <Trophy size={12} /> {project.achieved ? 'Unmark' : 'Mark Achieved'}
                         </Button>
-                        <Button variant="ghost" size="sm" onClick={() => openEdit(project)}>
+                        <Button variant="ghost" size="sm" disabled={busyProjectId === project.id} onClick={() => openEdit(project)}>
                           <Pencil size={12} /> Edit
                         </Button>
                         <ConfirmButton
@@ -189,6 +195,7 @@ export default function Projects() {
                           confirmLabel="Delete?"
                           danger
                           onConfirm={() => handleDelete(project)}
+                          disabled={busyProjectId === project.id}
                         />
                       </div>
                     </td>

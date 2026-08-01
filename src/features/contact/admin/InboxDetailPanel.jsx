@@ -1,32 +1,27 @@
 import { useState } from 'react';
-import { CheckCircle2, RotateCcw } from 'lucide-react';
+import { Archive, ArchiveRestore, CheckCircle2, RotateCcw } from 'lucide-react';
 import { Modal } from '@/components/shared/Modal';
 import Button from '@/components/shared/Button';
 import { ConfirmButton } from '@/components/shared/ConfirmButton';
 import { contactApi } from '@/features/contact/api';
+import { formatDate } from '@/utils/date';
 import formStyles from '@/components/admin/AdminForm.module.css';
 import badgeStyles from '@/components/admin/Badge.module.css';
 import detailStyles from '@/components/admin/DetailPanel.module.css';
 import styles from './Inbox.module.css';
-
-function formatSubmittedAt(submittedAt) {
-  if (!submittedAt) return '—';
-  return new Date(submittedAt).toLocaleDateString('en-US', {
-    month: 'short', day: 'numeric', year: 'numeric',
-  });
-}
 
 export default function InboxDetailPanel({ contact, onClose, onChanged, onDeleted }) {
   const [actionError, setActionError] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
 
   const isNew = contact.status === 'New';
+  const isArchived = contact.status === 'Archived';
 
-  const handleToggleStatus = async () => {
+  const handleSetStatus = async (status) => {
     setIsUpdating(true);
     setActionError(null);
     try {
-      const updated = await contactApi.updateStatus(contact.id, isNew ? 'Read' : 'New');
+      const updated = await contactApi.updateStatus(contact.id, status);
       onChanged(updated);
     } catch (err) {
       console.error('Failed to update contact status:', err);
@@ -38,19 +33,21 @@ export default function InboxDetailPanel({ contact, onClose, onChanged, onDelete
 
   const handleDelete = async () => {
     setActionError(null);
+    setIsUpdating(true);
     try {
       await contactApi.remove(contact.id);
       onDeleted(contact.id);
     } catch (err) {
       console.error('Failed to delete contact request:', err);
       setActionError('Could not delete this request. Please try again.');
+      setIsUpdating(false);
     }
   };
 
   return (
     <Modal title={contact.name} onClose={onClose}>
       <div className={styles.badgeRow}>
-        <span className={`${badgeStyles.badge} ${isNew ? badgeStyles.new : badgeStyles.responded}`}>
+        <span className={`${badgeStyles.badge} ${badgeStyles[contact.status.toLowerCase()] || ''}`}>
           {contact.status}
         </span>
       </div>
@@ -66,7 +63,7 @@ export default function InboxDetailPanel({ contact, onClose, onChanged, onDelete
         </div>
         <div className={formStyles.row}>
           <span className={formStyles.label}>Date</span>
-          <div>{formatSubmittedAt(contact.submittedAt)}</div>
+          <div>{formatDate(contact.submittedAt)}</div>
         </div>
       </div>
 
@@ -78,14 +75,25 @@ export default function InboxDetailPanel({ contact, onClose, onChanged, onDelete
       {actionError && <p className={styles.formError} role="alert">{actionError}</p>}
 
       <div className={detailStyles.actions}>
-        <Button variant="outline" size="sm" disabled={isUpdating} onClick={handleToggleStatus}>
-          {isNew ? (
-            <><CheckCircle2 size={14} aria-hidden="true" /> Mark as Responded</>
-          ) : (
-            <><RotateCcw size={14} aria-hidden="true" /> Mark as New</>
-          )}
-        </Button>
-        <ConfirmButton label="Delete" confirmLabel="Delete for good?" danger onConfirm={handleDelete} />
+        {isArchived ? (
+          <Button variant="outline" size="sm" disabled={isUpdating} onClick={() => handleSetStatus('Read')}>
+            <ArchiveRestore size={14} aria-hidden="true" /> Restore
+          </Button>
+        ) : (
+          <>
+            <Button variant="outline" size="sm" disabled={isUpdating} onClick={() => handleSetStatus(isNew ? 'Read' : 'New')}>
+              {isNew ? (
+                <><CheckCircle2 size={14} aria-hidden="true" /> Mark as Read</>
+              ) : (
+                <><RotateCcw size={14} aria-hidden="true" /> Mark as New</>
+              )}
+            </Button>
+            <Button variant="outline" size="sm" disabled={isUpdating} onClick={() => handleSetStatus('Archived')}>
+              <Archive size={14} aria-hidden="true" /> Archive
+            </Button>
+          </>
+        )}
+        <ConfirmButton label="Delete" confirmLabel="Delete for good?" danger onConfirm={handleDelete} disabled={isUpdating} />
       </div>
     </Modal>
   );

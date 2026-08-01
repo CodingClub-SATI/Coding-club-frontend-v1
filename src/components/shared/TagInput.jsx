@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { X } from 'lucide-react';
 import styles from './TagInput.module.css';
 
-export function TagInput({ value = [], onChange, placeholder }) {
+export function TagInput({ value = [], onChange, placeholder, id }) {
   const [draft, setDraft] = useState('');
 
   const commit = () => {
@@ -26,8 +26,10 @@ export function TagInput({ value = [], onChange, placeholder }) {
         </span>
       ))}
       <input
+        id={id}
         value={draft}
         placeholder={placeholder || 'Type & press Enter'}
+        aria-label={placeholder || 'Add tag'}
         onChange={(e) => setDraft(e.target.value)}
         onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ',') { e.preventDefault(); commit(); } }}
         onBlur={commit}

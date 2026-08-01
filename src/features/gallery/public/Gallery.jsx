@@ -38,10 +38,10 @@ export default function Gallery() {
         else next.delete('search');
         next.delete('page'); 
         return next;
-      }, { replace: true });
+      }, { replace: true, preventScrollReset: true });
     }, SEARCH_DEBOUNCE_MS);
     return () => clearTimeout(handle);
-  }, [searchInput]);
+  }, [searchInput, urlSearch, setSearchParams]);
 
   const setPage = (nextPage) => {
     setSearchParams((prev) => {
@@ -49,7 +49,7 @@ export default function Gallery() {
       if (nextPage <= 1) next.delete('page');
       else next.set('page', String(nextPage));
       return next;
-    }, { replace: true });
+    }, { replace: true, preventScrollReset: true });
   };
 
   return (

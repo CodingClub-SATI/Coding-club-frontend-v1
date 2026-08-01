@@ -5,7 +5,7 @@ export default function RouteLoader({
   className = '',
 }) {
   return (
-    <div className={styles.loader}>
+    <div className={`${styles.loader} ${className}`.trim()}>
       <div className={styles.spinner} />
       <p>{message}</p>
     </div>

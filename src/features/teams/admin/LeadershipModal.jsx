@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Trash2, Plus } from 'lucide-react';
 import { Modal } from '@/components/shared/Modal';
 import Button from '@/components/shared/Button';
@@ -24,13 +24,13 @@ export default function LeadershipModal({ batches, onClose, onSaved }) {
 
   const unarchivedBatches = batches.filter(b => !b.archived);
 
-  const getBatchForMember = (memberId) => {
+  const getBatchForMember = useCallback((memberId) => {
     if (!memberId) return '';
     for (const b of batches) {
       if (b.members.some(m => m.id === memberId)) return b.batch;
     }
     return '';
-  };
+  }, [batches]);
 
   useEffect(() => {
     teamApi.getLeadership().then(mapping => {
@@ -57,7 +57,7 @@ export default function LeadershipModal({ batches, onClose, onSaved }) {
       setError('Failed to load current leadership configuration.');
       setIsLoading(false);
     });
-  }, [batches]);
+  }, [batches, getBatchForMember]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -110,7 +110,7 @@ export default function LeadershipModal({ batches, onClose, onSaved }) {
 
   return (
     <Modal title="Manage Leadership" onClose={onClose} size="lg" variant="glow">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} noValidate>
 
         <div className={`${formStyles.row} ${styles.section}`}>
           <label className={`${formStyles.label} ${styles.sectionLabelPrimary}`}>Convenors</label>
@@ -211,7 +211,7 @@ export default function LeadershipModal({ batches, onClose, onSaved }) {
         {error && <p className={styles.formError}>{error}</p>}
 
         <div className={`${formStyles.actions} ${styles.actions}`}>
-          <Button type="button" variant="ghost" onClick={onClose}>Cancel</Button>
+          <Button type="button" variant="ghost" onClick={onClose} disabled={isSaving}>Cancel</Button>
           <Button type="submit" isLoading={isSaving}>Save Leadership</Button>
         </div>
       </form>

@@ -16,4 +16,6 @@ export const eventsApi = {
   create: (payload) => request('/api/events', { method: 'POST', body: payload }),
   update: (id, payload) => request(`/api/events/${id}`, { method: 'PUT', body: payload }),
   remove: (id) => request(`/api/events/${id}`, { method: 'DELETE' }),
+  trackView: (id) => request(`/api/events/${id}/view`, { method: 'POST' }),
+  trackRegisterClick: (id) => request(`/api/events/${id}/register-click`, { method: 'POST' }),
 };
