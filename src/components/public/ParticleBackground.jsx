@@ -24,9 +24,9 @@ export default function ParticleBackground() {
     const LINE_OPACITY = 0.15;
     const LINE_OPACITY_STEPS = 5;
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    /*if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return;
-    }
+    }*/
 
     const canvas = canvasRef.current;
     if (!canvas) return;

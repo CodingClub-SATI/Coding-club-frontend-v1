@@ -100,7 +100,11 @@ export default function UpdatePasswordModal({ onClose, onUpdated }) {
       setOtpCooldown(OTP_RESEND_SECONDS);
     } catch (err) {
       console.error('Failed to send password OTP:', err);
-      setFormError('Could not send the verification code. Please try again.');
+      if (err instanceof ApiError && err.status === 429) {
+        setFormError(err.message);
+      } else {
+        setFormError('Could not send the verification code. Please try again.');
+      }
     } finally {
       setIsSendingOtp(false);
     }
@@ -138,6 +142,8 @@ export default function UpdatePasswordModal({ onClose, onUpdated }) {
         setFieldErrors({ currentPassword: 'Current password is incorrect.' });
       } else if (err instanceof ApiError && err.status === 400) {
         setFieldErrors({ otp: err.body?.message || 'Invalid or expired code. Please try again.' });
+      } else if (err instanceof ApiError && err.status === 429) {
+        setFormError(err.message);
       } else {
         setFormError('Something went wrong. Please try again.');
       }

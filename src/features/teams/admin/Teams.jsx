@@ -111,18 +111,25 @@ export default function Teams() {
 
   const handleMemberSaved = (saved) => {
     const wasEditing = editingMember?.mode === 'edit';
-    const previousBatch = editingMember?.member?.batch;
+    const previousMember = editingMember?.member;
+    const previousBatch = previousMember?.batch;
     setEditingMember(null);
 
+    // addMember/updateMember return the raw member document, which has no
+    // `isLeadership` flag — that's only computed server-side by the batches
+    // list endpoint. Merge onto the previous member so it survives an edit
+    // instead of vanishing until the next reload.
+    const merged = wasEditing && previousMember ? { ...previousMember, ...saved } : saved;
+
     setBatches((prev) => {
-      if (wasEditing && previousBatch && previousBatch !== saved.batch) {
+      if (wasEditing && previousBatch && previousBatch !== merged.batch) {
         return prev.map((b) => {
           if (b.batch === previousBatch) {
-            const members = b.members.filter((m) => m.id !== saved.id);
+            const members = b.members.filter((m) => m.id !== merged.id);
             return { ...b, members, memberCount: members.length };
           }
-          if (b.batch === saved.batch) {
-            const members = [...b.members, saved];
+          if (b.batch === merged.batch) {
+            const members = [...b.members, merged];
             return { ...b, members, memberCount: members.length };
           }
           return b;
@@ -130,14 +137,14 @@ export default function Teams() {
       }
       if (wasEditing) {
         return prev.map((b) =>
-          b.batch === saved.batch
-            ? { ...b, members: b.members.map((m) => (m.id === saved.id ? saved : m)) }
+          b.batch === merged.batch
+            ? { ...b, members: b.members.map((m) => (m.id === merged.id ? merged : m)) }
             : b
         );
       }
       return prev.map((b) =>
-        b.batch === saved.batch
-          ? { ...b, members: [...b.members, saved], memberCount: b.members.length + 1 }
+        b.batch === merged.batch
+          ? { ...b, members: [...b.members, merged], memberCount: b.members.length + 1 }
           : b
       );
     });
@@ -205,7 +212,6 @@ export default function Teams() {
                 </div>
                 <div className={tileStyles.tileBody}>
                   <div className={tileStyles.tileTitle}>{member.fullName}</div>
-                  <div className={tileStyles.tileSub}>{member.clubPosition}</div>
                 </div>
               </div>
             ))}

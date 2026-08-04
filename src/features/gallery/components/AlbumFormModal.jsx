@@ -27,7 +27,12 @@ export default function AlbumFormModal({
     setError('');
     setIsSubmitting(true);
     try {
-      await onSubmit({ title: title.trim(), date: date.trim(), cover });
+      const payload = { title: title.trim(), date: date.trim() };
+      // The backend only allows a cover once it references a photo that's
+      // already in the album — a brand-new album has none yet, so this
+      // isn't offered (and isn't sent) during create at all.
+      if (mode !== 'create') payload.cover = cover;
+      await onSubmit(payload);
       onClose();
     } catch (err) {
       console.error(`Failed to ${mode === 'create' ? 'create' : 'update'} album:`, err);
@@ -65,14 +70,20 @@ export default function AlbumFormModal({
           />
         </div>
 
-        <div className={formStyles.row}>
-          <span className={formStyles.label}>Cover Image</span>
-          <ImageDrop
-            value={cover}
-            onChange={setCover}
-            onUploadingChange={setIsImageUploading}
-          />
-        </div>
+        {mode === 'create' ? (
+          <p className={formStyles.hint}>
+            You can set a cover photo once you've added pictures to the album.
+          </p>
+        ) : (
+          <div className={formStyles.row}>
+            <span className={formStyles.label}>Cover Image</span>
+            <ImageDrop
+              value={cover}
+              onChange={setCover}
+              onUploadingChange={setIsImageUploading}
+            />
+          </div>
+        )}
 
         {error && <p className={formStyles.error} role="alert">{error}</p>}
 

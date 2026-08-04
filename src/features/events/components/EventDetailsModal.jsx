@@ -4,12 +4,18 @@ import Tag from '@/components/shared/Tag';
 import Button from '@/components/shared/Button';
 import { eventsApi } from '../api';
 import { TYPE_TONES } from '../constants';
+import { formatDate } from '@/utils/date';
 import styles from './EventDetailsModal.module.css';
 
 export default function EventDetailsModal({ event, onClose }) {
   useEffect(() => {
     if (!event) return;
-    eventsApi.trackView(event.id).catch((err) => {
+    // Fire the real detail fetch in the background purely to trigger the
+    // backend's view-count increment (it dedupes per-IP over 12h on its
+    // own). We deliberately keep rendering the already-fetched `event`
+    // prop rather than swapping in this response, so the modal still
+    // opens instantly instead of waiting on a network round trip.
+    eventsApi.get(event.id).catch((err) => {
       console.error('Failed to record event view:', err);
     });
   }, [event]);
@@ -33,7 +39,7 @@ export default function EventDetailsModal({ event, onClose }) {
         {event.status === 'upcoming' && <Tag tone="accent">Upcoming</Tag>}
       </div>
       <div className={styles.meta}>
-        <div>📅 {event.date}</div>
+        <div>📅 {formatDate(event.date)}</div>
         <div>🕐 {event.time}</div>
         {event.reportingTime && <div>⏰ Reporting: {event.reportingTime}</div>}
         <div>📍 {event.venue}</div>

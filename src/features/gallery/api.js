@@ -4,11 +4,12 @@ import { uploadImage } from '@/services/upload';
 export const GALLERY_PAGE_SIZE = 9;
 
 export const galleryApi = {
-  list: ({ search, page, pageSize } = {}) => {
+  list: ({ search, page, pageSize, includeArchived } = {}) => {
     const params = new URLSearchParams();
     if (search) params.set('search', search);
     if (page) params.set('page', String(page));
     if (pageSize) params.set('pageSize', String(pageSize));
+    if (includeArchived) params.set('includeArchived', 'true');
     const qs = params.toString();
     return request(`/api/gallery${qs ? `?${qs}` : ''}`);
   },
@@ -17,6 +18,7 @@ export const galleryApi = {
   // ---- Admin: albums ----
   createAlbum: (payload) => request('/api/gallery', { method: 'POST', body: payload }),
   updateAlbum: (albumId, payload) => request(`/api/gallery/${albumId}`, { method: 'PUT', body: payload }),
+  setAlbumArchived: (albumId, archived) => request(`/api/gallery/${albumId}`, { method: 'PUT', body: { archived } }),
   removeAlbum: (albumId) => request(`/api/gallery/${albumId}`, { method: 'DELETE' }),
 
   // ---- Admin: photos within an album ----

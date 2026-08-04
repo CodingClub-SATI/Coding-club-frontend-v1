@@ -6,13 +6,13 @@ import MemberAvatar from './MemberAvatar';
 import styles from './MemberProfileModal.module.css';
 
 export default function MemberProfileModal({ member, onClose }) {
-  const socials = SOCIAL_FIELDS.filter(({ key }) => member.socials?.[key]);
+  const socials = SOCIAL_FIELDS.filter(({ key }) => member[key]);
 
   return (
     <Modal title={member.fullName} onClose={onClose} size="sm" variant="glow">
       <div className={styles.content}>
         <MemberAvatar member={member} size={88} />
-        <div className={styles.role}>{member.clubPosition}</div>
+        {member.clubPosition && <div className={styles.role}>{member.clubPosition}</div>}
         {member.specialization && <div className={styles.designation}>{member.specialization}</div>}
 
         {member.skills?.length > 0 && (
@@ -26,7 +26,7 @@ export default function MemberProfileModal({ member, onClose }) {
         {socials.length > 0 && (
           <div className={styles.socials}>
             {socials.map(({ key, label, Icon }) => (
-              <SocialLink key={key} href={member.socials[key]} label={label}>
+              <SocialLink key={key} href={member[key]} label={label}>
                 <Icon size={16} />
               </SocialLink>
             ))}

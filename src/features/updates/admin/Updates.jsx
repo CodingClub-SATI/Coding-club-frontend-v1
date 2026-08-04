@@ -11,14 +11,14 @@ import { formatDate } from '@/utils/date';
 import formStyles from '@/components/admin/AdminForm.module.css';
 import styles from './Updates.module.css';
 
-function sortByPublishDateDesc(list) {
-  return [...list].sort((a, b) => new Date(b.publishDate) - new Date(a.publishDate));
+function sortByCreatedAtDesc(list) {
+  return [...list].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 }
 
 export default function Updates() {
   const { updates: initialUpdates, error: loadError } = useLoaderData();
 
-  const [updates, setUpdates] = useState(() => sortByPublishDateDesc(initialUpdates));
+  const [updates, setUpdates] = useState(() => sortByCreatedAtDesc(initialUpdates));
   const [modalOpen, setModalOpen] = useState(false);
   const [editingUpdate, setEditingUpdate] = useState(null); // null while modalOpen => "add new"
   const [actionError, setActionError] = useState('');
@@ -36,12 +36,12 @@ export default function Updates() {
 
   const handleCreate = async (payload) => {
     const created = await updatesApi.create(payload);
-    setUpdates((prev) => sortByPublishDateDesc([created, ...prev]));
+    setUpdates((prev) => sortByCreatedAtDesc([created, ...prev]));
   };
 
   const handleUpdate = async (update, payload) => {
     const saved = await updatesApi.update(update.id, payload);
-    setUpdates((prev) => sortByPublishDateDesc(prev.map((u) => (u.id === update.id ? saved : u))));
+    setUpdates((prev) => sortByCreatedAtDesc(prev.map((u) => (u.id === update.id ? saved : u))));
   };
 
   const handleDelete = async (update) => {
@@ -80,7 +80,7 @@ export default function Updates() {
             <li key={update.id} className={styles.item}>
               <div className={styles.itemBody}>
                 <p className={styles.message}>{update.message}</p>
-                <span className={styles.date}>{formatDate(update.publishDate)}</span>
+                <span className={styles.date}>{formatDate(update.createdAt)}</span>
               </div>
               <div className={styles.itemActions}>
                 <Button variant="ghost" size="sm" disabled={busyUpdateId === update.id} onClick={() => openEdit(update)}>

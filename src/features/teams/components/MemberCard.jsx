@@ -22,7 +22,7 @@ export default function MemberCard({ member, onClick }) {
     >
       <MemberAvatar member={member} />
       <h3 className={styles.name}>{member.fullName}</h3>
-      <p className={styles.role}>{member.clubPosition}</p>
+      {member.clubPosition && <p className={styles.role}>{member.clubPosition}</p>}
       {member.specialization && <p className={styles.specialization}>{member.specialization}</p>}
       {/* Decorative only — rendered as a span (not a real button) so the
           whole card stays a single keyboard/screen-reader stop, not two. */}

@@ -3,7 +3,7 @@ import { galleryApi } from '../api';
 
 export async function loader() {
   try {
-    const albums = await galleryApi.list();
+    const albums = await galleryApi.list({ includeArchived: true });
     return { albums: Array.isArray(albums) ? albums : [], error: null };
   } catch (err) {
     console.error('Failed to load gallery:', err);

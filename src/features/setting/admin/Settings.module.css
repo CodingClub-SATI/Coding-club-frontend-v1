@@ -98,12 +98,6 @@
   letter-spacing: 2px;
 }
 
-.successMsg {
-  color: var(--brand-primary);
-  font-size: var(--text-sm);
-  margin-top: var(--space-lg);
-}
-
 .passwordWrap {
   position: relative;
   display: flex;

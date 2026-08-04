@@ -58,8 +58,8 @@ export default function Footer({ contactInfo }) {
               {contactInfo?.discord?.url && (
                 <li><a href={contactInfo.discord.url} target="_blank" rel="noreferrer">Discord Server</a></li>
               )}
-              {contactInfo?.youtube?.url && (
-                <li><a href={contactInfo.youtube.url} target="_blank" rel="noreferrer">YouTube Channel</a></li>
+              {contactInfo?.youtube && (
+                <li><a href={contactInfo.youtube} target="_blank" rel="noreferrer">YouTube Channel</a></li>
               )}
             </ul>
           </div>

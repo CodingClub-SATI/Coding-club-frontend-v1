@@ -5,6 +5,7 @@ import { TagInput } from '@/components/shared/TagInput';
 import ImageDrop from '@/components/shared/ImageDrop';
 import { Toggle } from '@/components/shared/Toggle';
 import { eventsApi } from '@/features/events/api';
+import { cleanupReplacedImages } from '@/services/upload';
 import { EVENT_CATEGORIES, EVENT_STATUSES } from '@/features/events/constants';
 import { isValidUrl } from '@/utils/validation';
 import formStyles from '@/components/admin/AdminForm.module.css';
@@ -31,7 +32,11 @@ function toFormState(event) {
   if (!event) return EMPTY_FORM;
   return {
     title: event.title || '',
-    date: event.date || '',
+    // Backend stores/returns a full ISO datetime (e.g. midnight UTC); a
+    // native date input wants just the yyyy-MM-dd portion. Slicing the
+    // string directly avoids any local-timezone shifting a `new Date(...)`
+    // round trip could introduce.
+    date: event.date ? event.date.slice(0, 10) : '',
     time: event.time || '',
     reportingTime: event.reportingTime || '',
     venue: event.venue || '',
@@ -87,6 +92,11 @@ export default function EventFormModal({ mode, event, onClose, onSaved }) {
         status: form.status,
       };
       const saved = mode === 'new' ? await eventsApi.create(payload) : await eventsApi.update(event.id, payload);
+      if (mode === 'edit') {
+        // Fire-and-forget: don't hold up closing the modal for a
+        // storage-cleanup call the admin doesn't need to wait on.
+        cleanupReplacedImages(event, saved, ['bannerUrl', 'logoUrl']);
+      }
       onSaved(saved);
     } catch (err) {
       console.error(`Failed to ${mode === 'new' ? 'create' : 'update'} event:`, err);
@@ -128,10 +138,10 @@ export default function EventFormModal({ mode, event, onClose, onSaved }) {
             <label className={formStyles.label} htmlFor="event-date">Date</label>
             <input
               id="event-date"
+              type="date"
               className={`${controlStyles.input} ${controlStyles.fullWidth}`}
               value={form.date}
               onChange={(e) => updateField('date', e.target.value)}
-              placeholder="e.g. July 15, 2026"
             />
           </div>
 

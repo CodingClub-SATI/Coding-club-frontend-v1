@@ -4,13 +4,6 @@ import Button from '@/components/shared/Button';
 import formStyles from '@/components/admin/AdminForm.module.css';
 import controlStyles from '@/components/admin/FormControl.module.css';
 
-function toDateInputValue(publishDate) {
-  if (!publishDate) return '';
-  const parsed = new Date(publishDate);
-  if (Number.isNaN(parsed.getTime())) return '';
-  return parsed.toISOString().slice(0, 10);
-}
-
 /**
  * Admin-only. Used by features/updates/admin/Updates.jsx for both flows:
  *   update=null      — "Add New Alert"
@@ -20,10 +13,8 @@ export default function UpdateFormModal({ update, onClose, onSubmit }) {
   const isEdit = !!update;
 
   const messageId = useId();
-  const dateId = useId();
 
   const [message, setMessage] = useState(update?.message || '');
-  const [publishDate, setPublishDate] = useState(() => toDateInputValue(update?.publishDate));
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
@@ -38,9 +29,7 @@ export default function UpdateFormModal({ update, onClose, onSubmit }) {
     setError('');
     setSubmitting(true);
     try {
-      const payload = { message: trimmed };
-      if (publishDate) payload.publishDate = publishDate;
-      await onSubmit(payload);
+      await onSubmit({ message: trimmed });
       onClose();
     } catch (err) {
       console.error(`Failed to ${isEdit ? 'update' : 'create'} alert:`, err);
@@ -64,19 +53,6 @@ export default function UpdateFormModal({ update, onClose, onSubmit }) {
             autoFocus
             disabled={submitting}
           />
-        </div>
-
-        <div className={formStyles.row}>
-          <label htmlFor={dateId} className={formStyles.label}>Publish Date</label>
-          <input
-            id={dateId}
-            type="date"
-            className={`${controlStyles.input} ${formStyles.fullWidth}`}
-            value={publishDate}
-            onChange={(e) => setPublishDate(e.target.value)}
-            disabled={submitting}
-          />
-          <p className={formStyles.hint}>Optional — defaults to today if left blank.</p>
         </div>
 
         {error && <p className={formStyles.error} role="alert">{error}</p>}

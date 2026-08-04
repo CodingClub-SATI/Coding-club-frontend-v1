@@ -8,7 +8,7 @@ import { contactApi } from '@/features/contact/api';
 import { REQUEST_TYPES } from '@/features/contact/constants';
 import styles from './Contact.module.css';
 
-const EMPTY_FORM = { name: '', email: '', requestType: REQUEST_TYPES[0], message: '' };
+const EMPTY_FORM = { name: '', email: '', requestType: REQUEST_TYPES[0], message: '', honeypot: '' };
 
 export default function Contact() {
   const { contactInfo } = useOutletContext();
@@ -157,6 +157,22 @@ export default function Contact() {
                     placeholder="How can we help you?"
                     value={formData.message}
                     onChange={updateField('message')}
+                  />
+                </div>
+
+                {/* Honeypot anti-spam trap: invisible to real visitors, but a
+                    naive bot filling every field will populate it and the
+                    backend rejects any submission where this isn't empty. */}
+                <div className={styles.honeypot} aria-hidden="true">
+                  <label htmlFor="contact-honeypot">Leave this field blank</label>
+                  <input
+                    type="text"
+                    id="contact-honeypot"
+                    name="honeypot"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={formData.honeypot}
+                    onChange={updateField('honeypot')}
                   />
                 </div>
 

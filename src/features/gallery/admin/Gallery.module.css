@@ -3,6 +3,10 @@
   padding-left: 0;
 }
 
+.inlineBadge {
+  margin-left: 8px;
+}
+
 .albumGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));

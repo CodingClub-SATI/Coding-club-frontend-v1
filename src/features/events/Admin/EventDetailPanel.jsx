@@ -5,6 +5,7 @@ import Button from '@/components/shared/Button';
 import { ConfirmButton } from '@/components/shared/ConfirmButton';
 import Tag from '@/components/shared/Tag';
 import { eventsApi } from '@/features/events/api';
+import { formatDate } from '@/utils/date';
 import formStyles from '@/components/admin/AdminForm.module.css';
 import badgeStyles from '@/components/admin/Badge.module.css';
 import detailStyles from '@/components/admin/DetailPanel.module.css';
@@ -66,7 +67,7 @@ export default function EventDetailPanel({ event, onClose, onEdit, onChanged, on
         </div>
         <div className={formStyles.row}>
           <span className={formStyles.label}>Date</span>
-          <div>{event.date}</div>
+          <div>{formatDate(event.date)}</div>
         </div>
         <div className={formStyles.row}>
           <span className={formStyles.label}>Time</span>

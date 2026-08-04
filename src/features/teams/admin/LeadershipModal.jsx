@@ -45,8 +45,8 @@ export default function LeadershipModal({ batches, onClose, onSaved }) {
       setCoConvenorBatch(getBatchForMember(cc1) || getBatchForMember(cc2) || '');
 
       const depts = [];
-      if (mapping.departmentLeads) {
-        Object.entries(mapping.departmentLeads).forEach(([dept, memberId]) => {
+      if (mapping.departmentHeads) {
+        Object.entries(mapping.departmentHeads).forEach(([dept, memberId]) => {
           depts.push({ id: crypto.randomUUID(), dept, batch: getBatchForMember(memberId), memberId });
         });
       }
@@ -67,14 +67,14 @@ export default function LeadershipModal({ batches, onClose, onSaved }) {
     const deptMapping = {};
     deptHeads.forEach(d => {
       if (d.dept.trim() && d.memberId) {
-        deptMapping[d.dept.trim()] = d.memberId;
+        deptMapping[d.dept.trim()] = Number(d.memberId);
       }
     });
 
     const payload = {
-      convenors: convenors.filter(Boolean),
-      coConvenors: coConvenors.filter(Boolean),
-      departmentLeads: deptMapping
+      convenors: convenors.filter(Boolean).map(Number),
+      coConvenors: coConvenors.filter(Boolean).map(Number),
+      departmentHeads: deptMapping
     };
 
     try {

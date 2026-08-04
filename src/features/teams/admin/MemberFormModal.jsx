@@ -4,7 +4,6 @@ import Button from '@/components/shared/Button';
 import { TagInput } from '@/components/shared/TagInput';
 import ImageDrop from '@/components/shared/ImageDrop';
 import { teamApi } from '@/features/teams/api';
-import { DEFAULT_CLUB_POSITION, POSITION_SUGGESTIONS } from '@/features/teams/constants';
 import { isValidUrl } from '@/utils/validation';
 import formStyles from '@/components/admin/AdminForm.module.css';
 import controlStyles from '@/components/admin/FormControl.module.css';
@@ -12,7 +11,7 @@ import styles from './Teams.module.css';
 
 const buildEmptyForm = (batch) => ({
   fullName: '',
-  clubPosition: DEFAULT_CLUB_POSITION,
+  enrollmentNumber: '',
   specialization: '',
   batch,
   skills: [],
@@ -28,7 +27,7 @@ export default function MemberFormModal({ mode, batch, availableBatches, member,
     if (mode === 'edit' && member) {
       return {
         fullName: member.fullName || '',
-        clubPosition: member.clubPosition || DEFAULT_CLUB_POSITION,
+        enrollmentNumber: member.enrollmentNumber || '',
         specialization: member.specialization || '',
         batch: member.batch || batch,
         skills: member.skills || [],
@@ -54,6 +53,10 @@ export default function MemberFormModal({ mode, batch, availableBatches, member,
     e.preventDefault();
     if (!form.fullName.trim()) {
       setError('Full name is required.');
+      return;
+    }
+    if (!form.enrollmentNumber.trim()) {
+      setError('Enrollment number is required.');
       return;
     }
     if (!form.batch) {
@@ -82,7 +85,7 @@ export default function MemberFormModal({ mode, batch, availableBatches, member,
     try {
       const payload = {
         fullName: form.fullName.trim(),
-        clubPosition: form.clubPosition.trim() || DEFAULT_CLUB_POSITION,
+        enrollmentNumber: form.enrollmentNumber.trim(),
         specialization: form.specialization.trim(),
         batch: form.batch,
         skills: form.skills,
@@ -126,6 +129,17 @@ export default function MemberFormModal({ mode, batch, availableBatches, member,
             />
           </div>
           <div className={formStyles.row}>
+            <label className={formStyles.label} htmlFor={`${uid}-enrollmentNumber`}>Enrollment Number</label>
+            <input
+              id={`${uid}-enrollmentNumber`}
+              className={`${controlStyles.input} ${controlStyles.fullWidth}`}
+              value={form.enrollmentNumber}
+              onChange={(e) => updateField('enrollmentNumber', e.target.value)}
+              placeholder="e.g. 0801CS221045"
+              required
+            />
+          </div>
+          <div className={formStyles.row}>
             <label className={formStyles.label} htmlFor={`${uid}-batch`}>Batch (Passing Year)</label>
             <select
               id={`${uid}-batch`}
@@ -138,22 +152,6 @@ export default function MemberFormModal({ mode, batch, availableBatches, member,
                 <option key={b} value={b}>{b}</option>
               ))}
             </select>
-          </div>
-          <div className={formStyles.row}>
-            <label className={formStyles.label} htmlFor={`${uid}-position`}>Position</label>
-            <input
-              id={`${uid}-position`}
-              list={`${uid}-position-suggestions`}
-              className={`${controlStyles.input} ${controlStyles.fullWidth}`}
-              value={form.clubPosition}
-              onChange={(e) => updateField('clubPosition', e.target.value)}
-              placeholder={DEFAULT_CLUB_POSITION}
-            />
-            <datalist id={`${uid}-position-suggestions`}>
-              {POSITION_SUGGESTIONS.map((suggestion) => (
-                <option key={suggestion} value={suggestion} />
-              ))}
-            </datalist>
           </div>
           <div className={formStyles.row}>
             <label className={formStyles.label} htmlFor={`${uid}-specialization`}>Specialization</label>

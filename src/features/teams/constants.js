@@ -1,26 +1,12 @@
 import { GithubIcon, InstagramIcon, LinkedinIcon, XIcon } from '@/components/shared/Icons';
 
 // ---------------------------------------------------------------------------
-// Display-only constants. Nothing here decides WHO counts as leadership —
-// that determination (parsing clubPosition, sorting, filtering archived
-// batches, etc.) is a backend responsibility. The API is expected to return
-// data already grouped/sorted; these constants only label what we render.
-// See API_CONTRACT.md for the exact shape the backend must return.
+// Display-only constants. `clubPosition` is not a real field on TeamMember —
+// the backend only ever populates it on the synthetic `departmentLeads`
+// entries returned by GET /api/team/public (see MODELS.md / API.md). Regular
+// members and convenors/co-convenors never have it, so components that read
+// `member.clubPosition` must treat it as optional.
 // ---------------------------------------------------------------------------
-
-export const DEFAULT_CLUB_POSITION = 'Member';
-
-// Suggestions shown in the admin "Position" datalist. Free text is still
-// allowed — these are just common presets to speed up data entry.
-export const POSITION_SUGGESTIONS = [
-  'Member',
-  'Convenor',
-  'Co-Convenor',
-  'President',
-  'Vice President',
-  'Secretary',
-  'Treasurer',
-];
 
 // Order + labels for the leadership strip at the top of the public page.
 // Keys must match the `leadership` object the API returns from

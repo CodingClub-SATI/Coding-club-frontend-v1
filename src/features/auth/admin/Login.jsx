@@ -1,5 +1,5 @@
 import { useId, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { Eye, EyeOff, Lock, User } from 'lucide-react';
 import ParticleBackground from '@/components/public/ParticleBackground';
 import Glasscard from '@/components/shared/Glasscard';
@@ -14,6 +14,7 @@ import styles from './Login.module.css';
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const usernameId = useId();
   const passwordId = useId();
 
@@ -21,11 +22,13 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [notice, setNotice] = useState(location.state?.message || '');
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setNotice('');
     setSubmitting(true);
 
     try {
@@ -35,6 +38,8 @@ export default function Login() {
     } catch (err) {
       if (err instanceof ApiError && err.status === 401) {
         setError('Incorrect username or password.');
+      } else if (err instanceof ApiError && err.status === 429) {
+        setError(err.message);
       } else {
         setError('Could not reach the server. Please try again.');
       }
@@ -99,6 +104,10 @@ export default function Login() {
               </IconButton>
             </div>
           </div>
+
+          {notice && (
+            <p className={styles.notice} role="status">{notice}</p>
+          )}
 
           {error && (
             <p className={styles.error} role="alert">{error}</p>

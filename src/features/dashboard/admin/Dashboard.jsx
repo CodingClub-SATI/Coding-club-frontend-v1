@@ -2,6 +2,7 @@ import { Link, useLoaderData } from 'react-router';
 import { Users, Calendar, FolderGit2, AlertTriangle, Mail } from 'lucide-react';
 import AdminTitle from '@/components/admin/AdminTitle';
 import EmptyState from '@/components/shared/EmptyState';
+import { formatDate } from '@/utils/date';
 import tableStyles from '@/components/admin/Table.module.css';
 import badgeStyles from '@/components/admin/Badge.module.css';
 import styles from './Dashboard.module.css';
@@ -138,12 +139,12 @@ export default function Dashboard() {
                   <div className={styles.contactHead}>
                     <strong>{contact.name}</strong>
                     <span
-                      className={`${badgeStyles.badge} ${contact.status === 'New' ? badgeStyles.new : badgeStyles.responded}`}
+                      className={`${badgeStyles.badge} ${badgeStyles[contact.status.toLowerCase()] || ''}`}
                     >
                       {contact.status}
                     </span>
                   </div>
-                  <div className={styles.contactMeta}>{contact.requestType} · {contact.date}</div>
+                  <div className={styles.contactMeta}>{contact.requestType} · {formatDate(contact.createdAt)}</div>
                 </li>
               ))}
             </ul>

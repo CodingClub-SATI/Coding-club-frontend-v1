@@ -44,10 +44,6 @@ export default function MemberDetailPanel({ member, onClose, onEdit, onDeleted }
       )}
 
       <div className={formStyles.row}>
-        <span className={formStyles.label}>Position</span>
-        <div>{member.clubPosition || '—'}</div>
-      </div>
-      <div className={formStyles.row}>
         <span className={formStyles.label}>Specialization</span>
         <div>{member.specialization || '—'}</div>
       </div>

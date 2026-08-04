@@ -15,6 +15,7 @@ function buildForm(contactInfo) {
   return {
     email: contactInfo?.email || '',
     phone: contactInfo?.phone || '',
+    youtube: contactInfo?.youtube || '',
     ...PLATFORMS.reduce((acc, { key }) => {
       const entry = contactInfo?.[key] || {};
       acc[key] = {
@@ -57,6 +58,9 @@ export default function ContactInfoSection({ contactInfo, error, onUpdated }) {
     if (!isValidEmail(form.email.trim())) {
       nextErrors.email = 'Enter a valid email address.';
     }
+    if (form.youtube.trim() && !isValidUrl(form.youtube.trim())) {
+      nextErrors.youtube = 'Must start with http:// or https://';
+    }
     PLATFORMS.forEach(({ key }) => {
       const value = form[key].url.trim();
       if (value && !isValidUrl(value)) {
@@ -74,6 +78,7 @@ export default function ContactInfoSection({ contactInfo, error, onUpdated }) {
       const payload = {
         email: form.email.trim(),
         phone: form.phone.trim(),
+        youtube: form.youtube.trim(),
         ...PLATFORMS.reduce((acc, { key }) => {
           acc[key] = {
             url: form[key].url.trim(),
@@ -123,6 +128,10 @@ export default function ContactInfoSection({ contactInfo, error, onUpdated }) {
         <div className={formStyles.row}>
           <span className={formStyles.label}>Social Links</span>
           <div className={styles.socialList}>
+            <div className={styles.socialItem}>
+              <span className={styles.socialLabel}>YouTube</span>
+              <span className={styles.socialValue}>{contactInfo?.youtube || '—'}</span>
+            </div>
             {PLATFORMS.map(({ key, label }) => {
               const entry = contactInfo?.[key];
               return (
@@ -178,6 +187,21 @@ export default function ContactInfoSection({ contactInfo, error, onUpdated }) {
         <div className={formStyles.row}>
           <span className={formStyles.label}>Social Platforms</span>
           <div className={styles.socialList}>
+            <div className={styles.platformRow}>
+              <label className={formStyles.label} htmlFor="contact-social-youtube">YouTube</label>
+              <input
+                id="contact-social-youtube"
+                type="url"
+                placeholder="https://"
+                className={`${controlStyles.input} ${controlStyles.fullWidth}`}
+                value={form.youtube}
+                onChange={updateField('youtube')}
+                disabled={isSaving}
+              />
+              {fieldErrors.youtube && (
+                <p className={styles.fieldError} role="alert">{fieldErrors.youtube}</p>
+              )}
+            </div>
             {PLATFORMS.map(({ key, label }) => (
               <div key={key} className={styles.platformRow}>
                 <label className={formStyles.label} htmlFor={`contact-social-${key}`}>{label}</label>

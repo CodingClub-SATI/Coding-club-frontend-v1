@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useLoaderData } from 'react-router';
-import { AlertTriangle, ArrowLeft, Image as ImageIcon, Pencil, Plus, Trash2 } from 'lucide-react';
+import { AlertTriangle, Archive, ArchiveRestore, ArrowLeft, Image as ImageIcon, Pencil, Plus, Trash2 } from 'lucide-react';
 import AdminTitle from '@/components/admin/AdminTitle';
 import MultiImageAdd from '@/features/gallery/components/MultiImageAdd';
 import PhotoTile from '@/features/gallery/components/PhotoTile';
 import EmptyState from '@/components/shared/EmptyState';
 import Button from '@/components/shared/Button';
+import { Toggle } from '@/components/shared/Toggle';
 import { ConfirmButton } from '@/components/shared/ConfirmButton';
 import { galleryApi } from '@/features/gallery/api';
 import { MAX_FEATURED_PER_ALBUM } from '@/features/gallery/constants';
@@ -13,6 +14,8 @@ import AlbumFormModal from '@/features/gallery/components/AlbumFormModal';
 import PhotoEditModal from '@/features/gallery/components/PhotoEditModal';
 import tileStyles from '@/components/admin/Tile.module.css';
 import formStyles from '@/components/admin/AdminForm.module.css';
+import filterBarStyles from '@/components/admin/FilterBar.module.css';
+import badgeStyles from '@/components/admin/Badge.module.css';
 import styles from './Gallery.module.css';
 
 export default function Gallery() {
@@ -20,14 +23,18 @@ export default function Gallery() {
 
   const [albums, setAlbums] = useState(initialAlbums);
   const [openAlbumId, setOpenAlbumId] = useState(null);
+  const [showArchived, setShowArchived] = useState(false);
   const [formModal, setFormModal] = useState(null); // { mode: 'create' } | { mode: 'rename', album }
   const [editingPhoto, setEditingPhoto] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [actionError, setActionError] = useState('');
   const [deletingAlbumId, setDeletingAlbumId] = useState(null);
+  const [archivingAlbumId, setArchivingAlbumId] = useState(null);
   const [deletingPhotoId, setDeletingPhotoId] = useState(null);
 
   const openAlbum = albums.find((a) => a.id === openAlbumId) || null;
+  const activeCount = albums.filter((a) => !a.archived).length;
+  const visibleAlbums = albums.filter((a) => showArchived || !a.archived);
 
   // ---------- Albums ----------
   const handleCreateAlbum = async (values) => {
@@ -38,6 +45,20 @@ export default function Gallery() {
   const handleRenameAlbum = async (album, values) => {
     const updated = await galleryApi.updateAlbum(album.id, values);
     setAlbums((prev) => prev.map((a) => (a.id === album.id ? updated : a)));
+  };
+
+  const handleToggleArchive = async (album) => {
+    setActionError('');
+    setArchivingAlbumId(album.id);
+    try {
+      const updated = await galleryApi.setAlbumArchived(album.id, !album.archived);
+      setAlbums((prev) => prev.map((a) => (a.id === album.id ? { ...a, ...updated } : a)));
+    } catch (err) {
+      console.error('Failed to update album:', err);
+      setActionError('Could not update this album. Please try again.');
+    } finally {
+      setArchivingAlbumId(null);
+    }
   };
 
   const handleDeleteAlbum = async (album) => {
@@ -123,7 +144,7 @@ export default function Gallery() {
 
         <AdminTitle
           title={openAlbum.title}
-          subtitle={`${openAlbum.images.length} photo${openAlbum.images.length === 1 ? '' : 's'} · ${featuredCount}/${MAX_FEATURED_PER_ALBUM} featured`}
+          subtitle={`${openAlbum.images.length} photo${openAlbum.images.length === 1 ? '' : 's'} · ${featuredCount}/${MAX_FEATURED_PER_ALBUM} featured${openAlbum.archived ? ' • Archived (hidden from public site)' : ''}`}
         >
           <MultiImageAdd onAdd={handleAddPhotos} disabled={uploading} />
         </AdminTitle>
@@ -168,21 +189,29 @@ export default function Gallery() {
   // ============================================================
   return (
     <div>
-      <AdminTitle title="Gallery" subtitle={`${albums.length} album${albums.length === 1 ? '' : 's'}`}>
+      <AdminTitle title="Gallery" subtitle={`${activeCount} album${activeCount === 1 ? '' : 's'}`}>
         <Button onClick={() => setFormModal({ mode: 'create' })}>
           <Plus size={16} /> Create Album
         </Button>
       </AdminTitle>
 
+      <div className={filterBarStyles.filterBar}>
+        <Toggle checked={showArchived} onChange={setShowArchived} label="Show archived" />
+      </div>
+
       {actionError && <p className={formStyles.error} role="alert">{actionError}</p>}
 
       {loadError ? (
         <EmptyState icon={AlertTriangle} title={loadError} subtitle="Try refreshing the page in a moment." />
-      ) : albums.length === 0 ? (
-        <EmptyState icon={ImageIcon} title="No albums yet" subtitle='Use "Create Album" to start your first gallery album.' />
+      ) : visibleAlbums.length === 0 ? (
+        <EmptyState
+          icon={ImageIcon}
+          title={albums.length === 0 ? 'No albums yet' : 'No albums match this filter'}
+          subtitle={albums.length === 0 ? 'Use "Create Album" to start your first gallery album.' : 'Try turning on "Show archived" to see archived albums.'}
+        />
       ) : (
         <div className={styles.albumGrid}>
-          {albums.map((album) => {
+          {visibleAlbums.map((album) => {
             const photoCount = album.imageCount ?? album.images?.length ?? 0;
             return (
               <div key={album.id} className={tileStyles.tile}>
@@ -200,7 +229,12 @@ export default function Gallery() {
                     )}
                   </div>
                   <div className={tileStyles.tileBody}>
-                    <div className={tileStyles.tileTitle}>{album.title}</div>
+                    <div className={tileStyles.tileTitle}>
+                      {album.title}
+                      {album.archived && (
+                        <span className={`${badgeStyles.badge} ${badgeStyles.archived} ${styles.inlineBadge}`}>Archived</span>
+                      )}
+                    </div>
                     <div className={tileStyles.tileSub}>
                       {album.date} · {photoCount} {photoCount === 1 ? 'photo' : 'photos'}
                     </div>
@@ -211,17 +245,25 @@ export default function Gallery() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    disabled={deletingAlbumId === album.id}
+                    disabled={deletingAlbumId === album.id || archivingAlbumId === album.id}
                     onClick={() => setFormModal({ mode: 'rename', album })}
                   >
                     <Pencil size={12} /> Edit
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    disabled={archivingAlbumId === album.id || deletingAlbumId === album.id}
+                    onClick={() => handleToggleArchive(album)}
+                  >
+                    {album.archived ? <><ArchiveRestore size={12} aria-hidden="true" /> Unarchive</> : <><Archive size={12} aria-hidden="true" /> Archive</>}
                   </Button>
                   <ConfirmButton
                     label={<><Trash2 size={12} /> Delete</>}
                     confirmLabel="Delete album?"
                     danger
                     onConfirm={() => handleDeleteAlbum(album)}
-                    disabled={deletingAlbumId === album.id}
+                    disabled={deletingAlbumId === album.id || archivingAlbumId === album.id}
                   />
                 </div>
               </div>

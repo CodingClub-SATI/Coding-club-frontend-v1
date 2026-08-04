@@ -3,6 +3,7 @@ import Glasscard from '@/components/shared/Glasscard';
 import Tag from '@/components/shared/Tag';
 import Button from '@/components/shared/Button';
 import { BoltPath } from '@/components/shared/Icons';
+import { formatDate } from '@/utils/date';
 import styles from './FeaturedCarousel.module.css';
 
 export default function FeaturedCarousel({ items, onSelect }) {
@@ -56,7 +57,7 @@ export default function FeaturedCarousel({ items, onSelect }) {
           <p className={styles.desc}>{description}</p>
 
           <div className={styles.meta}>
-            <span>📅 {date}</span>
+            <span>📅 {formatDate(date)}</span>
             <span>📍 {venue}</span>
           </div>
 

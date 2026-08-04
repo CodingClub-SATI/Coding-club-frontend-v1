@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { KeyRound } from 'lucide-react';
-import { useLoaderData, useRevalidator } from 'react-router';
+import { useLoaderData, useNavigate, useRevalidator } from 'react-router';
 import AdminTitle from '@/components/admin/AdminTitle';
 import Button from '@/components/shared/Button';
-import { getUsername } from '@/services/authToken';
+import { getUsername, clearSession } from '@/services/authToken';
 import UpdatePasswordModal from './UpdatePasswordModal';
 import ContactInfoSection from './ContactInfoSection';
 import formStyles from '@/components/admin/AdminForm.module.css';
@@ -12,13 +12,21 @@ import styles from './Settings.module.css';
 export default function Settings() {
   const { contactInfo, error } = useLoaderData();
   const revalidator = useRevalidator();
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [confirmation, setConfirmation] = useState(null);
 
-  const handleUpdated = () => {
+  // A successful password change bumps the account's session version on the
+  // server, which invalidates the cookie for THIS session too — there's no
+  // "still logged in" state to return to. Rather than show a success toast
+  // and let the user get silently bounced by the global 401 handler on their
+  // next click, send them to login now with an explanation.
+  const handleUpdated = async () => {
     setIsModalOpen(false);
-    setConfirmation('Password updated successfully.');
-    setTimeout(() => setConfirmation(null), 5000);
+    await clearSession();
+    navigate('/admin/login', {
+      replace: true,
+      state: { message: 'Password updated. Please sign in again.' },
+    });
   };
 
   const handleContactInfoUpdated = () => {
@@ -53,8 +61,6 @@ export default function Settings() {
               </Button>
             </div>
           </div>
-
-          {confirmation && <p className={styles.successMsg} role="status">{confirmation}</p>}
         </section>
       </div>
 

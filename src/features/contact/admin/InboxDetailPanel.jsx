@@ -15,7 +15,7 @@ export default function InboxDetailPanel({ contact, onClose, onChanged, onDelete
   const [isUpdating, setIsUpdating] = useState(false);
 
   const isNew = contact.status === 'New';
-  const isArchived = contact.status === 'Archived';
+  const isArchived = contact.archived;
 
   const handleSetStatus = async (status) => {
     setIsUpdating(true);
@@ -26,6 +26,20 @@ export default function InboxDetailPanel({ contact, onClose, onChanged, onDelete
     } catch (err) {
       console.error('Failed to update contact status:', err);
       setActionError('Could not update the status. Please try again.');
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const handleSetArchived = async (archived) => {
+    setIsUpdating(true);
+    setActionError(null);
+    try {
+      const updated = await contactApi.setArchived(contact.id, archived);
+      onChanged(updated);
+    } catch (err) {
+      console.error('Failed to update archived state:', err);
+      setActionError(`Could not ${archived ? 'archive' : 'restore'} this request. Please try again.`);
     } finally {
       setIsUpdating(false);
     }
@@ -50,6 +64,9 @@ export default function InboxDetailPanel({ contact, onClose, onChanged, onDelete
         <span className={`${badgeStyles.badge} ${badgeStyles[contact.status.toLowerCase()] || ''}`}>
           {contact.status}
         </span>
+        {isArchived && (
+          <span className={`${badgeStyles.badge} ${badgeStyles.archived}`}>Archived</span>
+        )}
       </div>
 
       <div className={formStyles.grid}>
@@ -63,7 +80,7 @@ export default function InboxDetailPanel({ contact, onClose, onChanged, onDelete
         </div>
         <div className={formStyles.row}>
           <span className={formStyles.label}>Date</span>
-          <div>{formatDate(contact.submittedAt)}</div>
+          <div>{formatDate(contact.createdAt)}</div>
         </div>
       </div>
 
@@ -76,7 +93,7 @@ export default function InboxDetailPanel({ contact, onClose, onChanged, onDelete
 
       <div className={detailStyles.actions}>
         {isArchived ? (
-          <Button variant="outline" size="sm" disabled={isUpdating} onClick={() => handleSetStatus('Read')}>
+          <Button variant="outline" size="sm" disabled={isUpdating} onClick={() => handleSetArchived(false)}>
             <ArchiveRestore size={14} aria-hidden="true" /> Restore
           </Button>
         ) : (
@@ -88,7 +105,7 @@ export default function InboxDetailPanel({ contact, onClose, onChanged, onDelete
                 <><RotateCcw size={14} aria-hidden="true" /> Mark as New</>
               )}
             </Button>
-            <Button variant="outline" size="sm" disabled={isUpdating} onClick={() => handleSetStatus('Archived')}>
+            <Button variant="outline" size="sm" disabled={isUpdating} onClick={() => handleSetArchived(true)}>
               <Archive size={14} aria-hidden="true" /> Archive
             </Button>
           </>

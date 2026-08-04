@@ -1,7 +1,6 @@
 import { useId, useState } from 'react';
 import { Modal } from '@/components/shared/Modal';
 import Button from '@/components/shared/Button';
-import { Toggle } from '@/components/shared/Toggle';
 import { TagInput } from '@/components/shared/TagInput';
 import { CATEGORIES } from '@/features/projects/constants';
 import { isValidUrl } from '@/utils/validation';
@@ -17,9 +16,6 @@ const EMPTY_FORM = {
   tech: [],
   github: '',
   demo: '',
-  stars: 0,
-  forks: 0,
-  achieved: false,
 };
 
 function toFormState(project) {
@@ -33,9 +29,6 @@ function toFormState(project) {
     tech: project.tech || [],
     github: project.github || '',
     demo: project.demo || '',
-    stars: project.stars ?? 0,
-    forks: project.forks ?? 0,
-    achieved: !!project.achieved,
   };
 }
 
@@ -54,8 +47,6 @@ export default function ProjectFormModal({ project, onClose, onSubmit }) {
   const descriptionId = useId();
   const githubId = useId();
   const demoId = useId();
-  const starsId = useId();
-  const forksId = useId();
   const techId = useId();
 
   const [form, setForm] = useState(() => toFormState(project));
@@ -100,8 +91,6 @@ export default function ProjectFormModal({ project, onClose, onSubmit }) {
         demo,
         description,
         members: Math.max(1, Number(form.members) || 1),
-        stars: Math.max(0, Number(form.stars) || 0),
-        forks: Math.max(0, Number(form.forks) || 0),
       });
       onClose();
     } catch (err) {
@@ -209,42 +198,6 @@ export default function ProjectFormModal({ project, onClose, onSubmit }) {
             />
             {fieldErrors.demo && <p className={formStyles.error} role="alert">{fieldErrors.demo}</p>}
           </div>
-        </div>
-
-        <div className={formStyles.grid}>
-          <div className={formStyles.row}>
-            <label htmlFor={starsId} className={formStyles.label}>Stars</label>
-            <input
-              id={starsId}
-              type="number"
-              min="0"
-              className={`${fieldStyles.input} ${formStyles.fullWidth}`}
-              value={form.stars}
-              onChange={(e) => setField('stars', e.target.value)}
-              disabled={submitting}
-            />
-          </div>
-          <div className={formStyles.row}>
-            <label htmlFor={forksId} className={formStyles.label}>Forks</label>
-            <input
-              id={forksId}
-              type="number"
-              min="0"
-              className={`${fieldStyles.input} ${formStyles.fullWidth}`}
-              value={form.forks}
-              onChange={(e) => setField('forks', e.target.value)}
-              disabled={submitting}
-            />
-          </div>
-        </div>
-
-        <div className={formStyles.row}>
-          <Toggle 
-            checked={form.achieved} 
-            onChange={(v) => setField('achieved', v)} 
-            label="Mark as Achieved" 
-            disabled={submitting} 
-          />
         </div>
 
         {error && <p className={formStyles.error} role="alert">{error}</p>}

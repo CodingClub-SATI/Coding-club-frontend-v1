@@ -8,6 +8,7 @@ import EmptyState from '@/components/shared/EmptyState';
 import EventFormModal from '@/features/events/admin/EventFormModal';
 import EventDetailPanel from '@/features/events/admin/EventDetailPanel';
 import { EVENT_CATEGORIES } from '@/features/events/constants';
+import { formatDate } from '@/utils/date';
 import filterBarStyles from '@/components/admin/FilterBar.module.css';
 import controlStyles from '@/components/admin/FormControl.module.css';
 import tableStyles from '@/components/admin/Table.module.css';
@@ -142,7 +143,7 @@ export default function Events() {
                     )}
                   </td>
                   <td className={tableStyles.td}>{event.type}</td>
-                  <td className={tableStyles.td}>{event.date}</td>
+                  <td className={tableStyles.td}>{formatDate(event.date)}</td>
                   <td className={tableStyles.td}>
                     <span className={`${badgeStyles.badge} ${badgeStyles[event.status] || ''}`}>{event.status}</span>
                   </td>

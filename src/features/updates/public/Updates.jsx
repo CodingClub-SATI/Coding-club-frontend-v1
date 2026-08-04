@@ -37,7 +37,7 @@ export default function Updates({ onClose }) {
         {!isLoading && !error && updates.map((update) => (
           <div key={update.id} className={styles.item}>
             <span className={styles.date}>
-              {formatDate(update.publishDate).toUpperCase()}
+              {formatDate(update.createdAt).toUpperCase()}
             </span>
             <p className={styles.text}>{update.message}</p>
           </div>
