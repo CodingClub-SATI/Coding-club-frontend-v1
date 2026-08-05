@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Modal } from '@/components/shared/Modal';
 import Button from '@/components/shared/Button';
-import ImageDrop from '@/components/shared/ImageDrop';
+import CoverPicker from '@/features/gallery/components/CoverPicker';
 import formStyles from '@/components/admin/AdminForm.module.css';
 import controlStyles from '@/components/admin/FormControl.module.css';
 
@@ -10,13 +10,13 @@ export default function AlbumFormModal({
   initialTitle = '',
   initialDate = '',
   initialCover = '',
+  images = [],
   onClose,
   onSubmit,
 }) {
   const [title, setTitle] = useState(initialTitle);
   const [date, setDate] = useState(initialDate);
   const [cover, setCover] = useState(initialCover);
-  const [isImageUploading, setIsImageUploading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
@@ -77,11 +77,7 @@ export default function AlbumFormModal({
         ) : (
           <div className={formStyles.row}>
             <span className={formStyles.label}>Cover Image</span>
-            <ImageDrop
-              value={cover}
-              onChange={setCover}
-              onUploadingChange={setIsImageUploading}
-            />
+            <CoverPicker images={images} value={cover} onChange={setCover} />
           </div>
         )}
 
@@ -91,7 +87,7 @@ export default function AlbumFormModal({
           <Button variant="ghost" onClick={onClose} type="button" disabled={isSubmitting}>
             Cancel
           </Button>
-          <Button type="submit" isLoading={isSubmitting} disabled={isImageUploading}>
+          <Button type="submit" isLoading={isSubmitting}>
             {mode === 'create' ? 'Create Album' : 'Save Changes'}
           </Button>
         </div>

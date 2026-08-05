@@ -78,7 +78,10 @@ export default function EventFormModal({ mode, event, onClose, onSaved }) {
     try {
       const payload = {
         title: form.title.trim(),
-        date: form.date,
+        // z.coerce.date() rejects an empty string even though `date` is
+        // optional — optional() only skips validation when the key is
+        // absent, not when it's present-but-empty. Omit it entirely here.
+        date: form.date || undefined,
         time: form.time,
         reportingTime: form.reportingTime,
         venue: form.venue,

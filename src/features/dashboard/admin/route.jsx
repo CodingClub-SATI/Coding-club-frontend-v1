@@ -24,7 +24,7 @@ function normalizeStats(raw) {
 export async function loader() {
   const [statsResult, eventsResult, contactsResult] = await Promise.allSettled([
     dashboardApi.getStats(),
-    eventsApi.list({ limit: RECENT_LIMIT }),
+    eventsApi.list({ limit: RECENT_LIMIT, sortBy: 'createdAt' }),
     contactApi.getAll({ limit: RECENT_LIMIT }),
   ]);
 

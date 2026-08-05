@@ -5,6 +5,10 @@ import { TagInput } from '@/components/shared/TagInput';
 import ImageDrop from '@/components/shared/ImageDrop';
 import { teamApi } from '@/features/teams/api';
 import { isValidUrl } from '@/utils/validation';
+import { fieldErrorsFromApiError } from '@/utils/apiErrors';
+
+// Keep in sync with the backend's teamModel.js: skills: stringArray(3)
+const MAX_SKILLS = 3;
 import formStyles from '@/components/admin/AdminForm.module.css';
 import controlStyles from '@/components/admin/FormControl.module.css';
 import styles from './Teams.module.css';
@@ -103,7 +107,13 @@ export default function MemberFormModal({ mode, batch, availableBatches, member,
       onSaved(saved);
     } catch (err) {
       console.error(`Failed to ${mode === 'new' ? 'add' : 'update'} team member:`, err);
-      setError(err.message || 'Something went wrong. Please try again.');
+      const apiFieldErrors = fieldErrorsFromApiError(err);
+      if (Object.keys(apiFieldErrors).length > 0) {
+        setFieldErrors((prev) => ({ ...prev, ...apiFieldErrors }));
+        setError('Fix the highlighted fields before saving.');
+      } else {
+        setError(err.message || 'Something went wrong. Please try again.');
+      }
     } finally {
       setIsSaving(false);
     }
@@ -181,7 +191,9 @@ export default function MemberFormModal({ mode, batch, availableBatches, member,
             value={form.skills}
             onChange={(skills) => updateField('skills', skills)}
             placeholder="Add a skill & press Enter"
+            maxTags={MAX_SKILLS}
           />
+          {fieldErrors.skills && <p className={styles.formError} role="alert">{fieldErrors.skills}</p>}
         </div>
 
         <div className={formStyles.grid}>

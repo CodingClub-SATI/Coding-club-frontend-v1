@@ -2,8 +2,6 @@ import { request } from '@/services/api';
 
 export const contactApi = {
   create: (payload) => request('/api/contacts', { method: 'POST', body: payload }),
-  // NOTE: status/requestType/includeArchived filters below rely on backend
-  // support that doesn't exist yet as of API.md — see BACKEND_CHANGES.md.
   getAll: ({ limit, page, pageSize, status, requestType, includeArchived } = {}) => {
     const params = new URLSearchParams();
     if (limit) params.set('limit', String(limit));

@@ -1,24 +1,23 @@
 import { useState } from 'react';
-import { useLoaderData } from 'react-router';
+import { useLoaderData, useRevalidator } from 'react-router';
 import { AlertTriangle, Megaphone, Pencil, Plus, Trash2 } from 'lucide-react';
 import AdminTitle from '@/components/admin/AdminTitle';
 import Button from '@/components/shared/Button';
 import { ConfirmButton } from '@/components/shared/ConfirmButton';
 import EmptyState from '@/components/shared/EmptyState';
+import Pagination from '@/components/shared/Pagination';
 import UpdateFormModal from '@/features/updates/admin/UpdateFormModal';
 import { updatesApi } from '@/features/updates/api';
+import { usePageParam } from '@/hooks/useSearchParamsState';
 import { formatDate } from '@/utils/date';
 import formStyles from '@/components/admin/AdminForm.module.css';
 import styles from './Updates.module.css';
 
-function sortByCreatedAtDesc(list) {
-  return [...list].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-}
-
 export default function Updates() {
-  const { updates: initialUpdates, error: loadError } = useLoaderData();
+  const { updates, page, totalPages, total, error: loadError } = useLoaderData();
+  const revalidator = useRevalidator();
+  const [, setPage] = usePageParam();
 
-  const [updates, setUpdates] = useState(() => sortByCreatedAtDesc(initialUpdates));
   const [modalOpen, setModalOpen] = useState(false);
   const [editingUpdate, setEditingUpdate] = useState(null); // null while modalOpen => "add new"
   const [actionError, setActionError] = useState('');
@@ -35,13 +34,13 @@ export default function Updates() {
   };
 
   const handleCreate = async (payload) => {
-    const created = await updatesApi.create(payload);
-    setUpdates((prev) => sortByCreatedAtDesc([created, ...prev]));
+    await updatesApi.create(payload);
+    revalidator.revalidate();
   };
 
   const handleUpdate = async (update, payload) => {
-    const saved = await updatesApi.update(update.id, payload);
-    setUpdates((prev) => sortByCreatedAtDesc(prev.map((u) => (u.id === update.id ? saved : u))));
+    await updatesApi.update(update.id, payload);
+    revalidator.revalidate();
   };
 
   const handleDelete = async (update) => {
@@ -49,10 +48,11 @@ export default function Updates() {
     setBusyUpdateId(update.id);
     try {
       await updatesApi.remove(update.id);
-      setUpdates((prev) => prev.filter((u) => u.id !== update.id));
+      revalidator.revalidate();
     } catch (err) {
       console.error('Failed to delete alert:', err);
       setActionError('Could not delete this alert. Please try again.');
+    } finally {
       setBusyUpdateId(null);
     }
   };
@@ -61,7 +61,7 @@ export default function Updates() {
     <div>
       <AdminTitle
         title="Alerts"
-        subtitle={`${updates.length} total · shown in the public site's System Alerts banner`}
+        subtitle={`${total} total · shown in the public site's System Alerts banner`}
       >
         <Button onClick={openCreate}>
           <Plus size={16} aria-hidden="true" /> Add New Alert
@@ -75,28 +75,31 @@ export default function Updates() {
       ) : updates.length === 0 ? (
         <EmptyState icon={Megaphone} title="No alerts yet" subtitle='Use "Add New Alert" to publish the first one.' />
       ) : (
-        <ul className={styles.list} aria-label="Current alerts">
-          {updates.map((update) => (
-            <li key={update.id} className={styles.item}>
-              <div className={styles.itemBody}>
-                <p className={styles.message}>{update.message}</p>
-                <span className={styles.date}>{formatDate(update.createdAt)}</span>
-              </div>
-              <div className={styles.itemActions}>
-                <Button variant="ghost" size="sm" disabled={busyUpdateId === update.id} onClick={() => openEdit(update)}>
-                  <Pencil size={12} aria-hidden="true" /> Edit
-                </Button>
-                <ConfirmButton
-                  label={<><Trash2 size={12} aria-hidden="true" /> Delete</>}
-                  confirmLabel="Delete?"
-                  danger
-                  onConfirm={() => handleDelete(update)}
-                  disabled={busyUpdateId === update.id}
-                />
-              </div>
-            </li>
-          ))}
-        </ul>
+        <>
+          <ul className={styles.list} aria-label="Current alerts">
+            {updates.map((update) => (
+              <li key={update.id} className={styles.item}>
+                <div className={styles.itemBody}>
+                  <p className={styles.message}>{update.message}</p>
+                  <span className={styles.date}>{formatDate(update.createdAt)}</span>
+                </div>
+                <div className={styles.itemActions}>
+                  <Button variant="ghost" size="sm" disabled={busyUpdateId === update.id} onClick={() => openEdit(update)}>
+                    <Pencil size={12} aria-hidden="true" /> Edit
+                  </Button>
+                  <ConfirmButton
+                    label={<><Trash2 size={12} aria-hidden="true" /> Delete</>}
+                    confirmLabel="Delete?"
+                    danger
+                    onConfirm={() => handleDelete(update)}
+                    disabled={busyUpdateId === update.id}
+                  />
+                </div>
+              </li>
+            ))}
+          </ul>
+          <Pagination page={page} totalPages={totalPages} onChange={setPage} />
+        </>
       )}
 
       {modalOpen && (

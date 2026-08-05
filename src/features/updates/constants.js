@@ -1,0 +1,1 @@
+export const UPDATES_PAGE_SIZE = 20;

@@ -282,6 +282,7 @@ export default function Gallery() {
           initialTitle={formModal.album.title}
           initialDate={formModal.album.date || ''}
           initialCover={formModal.album.cover || ''}
+          images={formModal.album.images || []}
           onClose={() => setFormModal(null)}
           onSubmit={(values) => handleRenameAlbum(formModal.album, values)}
         />
