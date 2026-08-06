@@ -1,0 +1,53 @@
+.inlineBadge {
+  margin-left: 8px;
+}
+
+.posterPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+}
+
+.badgeRow {
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-base);
+}
+
+.eventLogo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+  background: rgba(var(--bg-primary-rgb), 0.4);
+  margin: var(--space-sm) 0;
+}
+
+.breakAll {
+  word-break: break-all;
+}
+
+.description {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.tagList {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.metricIcon {
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+.formError {
+  color: var(--brand-destructive);
+  font-size: var(--text-sm);
+  margin-top: var(--space-sm);
+}

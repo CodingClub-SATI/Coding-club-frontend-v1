@@ -1,0 +1,33 @@
+.memberCard {
+  cursor: pointer;
+  padding: var(--space-xl) var(--space-base);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.name {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.role {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  letter-spacing: var(--space-letter);
+  color: var(--brand-accent);
+}
+
+.specialization {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-top: calc(var(--space-xs) * -0.5);
+}
+
+.viewBtn {
+  margin-top: var(--space-xs);
+  pointer-events: none;
+}

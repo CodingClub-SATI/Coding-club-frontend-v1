@@ -1,0 +1,154 @@
+/* =========================================
+    Layout and Spacing
+  ========================================== */
+.section { padding: var(--space-hero) 0; }
+.container { 
+  max-width: var(--container-main);
+  padding: 0 var(--space-xl);
+  margin: 0 auto;
+}
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--space-base);}
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-xl); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-xl); }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-xl); }
+
+@media (max-width: 900px) {
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .section { padding: var(--space-2xl) 0; }
+}
+
+/* =========================================
+    Typography Utilities
+  ========================================== */
+.section-title {
+  font-size: clamp(var(--text-2xl), calc(1rem + 3vw), var(--text-4xl));
+  text-align: center;
+  margin-bottom: var(--space-md);
+  color: var(--text-primary);
+}
+.section-subtitle {
+  text-align: center;
+  color: var(--text-muted);
+  margin-bottom: var(--space-2xl);
+  font-size: var(--text-base);
+}
+
+.text-primary-glow {
+    color: var(--brand-primary); 
+    text-shadow: var(--text-glow-primary); 
+}
+.text-secondary-glow {
+    color: var(--brand-secondary);
+    text-shadow: var(--text-glow-secondary);
+}
+
+.section-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--brand-primary), var(--brand-secondary), transparent);
+  margin: 0;
+  opacity: 0.4;
+}
+
+.section + .section {
+  position: relative;
+}
+
+.section + .section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--container-main);
+  max-width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--brand-primary), var(--brand-secondary), transparent);
+  opacity: 0.4;
+}
+
+/* Opt-out: put this on a .section that should NOT get the automatic
+   divider even though it directly follows another .section. Higher
+   specificity than the rule above, so no !important needed. */
+.section + .section.no-divider::before {
+  content: none;
+}
+
+/* =========================================
+    Animation Utility Classes
+  ========================================== */
+.fade-up { animation: fadeInUp var(--duration-slow) ease forwards; }
+.fade-in { animation: fadeIn var(--duration-slow) ease forwards; }
+
+@keyframes scanline {
+  0% { top: -10px; }
+  100% { top: 100%; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ===================================================
+    Utility classes to apply the animations in React
+  ==================================================== */
+.animate-scanline {
+  position: absolute; /* Add absolute positioning */
+  left: 0;
+  width: 100%;
+  height: 2px; /* Or whatever thickness you want */
+  background: var(--brand-primary);
+  animation: scanline 8s linear infinite;
+  pointer-events: none; 
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* =========================================
+    Reveal Animations (Data Attributes)
+  ========================================== */
+.reveal-element {
+  opacity: 0;
+  transform: translateY(30px);
+  /* Matches your global animation feel */
+  transition: opacity var(--duration-slow) cubic-bezier(0.4, 0, 0.2, 1), 
+              transform var(--duration-slow) cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-element[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================
+    Image Protection
+========================================== */
+.protect-image {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none; /* Disables the iOS popup menu */
+  pointer-events: auto; /* Ensures clicks still register if wrapped in a link */
+}
+
+/* =========================================
+    Accessibility
+========================================== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

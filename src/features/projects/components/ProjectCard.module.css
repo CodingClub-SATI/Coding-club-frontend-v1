@@ -1,0 +1,115 @@
+.card {
+  position: relative;
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-base);
+  height: 100%;
+}
+
+.rankBadge {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-full);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  z-index: 1;
+}
+
+.rank1 {
+  color: var(--rank-gold);
+  border-color: rgba(var(--rank-gold-rgb), 0.5);
+  box-shadow: 0 0 12px rgba(var(--rank-gold-rgb), 0.25);
+}
+.rank2 {
+  color: var(--rank-silver);
+  border-color: rgba(var(--rank-silver-rgb), 0.5);
+  box-shadow: 0 0 12px rgba(var(--rank-silver-rgb), 0.2);
+}
+.rank3 {
+  color: var(--rank-bronze);
+  border-color: rgba(var(--rank-bronze-rgb), 0.5);
+  box-shadow: 0 0 12px rgba(var(--rank-bronze-rgb), 0.2);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-base);
+}
+
+.headerTags {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: var(--text-lg);
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.team {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  font-family: var(--font-display);
+}
+
+.desc {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+.tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.techTag {
+  font-size: var(--text-xs);
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+  padding-top: var(--space-base);
+  border-top: 1px solid var(--border-dim);
+  margin-top: auto;
+  flex-wrap: wrap;
+}
+
+.stats {
+  display: flex;
+  gap: var(--space-md);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  font-family: var(--font-display);
+}
+
+.links {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+  }
+}

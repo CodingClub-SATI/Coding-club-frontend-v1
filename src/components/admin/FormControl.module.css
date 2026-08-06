@@ -1,0 +1,16 @@
+.select, .input, .textarea {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-dim);
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  font-size: var(--text-sm);
+  font-family: var(--font-body);
+  outline: none;
+}
+.select:focus, .input:focus, .textarea:focus { border-color: var(--brand-accent); }
+.textarea { width: 100%; resize: vertical; min-height: 80px; }
+
+.searchInput { min-width: 220px; }
+
+.fullWidth { width: 100%; }

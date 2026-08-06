@@ -1,0 +1,18 @@
+.image {
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid var(--border-dim);
+}
+
+.fallback {
+  border-radius: 50%;
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}

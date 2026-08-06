@@ -1,0 +1,41 @@
+.tile {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+.tile:hover { 
+  border-color: var(--brand-primary); 
+  transform: translateY(-2px); 
+}
+.tileThumb {
+  aspect-ratio: 4/3;
+  background: linear-gradient(
+    135deg,
+    rgba(var(--brand-primary-rgb), 0.08),
+    rgba(var(--brand-secondary-rgb), 0.08)
+  );
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted);
+  overflow: hidden;
+  position: relative;
+}
+.tileThumb img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+}
+.tileBody { 
+  padding: 12px 14px; 
+}
+.tileTitle { 
+  font-weight: 600; 
+  font-size: var(--text-sm); 
+  margin-bottom: 2px; 
+}
+.tileSub { 
+  font-size: var(--text-xs); 
+  color: var(--text-muted); 
+}

@@ -1,0 +1,35 @@
+.poster {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  margin-bottom: var(--space-base);
+  background: rgba(var(--text-primary-rgb), 0.03);
+}
+
+.metrics {
+  display: flex;
+  gap: var(--space-xl);
+  margin: var(--space-base) 0;
+  padding: var(--space-md);
+  background: rgba(var(--text-primary-rgb), 0.02);
+  border-radius: var(--radius-md);
+}
+
+.metricValue {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  color: var(--brand-primary);
+}
+
+.metricLabel {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  margin-top: var(--space-lg);
+}

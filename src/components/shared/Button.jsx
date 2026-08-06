@@ -1,0 +1,42 @@
+import styles from './Button.module.css';
+import Spinner from '@/components/shared/Spinner';
+
+/**
+ * variant: 'filled' | 'outline' | 'ghost'
+ * tone: 'primary' | 'secondary' | 'danger'
+ * size: 'sm' | 'md' | 'lg'
+ */
+
+export default function Button({ 
+  Component = 'button',
+  children, 
+  variant = 'filled',
+  tone = 'primary',
+  size = 'md', 
+  isLoading = false, 
+  className = '', 
+  disabled,
+  ref,
+  ...props 
+}) {
+  const combinedClasses = [
+    styles.btn,
+    styles[variant],
+    styles[tone],
+    styles[size],
+    className,
+  ].filter(Boolean).join(' ');
+
+  return (
+    <Component 
+      ref={ref}
+      className={combinedClasses}
+      disabled={disabled || isLoading}
+      aria-busy={isLoading}
+      {...props}
+    >
+      {isLoading && <Spinner />}
+      {children}
+    </Component>
+  );
+}

@@ -1,0 +1,48 @@
+.tagInput {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background: rgba(var(--brand-accent-rgb), 0.12);
+  color: var(--brand-accent);
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+}
+.tag button {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+}
+
+.tagInput input {
+  flex: 1;
+  min-width: 100px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+}
+
+.tagInput input:disabled {
+  cursor: not-allowed;
+}
+
+.tagCount {
+  align-self: center;
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  white-space: nowrap;
+}

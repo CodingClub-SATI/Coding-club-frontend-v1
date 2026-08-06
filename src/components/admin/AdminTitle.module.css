@@ -1,0 +1,15 @@
+.title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.heading { margin-bottom: 4px; }
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
