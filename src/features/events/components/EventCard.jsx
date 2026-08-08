@@ -65,7 +65,8 @@ export default function EventCard({ event, onClick }) {
           <span>🕐 {event.time}</span>
         </div>
         <div className={styles.meta}><span>📍 {event.venue}</span></div>
-        <p className={styles.desc}>{event.description}</p>
+        {/* TODO: add short descriptin here */}
+        {/*<p className={styles.desc}>{event.description}</p>*/}
         {event.tags?.length > 0 && (
           <div className={styles.tags}>
             {event.tags.map((tag) => (
