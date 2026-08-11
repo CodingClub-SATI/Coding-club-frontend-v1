@@ -141,7 +141,7 @@ export default function Home() {
           <Reveal Component={Glasscard} className={styles.directorCard} delay={150}>
             <div className={styles.directorPhotoWrap}>
               <img
-                src="/src/assets/director.webp"
+                src="/director.webp"
                 alt="Director SATI"
                 className={styles.directorPhoto}
               />
@@ -159,7 +159,7 @@ export default function Home() {
               </p>
               <div className={styles.directorAttribution}>
                 <div className={styles.directorAvatar}>
-                  <img src="/src/assets/SATI_Vidisha.jpg" alt="SATI Vidisha logo" />
+                  <img src="/SATI_Vidisha.jpg" alt="SATI Vidisha logo" />
                 </div>
                 <div>
                   <div className={styles.directorName}>Dr YK Jain</div>
