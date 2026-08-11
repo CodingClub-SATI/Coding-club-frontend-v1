@@ -137,27 +137,34 @@ export default function Home() {
           <Reveal Component="h2" className="section-title">
             Director&apos;s <span className="text-secondary-glow">Message</span>
           </Reveal>
-          
+
           <Reveal Component={Glasscard} className={styles.directorCard} delay={150}>
-            <div className={styles.quoteMark} aria-hidden="true">
-              <Quote size={32} />
+            <div className={styles.directorPhotoWrap}>
+              <img
+                src="/src/assets/director.webp"
+                alt="Director SATI"
+                className={styles.directorPhoto}
+              />
             </div>
-            <blockquote>
-              At SATI, we believe that innovation begins with curiosity, collaboration, and continuous learning. Coding Club SATI provides students with a platform to transform their technical knowledge into real-world solutions through practical exposure and teamwork.
-            </blockquote>
-            <p className={styles.directorExtended}>
-              The club encourages students to go beyond traditional classroom education and actively participate in workshops, development activities, coding challenges, and innovation-focused events that help them prepare for future technological challenges.
-            </p>
-            <div className={styles.directorAttribution}>
-              <div className={styles.directorAvatar} aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="3" y="3" width="18" height="18" rx="2" />
-                  <path d="M9 12h6" />
-                </svg>
+
+            <div className={styles.directorContent}>
+              <div className={styles.quoteMark} aria-hidden="true">
+                <Quote size={32} />
               </div>
-              <div>
-                <div className={styles.directorName}>Club Director</div>
-                <div className={styles.directorRole}>Coding Club SATI</div>
+              <blockquote>
+                At SATI, we believe that innovation begins with curiosity, collaboration, and continuous learning. Coding Club SATI provides students with a platform to transform their technical knowledge into real-world solutions through practical exposure and teamwork.
+              </blockquote>
+              <p className={styles.directorExtended}>
+                The club encourages students to go beyond traditional classroom education and actively participate in workshops, development activities, coding challenges, and innovation-focused events that help them prepare for future technological challenges.
+              </p>
+              <div className={styles.directorAttribution}>
+                <div className={styles.directorAvatar}>
+                  <img src="/src/assets/SATI_Vidisha.jpg" alt="SATI Vidisha logo" />
+                </div>
+                <div>
+                  <div className={styles.directorName}>Dr YK Jain</div>
+                  <div className={styles.directorRole}>Director SATI</div>
+                </div>
               </div>
             </div>
           </Reveal>

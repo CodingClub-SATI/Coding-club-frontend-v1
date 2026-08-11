@@ -271,23 +271,44 @@
 
 /* ===== DIRECTOR ===== */
 .directorCard {
-  max-width: 90ch;
+  max-width: 68rem;
   margin: 0 auto;
   padding: var(--space-3xl) var(--space-2xl);
   position: relative;
-  text-align: center;
+  display: grid;
+  grid-template-columns: minmax(160px, 220px) 1fr;
+  gap: var(--space-2xl);
+  align-items: center;
+}
+
+.directorPhotoWrap {
+  display: flex;
+  justify-content: center;
+}
+
+.directorPhoto {
+  width: 100%;
+  max-width: 220px;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-dim);
+}
+
+.directorContent {
+  text-align: left;
 }
 
 .quoteMark {
   color: var(--brand-secondary);
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   margin-bottom: var(--space-base);
   opacity: 0.8;
   filter: drop-shadow(0 0 10px rgba(var(--brand-secondary-rgb), 0.5));
 }
 
-.directorCard blockquote {
+.directorContent blockquote {
   font-size: var(--text-lg);
   font-style: italic;
   color: var(--text-primary);
@@ -306,21 +327,21 @@
   display: flex;
   align-items: center;
   gap: var(--space-md);
-  justify-content: center;
-  text-align: left;
 }
 
+/* No box, no border, no glow — just the logo itself */
 .directorAvatar {
   width: 44px;
   height: 44px;
-  border-radius: var(--radius-md); /* Changed to rounded square to match screenshot */
-  background: rgba(var(--brand-accent-rgb), 0.12);
-  border: 1px solid rgba(var(--brand-accent-rgb), 0.3);
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--brand-accent);
-  box-shadow: 0 0 12px rgba(var(--brand-accent-rgb), 0.2);
+}
+.directorAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .directorName {
@@ -335,6 +356,19 @@
   color: var(--brand-accent);
   letter-spacing: var(--space-letter);
   margin-top: 2px;
+}
+
+@media (max-width: 700px) {
+  .directorCard {
+    grid-template-columns: 1fr;
+  }
+  .directorContent {
+    text-align: center;
+  }
+  .quoteMark,
+  .directorAttribution {
+    justify-content: center;
+  }
 }
 
 /* ===== STATS SECTION ===== */
