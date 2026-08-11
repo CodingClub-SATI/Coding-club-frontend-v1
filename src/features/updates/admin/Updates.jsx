@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLoaderData, useRevalidator } from 'react-router';
-import { AlertTriangle, Megaphone, Pencil, Plus, Trash2 } from 'lucide-react';
+import { AlertTriangle, Link as LinkIcon, Megaphone, Pencil, Plus, Trash2 } from 'lucide-react';
 import AdminTitle from '@/components/admin/AdminTitle';
 import Button from '@/components/shared/Button';
 import { ConfirmButton } from '@/components/shared/ConfirmButton';
@@ -81,6 +81,11 @@ export default function Updates() {
               <li key={update.id} className={styles.item}>
                 <div className={styles.itemBody}>
                   <p className={styles.message}>{update.message}</p>
+                  {update.link && (
+                    <a href={update.link} target="_blank" rel="noreferrer" className={styles.linkPreview}>
+                      <LinkIcon size={12} aria-hidden="true" /> {update.link}
+                    </a>
+                  )}
                   <span className={styles.date}>{formatDate(update.createdAt)}</span>
                 </div>
                 <div className={styles.itemActions}>

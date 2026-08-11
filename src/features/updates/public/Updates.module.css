@@ -36,3 +36,17 @@
   font-size: var(--text-sm);
   margin-top: var(--space-xs);
 }
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: var(--space-xs);
+  font-size: var(--text-sm);
+  font-family: var(--font-display);
+  color: var(--brand-accent);
+  text-decoration: none;
+}
+.link:hover {
+  text-decoration: underline;
+}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router';
 import useScrollProgress from '@/hooks/useScrollProgress.js';
 import Button from '@/components/shared/Button';
@@ -14,6 +14,8 @@ const NAV_LINKS = [
   { label: 'Learning', path: '/learning' },
   { label: 'Contact', path: '/contact' },
 ];
+
+// const UPDATES_SESSION_KEY = 'cc_updates_shown';
 
 function NavItems({ variant, onLinkClick }) {
   return (
@@ -35,9 +37,15 @@ function NavItems({ variant, onLinkClick }) {
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isUpdatesOpen, setIsUpdatesOpen] = useState(false);
+  const [isUpdatesOpen, setIsUpdatesOpen] = useState(true);
   const progress = useScrollProgress();
   const handleNavClick = () => { setMenuOpen(false); };
+
+  /*useEffect(() => {
+    if (sessionStorage.getItem(UPDATES_SESSION_KEY)) return;
+    setIsUpdatesOpen(true);
+    sessionStorage.setItem(UPDATES_SESSION_KEY, 'true');
+  }, []);*/
 
   return (
   <>

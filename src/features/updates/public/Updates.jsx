@@ -40,6 +40,11 @@ export default function Updates({ onClose }) {
               {formatDate(update.createdAt).toUpperCase()}
             </span>
             <p className={styles.text}>{update.message}</p>
+            {update.link && (
+              <a href={update.link} target="_blank" rel="noreferrer" className={styles.link}>
+                Learn more →
+              </a>
+            )}
           </div>
         ))}
 
