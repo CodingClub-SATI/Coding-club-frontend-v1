@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, NavLink } from 'react-router';
+import { Bell } from 'lucide-react';
 import useScrollProgress from '@/hooks/useScrollProgress.js';
-import Button from '@/components/shared/Button';
 import Updates from '@/features/updates/public/Updates';
 import styles from './Header.module.css';
 
@@ -14,8 +14,6 @@ const NAV_LINKS = [
   { label: 'Learning', path: '/learning' },
   { label: 'Contact', path: '/contact' },
 ];
-
-// const UPDATES_SESSION_KEY = 'cc_updates_shown';
 
 function NavItems({ variant, onLinkClick }) {
   return (
@@ -37,15 +35,9 @@ function NavItems({ variant, onLinkClick }) {
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isUpdatesOpen, setIsUpdatesOpen] = useState(true);
+  const [isUpdatesOpen, setIsUpdatesOpen] = useState(false);
   const progress = useScrollProgress();
   const handleNavClick = () => { setMenuOpen(false); };
-
-  /*useEffect(() => {
-    if (sessionStorage.getItem(UPDATES_SESSION_KEY)) return;
-    setIsUpdatesOpen(true);
-    sessionStorage.setItem(UPDATES_SESSION_KEY, 'true');
-  }, []);*/
 
   return (
   <>
@@ -65,32 +57,24 @@ export default function Header() {
           <NavItems variant="desktop" onLinkClick={handleNavClick} />
         </nav>
 
-        {/* CTA */}
+        {/* Announcement CTA */}
         <div className={styles.headerActions}>
-          <Button 
-            Component="button" 
+          <button 
+            type="button" 
             onClick={() => setIsUpdatesOpen(true)}
-            variant="outline" 
-            tone="primary" 
-            className={styles.headerCTA}
+            className={styles.announcementTrigger}
             aria-label="View Important Updates"
+            title="Club Announcements & Notices"
           >
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              width="16" 
-              height="16" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="currentColor" 
-              strokeWidth="2" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
-              style={{ marginBottom: '2px' }}
-            >
-              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
-            </svg>
-          </Button>
+            <span className={styles.bellContainer}>
+              <Bell size={16} className={styles.bellIcon} />
+              <span className={styles.liveBeacon} aria-hidden="true">
+                <span className={styles.beaconPing} />
+                <span className={styles.beaconDot} />
+              </span>
+            </span>
+            <span className={styles.announcementText}>Updates</span>
+          </button>
           <button
             type="button"
             className={`${styles.hamburger} ${menuOpen ? styles.open : ''}`.trim()}

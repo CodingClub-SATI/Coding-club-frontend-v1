@@ -2,36 +2,56 @@ import {
   GithubIcon, InstagramIcon, LinkedinIcon, XIcon, YoutubeIcon, DiscordIcon, WhatsappIcon,
 } from '@/components/shared/Icons';
 
+export const DEFAULT_CLUB_SOCIALS = {
+  github: { url: 'https://github.com/CodingClub-SATI', showOnSidebar: true, showOnFooter: true },
+  linkedin: { url: 'https://www.linkedin.com/company/coding-club-sati/', showOnSidebar: true, showOnFooter: true },
+  instagram: { url: 'https://www.instagram.com/sati_coding_club/', showOnSidebar: true, showOnFooter: true },
+  discord: { url: 'https://discord.gg/codingclub-sati', showOnSidebar: true, showOnFooter: true },
+  youtube: { url: 'https://www.youtube.com/@CodingClubSATI', showOnSidebar: false, showOnFooter: true },
+};
+
 export const PLATFORMS = [
-  { key: 'github', label: 'GitHub', Icon: GithubIcon },
-  { key: 'instagram', label: 'Instagram', Icon: InstagramIcon },
-  { key: 'linkedin', label: 'LinkedIn', Icon: LinkedinIcon },
-  { key: 'x', label: 'X', Icon: XIcon },
-  { key: 'whatsapp', label: 'WhatsApp', Icon: WhatsappIcon },
-  { key: 'discord', label: 'Discord', Icon: DiscordIcon },
+  { key: 'github', label: 'GitHub', handle: 'CodingClub-SATI', desc: 'Open-source projects & code', Icon: GithubIcon },
+  { key: 'linkedin', label: 'LinkedIn', handle: 'Coding Club SATI', desc: 'Professional network & career updates', Icon: LinkedinIcon },
+  { key: 'instagram', label: 'Instagram', handle: '@sati_coding_club', desc: 'Campus life, events & reels', Icon: InstagramIcon },
+  { key: 'discord', label: 'Discord', handle: 'Community Server', desc: 'Real-time student chat & help', Icon: DiscordIcon },
+  { key: 'youtube', label: 'YouTube', handle: '@CodingClubSATI', desc: 'Workshop sessions & tech talks', Icon: YoutubeIcon },
+  { key: 'whatsapp', label: 'WhatsApp', handle: 'Club Announcements', desc: 'Official updates channel', Icon: WhatsappIcon },
+  { key: 'x', label: 'X (Twitter)', handle: '@CodingClubSATI', desc: 'Tech news & club announcements', Icon: XIcon },
 ];
 
-// `youtube` is shaped differently from the platforms above — the backend
-// stores it as a bare URL string with no `showOnSidebar`/`showOnFooter`
-// flags, unlike the others' `{url, showOnSidebar, showOnFooter}` object. It's
-// handled as a special case below rather than folded into PLATFORMS.
-
 export function getSocialLinks(contactInfo, surface, size = 16) {
-  if (!contactInfo) return [];
-  const links = PLATFORMS
-    .filter(({ key }) => {
-      const entry = contactInfo[key];
-      if (!entry?.url) return false;
-      return surface ? Boolean(entry[surface]) : true;
-    })
-    .map(({ key, label, Icon }) => ({ href: contactInfo[key].url, label, icon: <Icon size={size} /> }));
+  const effectiveInfo = contactInfo || {};
 
-  // No per-surface flags exist for youtube, so it can only appear in the
-  // unfiltered "all socials" case (e.g. the Contact page's social list) —
-  // never in a surface-filtered icon cluster like the sidebar or footer.
-  if (!surface && contactInfo.youtube) {
-    links.push({ href: contactInfo.youtube, label: 'YouTube', icon: <YoutubeIcon size={size} /> });
-  }
+  const links = PLATFORMS.flatMap(({ key, label, handle, desc, Icon }) => {
+    let url;
+    let showOnSurface = true;
+
+    if (key === 'youtube') {
+      url = effectiveInfo.youtube || DEFAULT_CLUB_SOCIALS.youtube?.url || '';
+      showOnSurface = surface === 'showOnFooter' ? true : !surface;
+    } else {
+      const entry = effectiveInfo[key];
+      const fallback = DEFAULT_CLUB_SOCIALS[key];
+      url = entry?.url || fallback?.url || '';
+      if (surface) {
+        showOnSurface = entry?.url ? Boolean(entry[surface]) : Boolean(fallback?.[surface]);
+      }
+    }
+
+    if (!url) return [];
+    if (surface && !showOnSurface) return [];
+
+    return [{
+      key,
+      label,
+      handle,
+      desc,
+      href: url,
+      icon: <Icon size={size} />,
+    }];
+  });
 
   return links;
 }
+

@@ -13,7 +13,12 @@ export function useUpdates() {
       try {
         setIsLoading(true);
         const data = await updatesApi.list({ signal: controller.signal });
-        setUpdates(Array.isArray(data) ? data : []);
+        // Handle both raw array and paginated { data: [...] } responses from backend
+        const list = Array.isArray(data)
+          ? data
+          : (Array.isArray(data?.data) ? data.data : []);
+        setUpdates(list);
+        setError(null);
       } catch (err) {
         if (err.name !== 'AbortError') {
           console.error('Failed to load alerts:', err);

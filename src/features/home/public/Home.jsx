@@ -4,7 +4,7 @@ import TypingText from '@/features/home/components/TypingText';
 import Reveal from '@/components/shared/Reveal';
 import Glasscard from '@/components/shared/Glasscard';
 import Button from '@/components/shared/Button';
-import { BookOpen, Users, Target, Eye, Quote} from 'lucide-react';
+import { BookOpen, Users, Target, Eye, Quote, Sparkles, ArrowRight } from 'lucide-react';
 import styles from './Home.module.css';
 
 const STATS_CONFIG = [
@@ -210,11 +210,41 @@ export default function Home() {
         <div className="container">
           <Reveal Component={Glasscard} className={styles.ctaBox}>
             <div className={styles.ctaPulse} aria-hidden="true" />
-            <h2>Ready to <span className="text-primary-glow">Level Up?</span></h2>
-            <p>Join the community, participate in hackathons, and build your network.</p>
-            <Button Component={Link} to="/events?status=upcoming#all-events" preventScrollReset variant="filled">
-              View Upcoming Events
-            </Button>
+            <div className={styles.ctaBadge}>
+              <Sparkles size={13} className="text-primary-glow" />
+              <span>GET INVOLVED</span>
+            </div>
+            <h2 className={styles.ctaTitle}>
+              Ready to <span className="text-primary-glow">Level Up?</span>
+            </h2>
+            <p className={styles.ctaDesc}>
+              Join the student developer community at SATI Vidisha. Learn new technologies, team up for hackathons, and build projects together.
+            </p>
+
+            <div className={styles.ctaPerks}>
+              <div className={styles.ctaPerkItem}>
+                <span className={styles.perkDot} />
+                <span>Hackathons & Contests</span>
+              </div>
+              <div className={styles.ctaPerkItem}>
+                <span className={styles.perkDot} />
+                <span>Open Source & Projects</span>
+              </div>
+              <div className={styles.ctaPerkItem}>
+                <span className={styles.perkDot} />
+                <span>Workshops & Mentorship</span>
+              </div>
+            </div>
+
+            <div className={styles.ctaActions}>
+              <Button Component={Link} to="/events?status=upcoming#all-events" preventScrollReset variant="filled" tone="primary">
+                <span>View Upcoming Events</span>
+                <ArrowRight size={15} />
+              </Button>
+              <Button Component={Link} to="/contact" variant="outline" tone="secondary">
+                Contact Team
+              </Button>
+            </div>
           </Reveal>
         </div>
       </section>

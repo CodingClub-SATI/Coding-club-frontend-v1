@@ -140,9 +140,125 @@
   gap: var(--header-gap);
 }
 
-.headerCTA {
-  font-size: var(--link-font-size);
-  padding: var(--btn-padding);
+.announcementTrigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(22, 232, 191, 0.05);
+  border: 1px solid rgba(22, 232, 191, 0.24);
+  border-radius: var(--radius-full);
+  padding: 0.38rem 0.85rem;
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.announcementTrigger:hover {
+  background: rgba(22, 232, 191, 0.12);
+  border-color: var(--brand-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 0 16px rgba(var(--brand-primary-rgb), 0.25), inset 0 0 8px rgba(var(--brand-primary-rgb), 0.08);
+}
+
+.announcementTrigger:active {
+  transform: translateY(0);
+}
+
+.bellContainer {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bellIcon {
+  color: var(--brand-primary);
+  transition: transform 0.3s ease, filter 0.3s ease;
+  filter: drop-shadow(0 0 4px rgba(var(--brand-primary-rgb), 0.35));
+}
+
+.announcementTrigger:hover .bellIcon {
+  animation: bellChime 0.85s ease-in-out;
+  filter: drop-shadow(0 0 8px rgba(var(--brand-primary-rgb), 0.75));
+}
+
+@keyframes bellChime {
+  0% { transform: rotate(0deg); }
+  20% { transform: rotate(14deg); }
+  40% { transform: rotate(-12deg); }
+  60% { transform: rotate(8deg); }
+  80% { transform: rotate(-5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.liveBeacon {
+  position: absolute;
+  top: -2px;
+  right: -3px;
+  width: 7px;
+  height: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.beaconDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--brand-primary);
+  box-shadow: 0 0 6px var(--brand-primary);
+}
+
+.beaconPing {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1.5px solid var(--brand-primary);
+  animation: beaconPulse 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes beaconPulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.announcementText {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #e2e8f0;
+  transition: color var(--transition-base);
+}
+
+.announcementTrigger:hover .announcementText {
+  color: var(--brand-primary);
+}
+@media (max-width: 640px) {
+  .announcementTrigger {
+    padding: 0.45rem 0.65rem;
+    gap: 0;
+  }
+  .announcementText {
+    display: none;
+  }
 }
 
 /* ====================================
